@@ -1,0 +1,19 @@
+{
+  "IFD0:Artist": "Michael Steidl",
+  "IFD0:Copyright": "(c) 2020 Copyright Michael Steidl",
+  "IPTC:By-line": "Michael Steidl",
+  "IPTC:CopyrightNotice": "(c) 2020 Copyright Michael Steidl",
+  "IPTC:Credit": "MSteidl",
+  "SourceFile": "*",
+  "XMP-dc:Creator": [
+    "Michael Steidl"
+  ],
+  "XMP-dc:Rights": "(c) 2020 Copyright Michael Steidl",
+  "XMP-photoshop:Credit": "MSteidl",
+  "XMP-plus:Licensor": [
+    {
+      "LicensorURL": "https://example.com/licensing"
+    }
+  ],
+  "XMP-xmpRights:WebStatement": "https://example.com/webstatement9"
+}
