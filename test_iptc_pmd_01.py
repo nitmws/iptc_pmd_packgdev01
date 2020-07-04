@@ -28,6 +28,7 @@ def main():
     iptcmdse2.copyright_notice = '(c) 2020 Copyright ABC Photo Agency. All rights reserved'
     iptcmdse2.webstatementrightsurl = 'https://abcphotos.example.com/our-webstatement-of-rights'
     iptcmdse2.licensorurl = 'https://abcphotos.example.com/license-photos/pic4711'
+    iptcmdse2.export_semiptc_as_jsonfile('./iptcmdse2-sem.json')
     iptcmdse2.transform_semiptc_metadata_to_seret()
     et.etdata = iptcmdse2.seret_metadata
     embedresult = et.embeddata_using_json('./images/test-image-1.jpg')  # a single image

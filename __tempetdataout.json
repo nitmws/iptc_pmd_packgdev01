@@ -1,7 +1,18 @@
 {
+  "IFD0:Artist": "Jane Doea",
   "IFD0:Copyright": "(c) 2020 Copyright XYZ Stock Photos. All rights reserved",
+  "IPTC:By-line": "Jane Doea",
   "IPTC:CopyrightNotice": "(c) 2020 Copyright XYZ Stock Photos. All rights reserved",
   "IPTC:Credit": "Jane Doea/XYZ Stock Photos",
+  "XMP-dc:Creator": [
+    "Jane Doea"
+  ],
   "XMP-dc:Rights": "(c) 2020 Copyright XYZ Stock Photos. All rights reserved",
-  "XMP-photoshop:Credit": "Jane Doea/XYZ Stock Photos"
+  "XMP-photoshop:Credit": "Jane Doea/XYZ Stock Photos",
+  "XMP-plus:ImageCreator": [
+    {
+      "ImageCreatorName": "Jane Doea"
+    }
+  ],
+  "XMP-xmpRights:WebStatement": "https://xyzphotos.example.com/our-webstatement-of-rights"
 }

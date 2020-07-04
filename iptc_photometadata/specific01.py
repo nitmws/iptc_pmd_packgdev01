@@ -1,28 +1,24 @@
 """
     This module provides specific IPTC photo metadata classes
-    Draft: 2020-06-25/MS
 """
-from .common import IptcPhotometadata, Licensor
+from dataclasses import dataclass
+from typing import List, Set, Dict, Tuple, Optional, Type
+from .common import IptcPhotometadata, CreatorExt, Licensor
 
 
-
-
+@dataclass()
 class IptcPhotometadataForSe(IptcPhotometadata):
     """IPTC Photo Metadata for search engines
 
         The class is derived from the generic Photometadata class, including ExifTool as worker.
         The set of supported IPTC properties is taylored to the need of search engines like Google.
     """
+
     supported_iptcprops = ('creatorsExt', 'copyrightNotice', 'creditLine', 'webstatementRights', 'licensors')
 
     def __init__(self):
         super().__init__()
         self._supported_iptcpmd_tlprops = self.supported_iptcprops
-        self._semiptc_metadata['creatorNames'] = self.creatornames
-        self._semiptc_metadata['copyrightNotice'] = self.copyright_notice
-        self._semiptc_metadata['creditLine'] = self.credit
-        self._semiptc_metadata['webstatementRights'] = self.webstatementrightsurl
-        self._semiptc_metadata['licensors'] = self.licensors
 
     @property
     def creatornames(self):
@@ -37,15 +33,16 @@ class IptcPhotometadataForSe(IptcPhotometadata):
     @creatornames.setter
     def creatornames(self, value):
         """Sets = appends a single image creator with name"""
-        _creator = {'name': value}
-        self._semiptc_metadata['creatorsExt'].append(_creator)
+        _creator = CreatorExt()
+        _creator.name = value
+        self._creatorsExt.append(_creator)
 
     def set_first_creator(self, value):
         """Sets an image creator name as the first and only one of the creator names"""
-        _creator = {'name': value}
-        self._semiptc_metadata['creatorsExt'] = []
-        self._semiptc_metadata['creatorsExt'].append(_creator)
-        
+        _creator = CreatorExt()
+        _creator.name = value
+        self._creatorsExt = []
+        self._creatorsExt.append(_creator)
 
     @property
     def copyright_notice(self):
@@ -75,16 +72,18 @@ class IptcPhotometadataForSe(IptcPhotometadata):
     @webstatementrightsurl.setter
     def webstatementrightsurl(self, value):
         """Sets web statement of rights"""
-        self._semiptc_metadata['webstatementRights'] = value
+        self._webstatementRights = value
 
+    """
     @property
     def licensors(self):
-        """Gets a set of licensors"""
+        "Gets a set of licensors"
         item = ''
         if self._licensors is not None:
             if self._licensors[0]['licensorURL'] is not None:
                 item = self._licensors[0]['licensorURL']
         return item
+    """
 
     @property
     def licensorurl(self):
@@ -92,23 +91,23 @@ class IptcPhotometadataForSe(IptcPhotometadata):
         if self._licensors is None:
             return ''
         else:
-            if self._licensors[0].licensorUrl:
-                return self._licensors[0].licensorUrl
-            else:
-                return ''
+            if len(self._licensors) > 0:
+                if self._licensors[0].licensorURL:
+                    return self._licensors[0].licensorURL
+                else:
+                    return ''
 
     @licensorurl.setter
-    def licensorurl(self, value, licensoridx=0):
-        """Sets licensorURL for one of the licensors in the array, by default for the first licensor"""
+    def licensorurl(self, value):
+        """Sets licensorURL for the first licensor in the array"""
         if self._licensors is not None:
-            listlen = len(self._licensors)
-            if licensoridx < listlen:
-                self._licensors[licensoridx]['licensorURL'] = value
+            if len(self._licensors) > 0:
+                self._licensors[0].licensorURL = value
         else:
             self._licensors = []
-            if licensoridx == 0:
-                _licensor = Licensor()
-                _licensor.licensorURL = value
-                list(self._licensors).append(_licensor)
+            _licensor = Licensor()
+            _licensor.licensorURL = value
+            list(self._licensors).append(_licensor)
+
 
 

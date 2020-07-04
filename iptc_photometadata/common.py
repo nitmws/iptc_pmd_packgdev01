@@ -1,18 +1,30 @@
-from pathlib import Path
-from dataclasses import dataclass
-import typing
-from typing import List, Set, Dict, Tuple, Optional, Type
 import os
 import json
-
+from json import JSONEncoder
+from pathlib import Path
+from dataclasses import dataclass
+from typing import List, Set, Dict, Tuple, Optional, Type
+from enum import Enum
+from .tools import *
 
 """
     ===========================================================================
     Specific IPTC Photo Metadata structure classes
 """
 
+
 @dataclass
-class CreatorContactInfo:
+class IptcStructure:
+    def todict(self):
+        d = {}
+        for attrname in vars(self):
+            attrval = getattr(self, attrname)
+            if attrval is not None:
+                d[attrname] = attrval
+        return d
+
+@dataclass
+class CreatorContactInfo(IptcStructure):
   address: Optional[str] = None
   city: Optional[str] = None
   country: Optional[str] = None
@@ -23,7 +35,7 @@ class CreatorContactInfo:
   weburlwork: Optional[str] = None
 
 @dataclass
-class ArtworkOrObject:
+class ArtworkOrObject(IptcStructure):
   circaDateCreated: Optional[str] = None
   contentDescription: Optional[str] = None
   contributionDescription: Optional[str] = None
@@ -43,30 +55,30 @@ class ArtworkOrObject:
   title: Optional[str] = None
 
 @dataclass
-class CvTerm:
+class CvTerm(IptcStructure):
   cvId: Optional[str] = None
   cvTermId: Optional[str] = None
   cvTermName: Optional[str] = None
   cvTermRefinedAbout: Optional[str] = None
 
 @dataclass
-class EmbdEncRightsExpr:
+class EmbdEncRightsExpr(IptcStructure):
   rightsExprLangId: Optional[str] = None
   rightsExprEncType: Optional[str] = None
   encRightsExpr: Optional[str] = None
 
 @dataclass
-class Entity:
+class Entity(IptcStructure):
   identifiers: Optional[List[str]] = None
   name: Optional[str] = None
 
 @dataclass
-class RegionBoundaryPoint:
+class RegionBoundaryPoint(IptcStructure):
   rbX: Optional[int] = None
   rbY: Optional[int] = None
 
 @dataclass
-class RegionBoundary:
+class RegionBoundary(IptcStructure):
   rbShape: Optional[str] = None
   rbUnit: Optional[str] = None
   rbX: Optional[int] = None
@@ -77,7 +89,7 @@ class RegionBoundary:
   rbVertices: Optional[List[Type[RegionBoundaryPoint]]] = None
 
 @dataclass
-class ImageRegion:
+class ImageRegion(IptcStructure):
   regionBoundary: Optional[Type[RegionBoundary]] = None
   rId: Optional[str] = None
   name: Optional[str] = None
@@ -86,19 +98,19 @@ class ImageRegion:
   any: Optional[List[dict]] = None
 
 @dataclass
-class LinkedEncRightsExpr:
+class LinkedEncRightsExpr(IptcStructure):
   rightsExprLangId: Optional[str] = None
   rightsExprEncType: Optional[str] = None
   linkedRightsExpr: Optional[str] = None
 
 @dataclass
-class Licensor:
+class Licensor(IptcStructure):
   licensorID: Optional[str] = None
   licensorName: Optional[str] = None
   licensorURL: Optional[str] = None
 
 @dataclass
-class Location:
+class Location(IptcStructure):
   city: Optional[str] = None
   countryCode: Optional[str] = None
   countryName: Optional[str] = None
@@ -112,30 +124,48 @@ class Location:
   worldRegion: Optional[str] = None
 
 @dataclass
-class PersonWDetails:
+class PersonWDetails(IptcStructure):
   characteristics: Optional[List[Type[CvTerm]]] = None
   description: Optional[str] = None
   identifiers: Optional[List[str]] = None
   name: Optional[str] = None
 
 @dataclass
-class ProductWGtin:
+class ProductWGtin(IptcStructure):
   description: Optional[str] = None
   gtin: Optional[str] = None
   name: Optional[str] = None
 
 @dataclass
-class RegistryEntry:
+class RegistryEntry(IptcStructure):
   assetIdentifier: Optional[str] = None
   registryIdentifier: Optional[str] = None
   role: Optional[str] = None
 
 @dataclass
-class CreatorExt:
-    identifiers: List[str] = None
+class CreatorExt(IptcStructure):
+    identifiers: Optional[List[str]] = None
     name: Optional[str] = None
     jobtitle: Optional[str] = None
     creatorContactInfo: Optional[Type[CreatorContactInfo]] = None
+
+
+"""
+    ===========================================================================
+    Enumeration classes
+"""
+
+
+class IptcSerializationFormat(Enum):
+    IPTCIIM = 1
+    XMP = 2
+    EXIF = 3
+
+
+class IptcDeprecatedLocationRole(Enum):
+    CREATED = 1
+    SHOWN = 2
+
 
 """
     ===========================================================================
@@ -163,7 +193,6 @@ class IptcPhotometadata:
     _intellectualGenre: Optional[str] = None
     _jobid: Optional[str] = None
     _keywords: Optional[List[str]] = None
-    _provinceState: Optional[str] = None
     _usageTerms: Optional[str] = None
     _sceneCodes: Optional[List[str]] = None
     _source: Optional[str] = None
@@ -204,14 +233,22 @@ class IptcPhotometadata:
     _propertyReleaseStatus: Optional[str] = None
     _webstatementRights: Optional[str] = None
 
-    iptc_serializationformats = ('IIM', 'XMP')
-    iptc_deprecatedlocationrole = ('created', 'shown')
+    semiptc_propnames = ('_copyrightNotice', '_creatorsExt', '_jobtitle', '_creditLine', '_dateCreated',
+                         '_description', '_captionWriter', '_headline', '_instructions',
+                         '_intellectualGenre', '_jobid', '_keywords', '_usageTerms', '_sceneCodes', '_source',
+                         '_subjectCodes', '_title',
+                         '_additionalModelInfo', '_artworkOrObjects', '_organisationInImageCodes', '_copyrightOwners',
+                         '_aboutCvTerms', '_digitalImageGuid', '_digitalSourceType', '_embdEncRightsExprs',
+                         '_eventName', '_genres', '_imageCreators', '_imageRating', '_imageRegion', '_registryEntries',
+                         '_suppliers', '_imageSupplierImageId', '_licensors', '_linkedEncRightsExprs',
+                         '_locationCreated', '_locationsShown', '_maxAvailHeight', '_maxAvailWidth',
+                         '_minorModelAgeDisclosure', '_modelAges', '_modelReleaseDocuments', '_modelReleaseStatus',
+                         '_organisationInImageNames', '_personInImageNames', '_personsShown', '_productsShown',
+                         '_propertyReleaseDocuments', '_propertyReleaseStatus', '_webstatementRights')
 
     def __init__(self):
         self._currentdir = ''
         self._supported_iptcpmd_tlprops = ()  # Tuple of semantic IPTC metadata property names supported by a (sub)class
-        # Preferred iptc_serializationformat while reading and parsing serialized metadata
-        self._serialization_pref_read = self.iptc_serializationformats[1]
         # dict holding the semantic IPTC Photo Metadata properties
         self._semiptc_metadata = {}
         # dict holding the serialization in IPTC IIM, XMP and Exif of the semantic IPTC metadata, using ExifTool naming
@@ -234,25 +271,6 @@ class IptcPhotometadata:
         **********************************************************
         Region of getters and setters of attributes of this class
     """
-
-    @property
-    def serialization_pref_read(self):
-        return self._serialization_pref_read
-
-    @serialization_pref_read.setter
-    def serialization_pref_read(self, iptc_serializationformat_index ):
-        if iptc_serializationformat_index in range(0, 1):
-            self._serialization_pref_read = self.iptc_serializationformats[iptc_serializationformat_index]
-
-    @property
-    def semiptc_metadata(self):
-        """Gets dictionary of semantic IPTC Photo Metadata"""
-        return self._semiptc_metadata
-
-    @semiptc_metadata.setter
-    def semiptc_metadata(self, semiptc_metadata):
-        """Sets dictionary of semantic IPTC Photo Metadata"""
-        self._semiptc_metadata = semiptc_metadata
 
     @property
     def seret_metadata(self):
@@ -282,6 +300,23 @@ class IptcPhotometadata:
 
     def export_semiptc_as_jsonfile(self, json_fp):
         """Exports the semantic IPTC Photo Metadata of this class to a JSON file"""
+        self._semiptc_metadata = {}
+        for semiptc_propname in self.semiptc_propnames:
+            if getattr(self, semiptc_propname) is not None:
+                semiptc_prop = getattr(self, semiptc_propname)
+                if isinstance(semiptc_prop, str) or isinstance(semiptc_prop, int):
+                    self._semiptc_metadata[semiptc_propname] = semiptc_prop
+                elif isinstance(semiptc_prop, list):
+                    list1 = []
+                    for listitem in semiptc_prop:
+                        if isinstance(listitem, str) or isinstance(listitem, int):
+                            list1.append(listitem)
+                        else:
+                            d = listitem.todict()
+                            list1.append(d)
+                    self._semiptc_metadata[semiptc_propname] = list1
+        # return
+        ## sorry, the JSON serialization does not work currently
         filename = Path(json_fp)
         filename = filename.with_suffix('.json')
         with filename.open(mode='w') as _f:
@@ -327,12 +362,22 @@ class IptcPhotometadata:
     def semiptc2seret_creatorsExt(self):
         if self._creatorsExt is not None:
             if len(self._creatorsExt) > 0:
-                creatorname = self._creatorsExt[0].get('name', '')
+                creatorname = self._creatorsExt[0].name
                 if creatorname != '':
-                    self._seret_metadata['IFD0:Artist'] = self._
+                    self._seret_metadata['IFD0:Artist'] = creatorname
                     self._seret_metadata['IPTC:By-line'] = creatorname
                     xmpcreator = [creatorname]
                     self._seret_metadata['XMP-dc:Creator'] = xmpcreator
+                xmpimgcreators = []
+                for creatorExt in self._creatorsExt:
+                    xmpimgcreator = {}
+                    if creatorExt.identifiers is not None:
+                        xmpimgcreator['ImageCreatorID'] = creatorExt.identifiers[0]
+                    if creatorExt.name is not None:
+                        xmpimgcreator['ImageCreatorName'] = creatorExt.name
+                    xmpimgcreators.append(xmpimgcreator)
+                self._seret_metadata['XMP-plus:ImageCreator'] = xmpimgcreators
+
 
     def semiptc2seret_copyrightNotice(self):
         if self._copyrightNotice is not None:
