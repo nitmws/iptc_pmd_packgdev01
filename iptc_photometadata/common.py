@@ -1,6 +1,5 @@
 import os
 import json
-from json import JSONEncoder
 from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Set, Dict, Tuple, Optional, Type
@@ -149,6 +148,17 @@ class CreatorExt(IptcStructure):
     jobtitle: Optional[str] = None
     creatorContactInfo: Optional[Type[CreatorContactInfo]] = None
 
+    def todict(self):
+        d = {}
+        for attrname in vars(self):
+            attrval = getattr(self, attrname)
+            if attrname == 'creatorContactInfo':
+                d[attrname] = self.creatorContactInfo.todict()
+            else:
+                if attrval is not None:
+                    d[attrname] = attrval
+        return d
+
 
 """
     ===========================================================================
@@ -183,7 +193,6 @@ class IptcPhotometadata:
     # IPTC Core schema
     _copyrightNotice: Optional[str] = None
     _creatorsExt: Optional[List[CreatorExt]] = None
-    _jobtitle: Optional[str] = None
     _creditLine: Optional[str] = None
     _dateCreated: Optional[str] = None
     _description: Optional[str] = None
@@ -233,7 +242,7 @@ class IptcPhotometadata:
     _propertyReleaseStatus: Optional[str] = None
     _webstatementRights: Optional[str] = None
 
-    semiptc_propnames = ('_copyrightNotice', '_creatorsExt', '_jobtitle', '_creditLine', '_dateCreated',
+    semiptc_propnames = ('_copyrightNotice', '_creatorsExt', '_creditLine', '_dateCreated',
                          '_description', '_captionWriter', '_headline', '_instructions',
                          '_intellectualGenre', '_jobid', '_keywords', '_usageTerms', '_sceneCodes', '_source',
                          '_subjectCodes', '_title',

@@ -1,0 +1,24 @@
+{
+  "_copyrightNotice": "(c) 2020 Copyright Pizzashots, all rights reserved",
+  "_creatorsExt": [
+    {
+      "creatorContactInfo": {
+        "weburlwork": "https://photoatwork.example.com"
+      },
+      "identifiers": [
+        "https://linkedin.example.com/user3143123432"
+      ],
+      "jobtitle": "Staff photographer",
+      "name": "John Boltenheimer"
+    }
+  ],
+  "_description": "The best tasting Quattro Stagione pizza worldwide.",
+  "_licensors": [
+    {
+      "licensorID": "https://pizzashort.example.com",
+      "licensorName": "Pizzashots Inc.",
+      "licensorURL": "https://pizzashort.example.com/shot/1341234"
+    }
+  ],
+  "_webstatementRights": "https://pizzashort.example.com/copyright-licensing"
+}

@@ -2,6 +2,9 @@
   "_copyrightNotice": "(c) 2020 Copyright ABC Photo Agency. All rights reserved",
   "_creatorsExt": [
     {
+      "creatorContactInfo": {
+        "weburlwork": "https://jane.example.com"
+      },
       "name": "Jane Doee"
     }
   ],

@@ -2,15 +2,14 @@
     This module provides specific IPTC photo metadata classes
 """
 from dataclasses import dataclass
-from typing import List, Set, Dict, Tuple, Optional, Type
-from .common import IptcPhotometadata, CreatorExt, Licensor
+from .common import IptcPhotometadata, CreatorExt, CreatorContactInfo, Licensor
 
 
-@dataclass()
+@dataclass
 class IptcPhotometadataForSe(IptcPhotometadata):
     """IPTC Photo Metadata for search engines
 
-        The class is derived from the generic Photometadata class, including ExifTool as worker.
+        The class is derived from the generic Photometadata class.
         The set of supported IPTC properties is taylored to the need of search engines like Google.
     """
 
@@ -44,6 +43,16 @@ class IptcPhotometadataForSe(IptcPhotometadata):
         self._creatorsExt = []
         self._creatorsExt.append(_creator)
 
+    def set_first_creatorwithweburl_TEST(self, name, weburl):
+        """Sets an image creator name as the first and only one of the creator names + plus a web url"""
+        _creator = CreatorExt()
+        _creator.name = name
+        _contactinfo = CreatorContactInfo()
+        _contactinfo.weburlwork = weburl
+        _creator.creatorContactInfo = _contactinfo
+        self._creatorsExt = []
+        self._creatorsExt.append(_creator)
+
     @property
     def copyright_notice(self):
         """Gets copyright notice"""
@@ -73,17 +82,6 @@ class IptcPhotometadataForSe(IptcPhotometadata):
     def webstatementrightsurl(self, value):
         """Sets web statement of rights"""
         self._webstatementRights = value
-
-    """
-    @property
-    def licensors(self):
-        "Gets a set of licensors"
-        item = ''
-        if self._licensors is not None:
-            if self._licensors[0]['licensorURL'] is not None:
-                item = self._licensors[0]['licensorURL']
-        return item
-    """
 
     @property
     def licensorurl(self):

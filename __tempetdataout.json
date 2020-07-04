@@ -1,18 +1,22 @@
 {
-  "IFD0:Artist": "Jane Doea",
-  "IFD0:Copyright": "(c) 2020 Copyright XYZ Stock Photos. All rights reserved",
-  "IPTC:By-line": "Jane Doea",
-  "IPTC:CopyrightNotice": "(c) 2020 Copyright XYZ Stock Photos. All rights reserved",
-  "IPTC:Credit": "Jane Doea/XYZ Stock Photos",
+  "IFD0:Artist": "John Boltenheimer",
+  "IFD0:Copyright": "(c) 2020 Copyright Pizzashots, all rights reserved",
+  "IPTC:By-line": "John Boltenheimer",
+  "IPTC:CopyrightNotice": "(c) 2020 Copyright Pizzashots, all rights reserved",
   "XMP-dc:Creator": [
-    "Jane Doea"
+    "John Boltenheimer"
   ],
-  "XMP-dc:Rights": "(c) 2020 Copyright XYZ Stock Photos. All rights reserved",
-  "XMP-photoshop:Credit": "Jane Doea/XYZ Stock Photos",
+  "XMP-dc:Rights": "(c) 2020 Copyright Pizzashots, all rights reserved",
   "XMP-plus:ImageCreator": [
     {
-      "ImageCreatorName": "Jane Doea"
+      "ImageCreatorID": "https://linkedin.example.com/user3143123432",
+      "ImageCreatorName": "John Boltenheimer"
     }
   ],
-  "XMP-xmpRights:WebStatement": "https://xyzphotos.example.com/our-webstatement-of-rights"
+  "XMP-plus:Licensor": [
+    {
+      "LicensorURL": "https://pizzashort.example.com/shot/1341234"
+    }
+  ],
+  "XMP-xmpRights:WebStatement": "https://pizzashort.example.com/copyright-licensing"
 }

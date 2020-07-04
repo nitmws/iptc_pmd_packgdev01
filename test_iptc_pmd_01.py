@@ -23,8 +23,10 @@ def main():
 
     # Test 2: set IPTC metadata attributes, transform them to ExifTool JSON and embed the metadata to an image file
     iptcmdse2 = IptcPhotometadataForSe()
-    iptcmdse2.set_first_creator('Jane Doee')
+    # iptcmdse2.set_first_creator('Jane Doee')
+    iptcmdse2.set_first_creatorwithweburl_TEST('Jane Doee', 'https://jane.example.com')
     iptcmdse2.credit = 'Jane Doee/ABC Photo Agency'
+    t = type(iptcmdse2.copyright_notice)
     iptcmdse2.copyright_notice = '(c) 2020 Copyright ABC Photo Agency. All rights reserved'
     iptcmdse2.webstatementrightsurl = 'https://abcphotos.example.com/our-webstatement-of-rights'
     iptcmdse2.licensorurl = 'https://abcphotos.example.com/license-photos/pic4711'
