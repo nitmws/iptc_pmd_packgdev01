@@ -4,14 +4,38 @@
   "IFD0:Copyright": "(c) 2020 Copyright Pizzashots, all rights reserved",
   "IPTC:By-line": "John Boltenheimer",
   "IPTC:Caption-Abstract": "The best tasting Quattro Stagione pizza worldwide.",
+  "IPTC:City": "Citynice1",
   "IPTC:CopyrightNotice": "(c) 2020 Copyright Pizzashots, all rights reserved",
+  "IPTC:Country-PrimaryLocationCode": "CA1",
+  "IPTC:Country-PrimaryLocationName": "Country A1",
   "IPTC:Headline": "The best headline about a pizza",
+  "IPTC:Province-State": "Province A1",
+  "IPTC:Sub-location": "Sublocation1",
   "XMP-dc:Creator": [
     "John Boltenheimer"
   ],
   "XMP-dc:Description": "The best tasting Quattro Stagione pizza worldwide.",
   "XMP-dc:Rights": "(c) 2020 Copyright Pizzashots, all rights reserved",
+  "XMP-iptcCore:CountryCode": "CA1",
+  "XMP-iptcCore:Location": "Sublocation1",
+  "XMP-iptcExt:LocationShown": [
+    {
+      "City": "Citynice1",
+      "CountryCode": "CA1",
+      "CountryName": "Country A1",
+      "LocationId": [
+        "https://locids1.example.com/4311",
+        "https://locids2.example.com/134234"
+      ],
+      "ProvinceState": "Province A1",
+      "Sublocation": "Sublocation1",
+      "WorldRegion": "Worldreagion A1"
+    }
+  ],
+  "XMP-photoshop:City": "Citynice1",
+  "XMP-photoshop:Country": "Country A1",
   "XMP-photoshop:Headline": "The best headline about a pizza",
+  "XMP-photoshop:State": "Province A1",
   "XMP-plus:ImageCreator": [
     {
       "ImageCreatorID": "https://linkedin.example.com/user3143123432",

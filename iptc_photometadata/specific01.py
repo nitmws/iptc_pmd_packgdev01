@@ -105,7 +105,8 @@ class IptcPhotometadataForSe(IptcPhotometadata):
             self._licensors = []
             _licensor = Licensor()
             _licensor.licensorURL = value
-            list(self._licensors).append(_licensor)
+            self._licensors.append(_licensor)
+            pass
 
 
 

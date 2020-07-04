@@ -9,6 +9,10 @@
     }
   ],
   "_creditLine": "Jane Doee/ABC Photo Agency",
-  "_licensors": [],
+  "_licensors": [
+    {
+      "licensorURL": "https://abcphotos.example.com/license-photos/pic4711"
+    }
+  ],
   "_webstatementRights": "https://abcphotos.example.com/our-webstatement-of-rights"
 }

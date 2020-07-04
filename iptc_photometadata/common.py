@@ -256,13 +256,13 @@ class IptcPhotometadata:
                          '_propertyReleaseDocuments', '_propertyReleaseStatus', '_webstatementRights')
 
     def __init__(self):
-        self._currentdir = ''
+        self._currentdir: str = ''
         self._supported_iptcpmd_tlprops = ()  # Tuple of semantic IPTC metadata property names supported by a (sub)class
+        self._deprlocationrole: IptcDeprecatedLocationRole = IptcDeprecatedLocationRole.SHOWN
         # dict holding the semantic IPTC Photo Metadata properties
         self._semiptc_metadata = {}
         # dict holding the serialization in IPTC IIM, XMP and Exif of the semantic IPTC metadata, using ExifTool naming
         self._seret_metadata = {}
-
         # the two dicts below: key = IPTC property name, value = transformation method
         self._semiptc2seret_registry = {}
         self._seret2semiptc_registry = {}
@@ -301,6 +301,15 @@ class IptcPhotometadata:
         """Sets the current directory of the application using this classe"""
         if os.path.isdir(thecurrentdir):
             self._currentdir = thecurrentdir
+
+    @property
+    def deprlocationrole(self) -> IptcDeprecatedLocationRole:
+        return self._deprlocationrole
+
+    @deprlocationrole.setter
+    def deprlocationrole(self, role: IptcDeprecatedLocationRole):
+        self._deprlocationrole = role
+
 
     """
         *******************************************************************
@@ -352,7 +361,11 @@ class IptcPhotometadata:
         if json_fp:
             if os.path.isfile(json_fp):
                 with open(json_fp, "r") as pmdfile:
-                    self._seret_metadata = json.load(pmdfile)
+                    etjson = json.load(pmdfile)
+                    if isinstance(etjson, list):
+                        self._seret_metadata = etjson[0]
+                    else:
+                        self._seret_metadata = etjson
 
     """
         ****************************************************************************************************
@@ -367,6 +380,12 @@ class IptcPhotometadata:
         for iptcpmd_tlprop in self._supported_iptcpmd_tlprops:
             if iptcpmd_tlprop in self._semiptc2seret_registry.keys():
                 self._semiptc2seret_registry[iptcpmd_tlprop]()
+
+    def semiptc2seret_copyrightNotice(self):
+        if self._copyrightNotice is not None:
+            self._seret_metadata['IFD0:Copyright'] = self._copyrightNotice
+            self._seret_metadata['IPTC:CopyrightNotice'] = self._copyrightNotice
+            self._seret_metadata['XMP-dc:Rights'] = self._copyrightNotice
 
     def semiptc2seret_creatorsExt(self):
         if self._creatorsExt is not None:
@@ -387,29 +406,86 @@ class IptcPhotometadata:
                     xmpimgcreators.append(xmpimgcreator)
                 self._seret_metadata['XMP-plus:ImageCreator'] = xmpimgcreators
 
-
-    def semiptc2seret_copyrightNotice(self):
-        if self._copyrightNotice is not None:
-            self._seret_metadata['IFD0:Copyright'] = self._copyrightNotice
-            self._seret_metadata['IPTC:CopyrightNotice'] = self._copyrightNotice
-            self._seret_metadata['XMP-dc:Rights'] = self._copyrightNotice
-
     def semiptc2seret_creditLine(self):
         if self._creditLine is not None:
             self._seret_metadata['IPTC:Credit'] = self._creditLine
             self._seret_metadata['XMP-photoshop:Credit'] = self._creditLine
 
-    def semiptc2seret_webstatementRights(self):
-        if self._webstatementRights is not None:
-            self._seret_metadata['XMP-xmpRights:WebStatement'] = self._webstatementRights
+    def semiptc2seret_description(self):
+        if self._description is not None:
+            self._seret_metadata['EXIF:ImageDescription'] = self._description
+            self._seret_metadata['IPTC:Caption-Abstract'] = self._description
+            self._seret_metadata['XMP-dc:Description'] = self._description
+
+    def semiptc2seret_headline(self):
+        if self._headline is not None:
+            self._seret_metadata['IPTC:Headline'] = self._headline
+            self._seret_metadata['XMP-photoshop:Headline'] = self._headline
+
+    def semiptc2seret_keywords(self):
+        if self._keywords is not None:
+            for keyword in self._keywords:
+                if keyword != '':
+                    self._seret_metadata['IPTC:Keywords'] = keyword
+                    self._seret_metadata['XMP-dc:Subject'] = keyword
+
+    def semiptc2seret_title(self):
+        if self._title is not None:
+            self._seret_metadata['IPTC:ObjectName'] = self._title
+            self._seret_metadata['XMP-dc:Title'] = self._title
+
+    def semiptc2seret_locationsShown(self):
+        if self._locationsShown is not None:
+            if len(self._locationsShown) > 0:
+                itemctr = 0
+                xmplocationsshown = []
+                for locationShown in self._locationsShown:
+                    itemctr += 1
+                    xmplocationshown = {}
+                    xmplocationshown['LocationId'] = locationShown.identifiers
+                    xmplocationshown['City'] = locationShown.city
+                    xmplocationshown['CountryCode'] = locationShown.countryCode
+                    xmplocationshown['CountryName'] = locationShown.countryName
+                    xmplocationshown['ProvinceState'] = locationShown.provinceState
+                    xmplocationshown['Sublocation'] = locationShown.sublocation
+                    xmplocationshown['WorldRegion'] = locationShown.worldRegion
+                    xmplocationsshown.append(xmplocationshown)
+                    if self._deprlocationrole == IptcDeprecatedLocationRole.SHOWN and itemctr == 1:
+                        self._seret_metadata['IPTC:City'] = locationShown.city
+                        self._seret_metadata['XMP-photoshop:City'] = locationShown.city
+                        self._seret_metadata['IPTC:Country-PrimaryLocationCode'] = locationShown.countryCode
+                        self._seret_metadata['XMP-iptcCore:CountryCode'] = locationShown.countryCode
+                        self._seret_metadata['IPTC:Country-PrimaryLocationName'] = locationShown.countryName
+                        self._seret_metadata['XMP-photoshop:Country'] = locationShown.countryName
+                        self._seret_metadata['IPTC:Province-State'] = locationShown.provinceState
+                        self._seret_metadata['XMP-photoshop:State'] = locationShown.provinceState
+                        self._seret_metadata['IPTC:Sub-location'] = locationShown.sublocation
+                        self._seret_metadata['XMP-iptcCore:Location'] = locationShown.sublocation
+                self._seret_metadata['XMP-iptcExt:LocationShown'] = xmplocationsshown
 
     def semiptc2seret_licensors(self):
         if self._licensors is not None:
             if len(self._licensors) > 0:
-                if self._licensors[0].licensorURL is not None:
-                    xmplicensor = {'LicensorURL': self._licensors[0].licensorURL}
-                    xmplicensors = [xmplicensor]
-                    self._seret_metadata['XMP-plus:Licensor'] = xmplicensors
+                xmplicensors = []
+                licctr = 1  # PLUS: max 3 Licensor
+                for licensor in self._licensors:
+                    if licctr > 3:
+                        break
+                    else:
+                        licctr += 1
+                    xmplicensor = {}
+                    if licensor.licensorID is not None:
+                        xmplicensor['LicensorID'] = licensor.licensorID
+                    if licensor.licensorName is not None:
+                        xmplicensor['LicensorName'] = licensor.licensorName
+                    if licensor.licensorURL is not None:
+                        xmplicensor['LicensorURL'] = licensor.licensorURL
+                    xmplicensors.append(xmplicensor)
+                self._seret_metadata['XMP-plus:Licensor'] = xmplicensors
+
+    def semiptc2seret_webstatementRights(self):
+        if self._webstatementRights is not None:
+            self._seret_metadata['XMP-xmpRights:WebStatement'] = self._webstatementRights
 
     """
         ****************************************************************************************************
@@ -426,6 +502,11 @@ class IptcPhotometadata:
         for iptcpmd_tlprop in self._supported_iptcpmd_tlprops:
             if iptcpmd_tlprop in self._seret2semiptc_registry.keys():
                 self._seret2semiptc_registry[iptcpmd_tlprop]()
+
+
+    def seret2semiptc_copyrightNotice(self):
+        if 'XMP-dc:Rights' in self._seret_metadata:
+            self._copyrightNotice = self._seret_metadata['XMP-dc:Rights']
 
     def seret2semiptc_creatorsExt(self):
         self._creatorsExt = []
@@ -453,17 +534,35 @@ class IptcPhotometadata:
                 _sem_creatorExt.name = _creatorname
                 self._creatorsExt.append(_sem_creatorExt)
 
-    def seret2semiptc_copyrightNotice(self):
-        if 'XMP-dc:Rights' in self._seret_metadata:
-            self._copyrightNotice = self._seret_metadata['XMP-dc:Rights']
-
     def seret2semiptc_creditLine(self):
         if 'XMP-photoshop:Credit' in self._seret_metadata:
             self._creditLine = self._seret_metadata['XMP-photoshop:Credit']
 
-    def seret2semiptc_webstatementRights(self):
-        if 'XMP-xmpRights:WebStatement' in self._seret_metadata:
-            self._webstatementRights = self._seret_metadata['XMP-xmpRights:WebStatement']
+    def seret2semiptc_description(self):
+        if 'EXIF:ImageDescription' in self._seret_metadata:
+            self._creditLine = self._seret_metadata['EXIF:ImageDescription']
+        if 'XMP-dc:Description' in self._seret_metadata:
+            self._creditLine = self._seret_metadata['XMP-dc:Description']
+        elif 'IPTC:Caption-Abstract' in self._seret_metadata:
+            self._creditLine = self._seret_metadata['IPTC:Caption-Abstract']
+
+    def seret2semiptc_headline(self):
+        if 'XMP-photoshop:Headline' in self._seret_metadata:
+            self._headline = self._seret_metadata['XMP-photoshop:Headline']
+        elif 'IPTC:Headline' in self._seret_metadata:
+            self._headline = self._seret_metadata['IPTC:Headline']
+
+    def seret2semiptc_keywords(self):
+        if 'XMP-dc:Subject' in self._seret_metadata:
+            self._keywords = self._seret_metadata['XMP-dc:Subject']
+        elif 'IPTC:Keywords' in self._seret_metadata:
+            self._keywords = self._seret_metadata['IPTC:Keywords']
+
+    def seret2semiptc_title(self):
+        if 'XMP-dc:Title' in self._seret_metadata:
+            self._title = self._seret_metadata['XMP-dc:Title']
+        elif 'IPTC:ObjectName' in self._seret_metadata:
+            self._title = self._seret_metadata['IPTC:ObjectName']
 
     def seret2semiptc_licensors(self):
         if 'XMP-plus:Licensor' in self._seret_metadata:
@@ -487,3 +586,6 @@ class IptcPhotometadata:
             if len(self._licensors) == 0:
                 self._licensors = None
 
+    def seret2semiptc_webstatementRights(self):
+        if 'XMP-xmpRights:WebStatement' in self._seret_metadata:
+            self._webstatementRights = self._seret_metadata['XMP-xmpRights:WebStatement']

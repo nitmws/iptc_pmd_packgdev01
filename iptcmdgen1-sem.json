@@ -13,11 +13,26 @@
     }
   ],
   "_description": "The best tasting Quattro Stagione pizza worldwide.",
+  "_headline": "The best headline about a pizza",
   "_licensors": [
     {
       "licensorID": "https://pizzashort.example.com",
       "licensorName": "Pizzashots Inc.",
       "licensorURL": "https://pizzashort.example.com/shot/1341234"
+    }
+  ],
+  "_locationsShown": [
+    {
+      "city": "Citynice1",
+      "countryCode": "CA1",
+      "countryName": "Country A1",
+      "identifiers": [
+        "https://locids1.example.com/4311",
+        "https://locids2.example.com/134234"
+      ],
+      "provinceState": "Province A1",
+      "sublocation": "Sublocation1",
+      "worldRegion": "Worldreagion A1"
     }
   ],
   "_webstatementRights": "https://pizzashort.example.com/copyright-licensing"
