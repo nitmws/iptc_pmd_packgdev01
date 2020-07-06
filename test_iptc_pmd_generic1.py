@@ -29,8 +29,10 @@ def main():
     t_creator.creatorContactInfo = t_creatorcontact
     iptcmdgen1.creatorsExt = [t_creator]
     iptcmdgen1.copyrightNotice = '(c) 2020 Copyright Pizzashots, all rights reserved'
+    iptcmdgen1.creditLine = "J Boltenheimer/Pizzashots"
     iptcmdgen1.description = 'The best tasting Quattro Stagione pizza worldwide.'
     iptcmdgen1.headline = 'The best headline about a pizza'
+    iptcmdgen1.keywords = ['Keyword 01', 'Keyword 02']
     iptcmdgen1.webstatementRights = 'https://pizzashort.example.com/copyright-licensing'
     t_licensor = Licensor()
     t_licensor.licensorID = 'https://pizzashort.example.com'
@@ -61,6 +63,7 @@ def main():
     iptcmdgen2.import_seret_from_jsonfile('./IPTC-PhMdStd2019.1_x-All.json')
     iptcmdgen2.transform_seret_metadata_to_semiptc()
     # get properties
+    print(iptcmdgen2.description)
     print(iptcmdgen2.keywords)
 
 # ************** MAIN

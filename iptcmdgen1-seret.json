@@ -8,7 +8,12 @@
   "IPTC:CopyrightNotice": "(c) 2020 Copyright Pizzashots, all rights reserved",
   "IPTC:Country-PrimaryLocationCode": "CA1",
   "IPTC:Country-PrimaryLocationName": "Country A1",
+  "IPTC:Credit": "J Boltenheimer/Pizzashots",
   "IPTC:Headline": "The best headline about a pizza",
+  "IPTC:Keywords": [
+    "Keyword 01",
+    "Keyword 02"
+  ],
   "IPTC:Province-State": "Province A1",
   "IPTC:Sub-location": "Sublocation1",
   "XMP-dc:Creator": [
@@ -16,6 +21,10 @@
   ],
   "XMP-dc:Description": "The best tasting Quattro Stagione pizza worldwide.",
   "XMP-dc:Rights": "(c) 2020 Copyright Pizzashots, all rights reserved",
+  "XMP-dc:Subject": [
+    "Keyword 01",
+    "Keyword 02"
+  ],
   "XMP-iptcCore:CountryCode": "CA1",
   "XMP-iptcCore:Location": "Sublocation1",
   "XMP-iptcExt:LocationShown": [
@@ -34,6 +43,7 @@
   ],
   "XMP-photoshop:City": "Citynice1",
   "XMP-photoshop:Country": "Country A1",
+  "XMP-photoshop:Credit": "J Boltenheimer/Pizzashots",
   "XMP-photoshop:Headline": "The best headline about a pizza",
   "XMP-photoshop:State": "Province A1",
   "XMP-plus:ImageCreator": [

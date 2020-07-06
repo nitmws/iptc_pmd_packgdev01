@@ -333,8 +333,6 @@ class IptcPhotometadata:
                             d = listitem.todict()
                             list1.append(d)
                     self._semiptc_metadata[semiptc_propname] = list1
-        # return
-        ## sorry, the JSON serialization does not work currently
         filename = Path(json_fp)
         filename = filename.with_suffix('.json')
         with filename.open(mode='w') as _f:
@@ -373,7 +371,7 @@ class IptcPhotometadata:
     """
 
     def transform_semiptc_metadata_to_seret(self):
-        """Transforms serialized semantic IPTC Photo Metadata ot IPTC metadata using ExifTool naming"""
+        """Transforms all semantic IPTC Photo Metadata to metadata serialized as Exif/IIM/XMP using ExifTool naming"""
         # This method iterates across the supported IPTC metadata properties supported by a derived class,
         #   the corresponding "semantic IPTC metadata to serialized metadata in Exiftool syntax"
         #   transformation methods are called.
@@ -383,9 +381,8 @@ class IptcPhotometadata:
 
     def semiptc2seret_copyrightNotice(self):
         if self._copyrightNotice is not None:
-            self._seret_metadata['IFD0:Copyright'] = self._copyrightNotice
-            self._seret_metadata['IPTC:CopyrightNotice'] = self._copyrightNotice
-            self._seret_metadata['XMP-dc:Rights'] = self._copyrightNotice
+            self._semiptc2seret_simple_multi1(self._copyrightNotice, 'IFD0:Copyright', 'IPTC:CopyrightNotice',
+                                            'XMP-dc:Rights')
 
     def semiptc2seret_creatorsExt(self):
         if self._creatorsExt is not None:
@@ -408,31 +405,34 @@ class IptcPhotometadata:
 
     def semiptc2seret_creditLine(self):
         if self._creditLine is not None:
-            self._seret_metadata['IPTC:Credit'] = self._creditLine
-            self._seret_metadata['XMP-photoshop:Credit'] = self._creditLine
+            self._semiptc2seret_simple_multi1(self._creditLine, None, 'IPTC:Credit', 'XMP-photoshop:Credit')
+
+    def semiptc2seret_captionWriter(self):
+        if self._captionWriter is not None:
+            self._semiptc2seret_simple_multi1(self._captionWriter, None, 'IPTC:Writer-Editor',
+                                              'XMP-photoshop:CaptionWriter')
 
     def semiptc2seret_description(self):
         if self._description is not None:
-            self._seret_metadata['EXIF:ImageDescription'] = self._description
-            self._seret_metadata['IPTC:Caption-Abstract'] = self._description
-            self._seret_metadata['XMP-dc:Description'] = self._description
+            self._semiptc2seret_simple_multi1(self._description, 'EXIF:ImageDescription', 'IPTC:Caption-Abstract',
+                                            'XMP-dc:Description')
 
     def semiptc2seret_headline(self):
         if self._headline is not None:
-            self._seret_metadata['IPTC:Headline'] = self._headline
-            self._seret_metadata['XMP-photoshop:Headline'] = self._headline
+            self._semiptc2seret_simple_multi1(self._headline, None, 'IPTC:Headline', 'XMP-photoshop:Headline')
+
+    def semiptc2seret_instructions(self):
+        if self._instructions is not None:
+            self._semiptc2seret_simple_multi1(self._instructions, None, 'IPTC:SpecialInstructions',
+                                              'XMP-photoshop:Instructions')
 
     def semiptc2seret_keywords(self):
         if self._keywords is not None:
-            for keyword in self._keywords:
-                if keyword != '':
-                    self._seret_metadata['IPTC:Keywords'] = keyword
-                    self._seret_metadata['XMP-dc:Subject'] = keyword
+            self._semiptc2seret_simple_multi1(self._keywords, None, 'IPTC:Keywords', 'XMP-dc:Subject')
 
     def semiptc2seret_title(self):
         if self._title is not None:
-            self._seret_metadata['IPTC:ObjectName'] = self._title
-            self._seret_metadata['XMP-dc:Title'] = self._title
+            self._semiptc2seret_simple_multi1(self._title, 'IPTC:ObjectName', 'XMP-dc:Title')
 
     def semiptc2seret_locationsShown(self):
         if self._locationsShown is not None:
@@ -467,12 +467,11 @@ class IptcPhotometadata:
         if self._licensors is not None:
             if len(self._licensors) > 0:
                 xmplicensors = []
-                licctr = 1  # PLUS: max 3 Licensor
+                licctr = 0  # PLUS: max 3 Licensor
                 for licensor in self._licensors:
-                    if licctr > 3:
+                    licctr += 1
+                    if licctr > 3:  # PLUS spec: max 3 Licensor entities
                         break
-                    else:
-                        licctr += 1
                     xmplicensor = {}
                     if licensor.licensorID is not None:
                         xmplicensor['LicensorID'] = licensor.licensorID
@@ -486,6 +485,19 @@ class IptcPhotometadata:
     def semiptc2seret_webstatementRights(self):
         if self._webstatementRights is not None:
             self._seret_metadata['XMP-xmpRights:WebStatement'] = self._webstatementRights
+
+    # *********************************************************************************************
+    # Method for serializing a simple, not-structured semantic IPTC metadata value
+    #   to Exif, IIM and XMP metadata
+    #
+    def _semiptc2seret_simple_multi1(self, semiptcvalue, exifid: str = None, iimid: str = None, xmpid: str = None):
+        """Transforms any simple semantic IPTC PMD property to multiple serialized Exif/IIM/XMP properties"""
+        if exifid is not None:
+            self._seret_metadata[exifid] = semiptcvalue
+        if iimid is not None:
+            self._seret_metadata[iimid] = semiptcvalue
+        if xmpid is not None:
+            self._seret_metadata[xmpid] = semiptcvalue
 
     """
         ****************************************************************************************************
@@ -539,30 +551,17 @@ class IptcPhotometadata:
             self._creditLine = self._seret_metadata['XMP-photoshop:Credit']
 
     def seret2semiptc_description(self):
-        if 'EXIF:ImageDescription' in self._seret_metadata:
-            self._creditLine = self._seret_metadata['EXIF:ImageDescription']
-        if 'XMP-dc:Description' in self._seret_metadata:
-            self._creditLine = self._seret_metadata['XMP-dc:Description']
-        elif 'IPTC:Caption-Abstract' in self._seret_metadata:
-            self._creditLine = self._seret_metadata['IPTC:Caption-Abstract']
+        self._description = self._seret2semiptc_prefXIE1('XMP-dc:Description', 'IPTC:Caption-Abstract',
+                                                         'EXIF:ImageDescription')
 
     def seret2semiptc_headline(self):
-        if 'XMP-photoshop:Headline' in self._seret_metadata:
-            self._headline = self._seret_metadata['XMP-photoshop:Headline']
-        elif 'IPTC:Headline' in self._seret_metadata:
-            self._headline = self._seret_metadata['IPTC:Headline']
+        self._headline = self._seret2semiptc_prefXI1('XMP-photoshop:Headline', 'IPTC:Headline')
 
     def seret2semiptc_keywords(self):
-        if 'XMP-dc:Subject' in self._seret_metadata:
-            self._keywords = self._seret_metadata['XMP-dc:Subject']
-        elif 'IPTC:Keywords' in self._seret_metadata:
-            self._keywords = self._seret_metadata['IPTC:Keywords']
+        self._keywords = self._seret2semiptc_prefXI1('XMP-dc:Subject', 'IPTC:Keywords')
 
     def seret2semiptc_title(self):
-        if 'XMP-dc:Title' in self._seret_metadata:
-            self._title = self._seret_metadata['XMP-dc:Title']
-        elif 'IPTC:ObjectName' in self._seret_metadata:
-            self._title = self._seret_metadata['IPTC:ObjectName']
+        self._title = self._seret2semiptc_prefXI1('XMP-dc:Title', 'IPTC:ObjectName')
 
     def seret2semiptc_licensors(self):
         if 'XMP-plus:Licensor' in self._seret_metadata:
@@ -589,3 +588,46 @@ class IptcPhotometadata:
     def seret2semiptc_webstatementRights(self):
         if 'XMP-xmpRights:WebStatement' in self._seret_metadata:
             self._webstatementRights = self._seret_metadata['XMP-xmpRights:WebStatement']
+
+    # *********************************************************************************************
+    # Methods for parsing and reading simple semantic IPTC metadata values
+    #   from the serialized Exif, IIM and XMP metadata
+    #
+    def _seret2semiptc_prefEXI1(self, exifid: str = None, xmpid: str = None, iimid: str = None) -> any:
+        """Gets semantic IPTC metadata property from a set of serialized metadata, preference: Exif, XMP, IIM"""
+        if exifid is None or xmpid is None or iimid is None:
+            return None
+        semiptc_value = None
+        if exifid in self._seret_metadata:
+            semiptc_value = self._seret_metadata[exifid]
+            return semiptc_value
+        if xmpid in self._seret_metadata:
+            semiptc_value = self._seret_metadata[xmpid]
+        elif iimid in self._seret_metadata:
+            semiptc_value = self._seret_metadata[iimid]
+        return semiptc_value
+
+    def _seret2semiptc_prefXIE1(self, xmpid: str = None, iimid: str = None, exifid: str = None) -> any:
+        """Gets semantic IPTC metadata property from a set of serialized metadata, preference: XMP, IIM, Exif"""
+        if exifid is None or xmpid is None or iimid is None:
+            return None
+        semiptc_value = None
+        if exifid in self._seret_metadata:
+            semiptc_value = self._seret_metadata[exifid]
+        if xmpid in self._seret_metadata:
+            semiptc_value = self._seret_metadata[xmpid]
+        elif iimid in self._seret_metadata:
+            semiptc_value = self._seret_metadata[iimid]
+        return semiptc_value
+
+    def _seret2semiptc_prefXI1(self, xmpid: str = None, iimid: str = None) -> any:
+        """Gets semantic IPTC metadata property from a set of serialized metadata, preference: XMP, IIM"""
+        if xmpid is None or iimid is None:
+            return None
+        semiptc_value = None
+        if xmpid in self._seret_metadata:
+            semiptc_value = self._seret_metadata[xmpid]
+        elif iimid in self._seret_metadata:
+            semiptc_value = self._seret_metadata[iimid]
+        return semiptc_value
+

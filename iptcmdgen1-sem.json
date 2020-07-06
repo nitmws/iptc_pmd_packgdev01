@@ -12,8 +12,13 @@
       "name": "John Boltenheimer"
     }
   ],
+  "_creditLine": "J Boltenheimer/Pizzashots",
   "_description": "The best tasting Quattro Stagione pizza worldwide.",
   "_headline": "The best headline about a pizza",
+  "_keywords": [
+    "Keyword 01",
+    "Keyword 02"
+  ],
   "_licensors": [
     {
       "licensorID": "https://pizzashort.example.com",
