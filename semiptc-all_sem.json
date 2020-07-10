@@ -1,0 +1,89 @@
+{
+  "_captionWriter": "Bobby Captionwriter",
+  "_copyrightNotice": "(c) 2020 Copyright Pizzashots, all rights reserved",
+  "_creatorsExt": [
+    {
+      "creatorContactInfo": {
+        "address": "Image House",
+        "city": "Ambersville",
+        "country": "United Kingdom of Phantasia",
+        "emailwork": "johnb@photoatwork.com",
+        "phonework": "+40 123 38388382",
+        "postalCode": "ABC234 Q12",
+        "region": "Humbershire",
+        "weburlwork": "https://photoatwork.example.com"
+      },
+      "identifiers": [
+        "https://linkedin.example.com/user3143123432"
+      ],
+      "jobtitle": "Staff photographer",
+      "name": "John Boltenheimer"
+    },
+    {
+      "creatorContactInfo": {
+        "weburlwork": "https://janem.example.com"
+      },
+      "identifiers": [
+        "https://linkedin.example.com/user830939"
+      ],
+      "jobtitle": "Photographer",
+      "name": "Jane Morano"
+    }
+  ],
+  "_creditLine": "J Boltenheimer/Pizzashots",
+  "_dateCreated": "2020-07-07T12:13:14+02:00",
+  "_description": "The best tasting Quattro Stagione pizza worldwide.",
+  "_headline": "The best headline about a pizza",
+  "_instructions": "Our instruction: country XYZ out",
+  "_intellectualGenre": "iptcgenre:History",
+  "_jobid": "Jid134231",
+  "_keywords": [
+    "Keyword 01",
+    "Keyword 02"
+  ],
+  "_licensors": [
+    {
+      "licensorID": "https://pizzashort.example.com",
+      "licensorName": "Pizzashots Inc.",
+      "licensorURL": "https://pizzashort.example.com/shot/1341234"
+    }
+  ],
+  "_locationsShown": [
+    {
+      "city": "Citynice1",
+      "countryCode": "CA1",
+      "countryName": "Country A1",
+      "identifiers": [
+        "https://locids1.example.com/4311",
+        "https://locids2.example.com/134234"
+      ],
+      "provinceState": "Province A1",
+      "sublocation": "Sublocation1",
+      "worldRegion": "Worldregion A1"
+    },
+    {
+      "city": "Citynice2",
+      "countryCode": "CA2",
+      "countryName": "Country A2",
+      "identifiers": [
+        "https://locids1.example.com/4312",
+        "https://locids2.example.com/1342342"
+      ],
+      "provinceState": "Province A2",
+      "sublocation": "Sublocation2",
+      "worldRegion": "Worldregion A2"
+    }
+  ],
+  "_sceneCodes": [
+    "SceneCode 01",
+    "SceneCode 02"
+  ],
+  "_source": "The best Source of all",
+  "_subjectCodes": [
+    "SubjectCode 01",
+    "SubjectCode 02"
+  ],
+  "_title": "A Title",
+  "_usageTerms": "The rightful usage terms",
+  "_webstatementRights": "https://pizzashort.example.com/copyright-licensing"
+}
