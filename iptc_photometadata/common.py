@@ -1,10 +1,10 @@
 import os
 import json
+import copy
 from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Set, Dict, Tuple, Optional, Type
 from enum import Enum
-from .tools import *
 
 """
     ===========================================================================
@@ -24,122 +24,142 @@ class IptcStructure:
 
 @dataclass
 class CreatorContactInfo(IptcStructure):
-  address: Optional[str] = None
-  city: Optional[str] = None
-  country: Optional[str] = None
-  emailwork: Optional[str] = None
-  phonework: Optional[str] = None
-  postalCode: Optional[str] = None
-  region: Optional[str] = None
-  weburlwork: Optional[str] = None
+    address: Optional[str] = None
+    city: Optional[str] = None
+    country: Optional[str] = None
+    emailwork: Optional[str] = None
+    phonework: Optional[str] = None
+    postalCode: Optional[str] = None
+    region: Optional[str] = None
+    weburlwork: Optional[str] = None
+
+    def todict_et(self):
+        det = {}
+        if self.address is not None:
+            det['CiAdrExt'] = self.address
+        if self.city is not None:
+            det['CiAdrCity'] = self.city
+        if self.country is not None:
+            det['CiAdrCtry'] = self.country
+        if self.emailwork is not None:
+            det['CiEmailWork'] = self.emailwork
+        if self.phonework is not None:
+            det['CiTelWork'] = self.phonework
+        if self.postalCode is not None:
+            det['CiAdrPcode'] = self.postalCode
+        if self.region is not None:
+            det['CiAdrRegion'] = self.region
+        if self.weburlwork is not None:
+            det['CiUrlWork'] = self.weburlwork
+        return det
 
 @dataclass
 class ArtworkOrObject(IptcStructure):
-  circaDateCreated: Optional[str] = None
-  contentDescription: Optional[str] = None
-  contributionDescription: Optional[str] = None
-  copyrightNotice: Optional[str] = None
-  creatorNames: Optional[List[str]] = None
-  creatorIdentifiers: Optional[List[str]] = None
-  currentCopyrightOwnerIdentifier: Optional[str] = None
-  currentCopyrightOwnerName: Optional[str] = None
-  currentLicensorIdentifier: Optional[str] = None
-  currentLicensorName: Optional[str] = None
-  dateCreated: Optional[str] = None
-  physicalDescription: Optional[str] = None
-  source: Optional[str] = None
-  sourceInventoryNr: Optional[str] = None
-  sourceInventoryUrl: Optional[str] = None
-  stylePeriod: Optional[List[str]] = None
-  title: Optional[str] = None
+    circaDateCreated: Optional[str] = None
+    contentDescription: Optional[str] = None
+    contributionDescription: Optional[str] = None
+    copyrightNotice: Optional[str] = None
+    creatorNames: Optional[List[str]] = None
+    creatorIdentifiers: Optional[List[str]] = None
+    currentCopyrightOwnerIdentifier: Optional[str] = None
+    currentCopyrightOwnerName: Optional[str] = None
+    currentLicensorIdentifier: Optional[str] = None
+    currentLicensorName: Optional[str] = None
+    dateCreated: Optional[str] = None
+    physicalDescription: Optional[str] = None
+    source: Optional[str] = None
+    sourceInventoryNr: Optional[str] = None
+    sourceInventoryUrl: Optional[str] = None
+    stylePeriod: Optional[List[str]] = None
+    title: Optional[str] = None
 
 @dataclass
 class CvTerm(IptcStructure):
-  cvId: Optional[str] = None
-  cvTermId: Optional[str] = None
-  cvTermName: Optional[str] = None
-  cvTermRefinedAbout: Optional[str] = None
+    cvId: Optional[str] = None
+    cvTermId: Optional[str] = None
+    cvTermName: Optional[str] = None
+    cvTermRefinedAbout: Optional[str] = None
 
 @dataclass
 class EmbdEncRightsExpr(IptcStructure):
-  rightsExprLangId: Optional[str] = None
-  rightsExprEncType: Optional[str] = None
-  encRightsExpr: Optional[str] = None
+    rightsExprLangId: Optional[str] = None
+    rightsExprEncType: Optional[str] = None
+    encRightsExpr: Optional[str] = None
 
 @dataclass
 class Entity(IptcStructure):
-  identifiers: Optional[List[str]] = None
-  name: Optional[str] = None
+    identifiers: Optional[List[str]] = None
+    name: Optional[str] = None
 
 @dataclass
 class RegionBoundaryPoint(IptcStructure):
-  rbX: Optional[int] = None
-  rbY: Optional[int] = None
+    rbX: Optional[int] = None
+    rbY: Optional[int] = None
 
 @dataclass
 class RegionBoundary(IptcStructure):
-  rbShape: Optional[str] = None
-  rbUnit: Optional[str] = None
-  rbX: Optional[int] = None
-  rbY: Optional[int] = None
-  rbW: Optional[int] = None
-  rbH: Optional[int] = None
-  rbRx: Optional[int] = None
-  rbVertices: Optional[List[Type[RegionBoundaryPoint]]] = None
+    rbShape: Optional[str] = None
+    rbUnit: Optional[str] = None
+    rbX: Optional[int] = None
+    rbY: Optional[int] = None
+    rbW: Optional[int] = None
+    rbH: Optional[int] = None
+    rbRx: Optional[int] = None
+    rbVertices: Optional[List[Type[RegionBoundaryPoint]]] = None
 
 @dataclass
 class ImageRegion(IptcStructure):
-  regionBoundary: Optional[Type[RegionBoundary]] = None
-  rId: Optional[str] = None
-  name: Optional[str] = None
-  rCtype: Optional[List[Type[Entity]]] = None
-  rRole: Optional[List[Type[Entity]]] = None
-  any: Optional[List[dict]] = None
+    regionBoundary: Optional[Type[RegionBoundary]] = None
+    rId: Optional[str] = None
+    name: Optional[str] = None
+    rCtype: Optional[List[Type[Entity]]] = None
+    rRole: Optional[List[Type[Entity]]] = None
+    any: Optional[List[dict]] = None
 
 @dataclass
 class LinkedEncRightsExpr(IptcStructure):
-  rightsExprLangId: Optional[str] = None
-  rightsExprEncType: Optional[str] = None
-  linkedRightsExpr: Optional[str] = None
+    rightsExprLangId: Optional[str] = None
+    rightsExprEncType: Optional[str] = None
+    linkedRightsExpr: Optional[str] = None
 
 @dataclass
 class Licensor(IptcStructure):
-  licensorID: Optional[str] = None
-  licensorName: Optional[str] = None
-  licensorURL: Optional[str] = None
+    licensorID: Optional[str] = None
+    licensorName: Optional[str] = None
+    licensorURL: Optional[str] = None
 
 @dataclass
 class Location(IptcStructure):
-  city: Optional[str] = None
-  countryCode: Optional[str] = None
-  countryName: Optional[str] = None
-  gpsAltitude: Optional[int] = None
-  gpsLatitude: Optional[int] = None
-  gpsLongitude: Optional[int] = None
-  identifiers: Optional[List[str]] = None
-  name: Optional[str] = None
-  provinceState: Optional[str] = None
-  sublocation: Optional[str] = None
-  worldRegion: Optional[str] = None
+    city: Optional[str] = None
+    countryCode: Optional[str] = None
+    countryName: Optional[str] = None
+    gpsAltitude: Optional[int] = None
+    gpsLatitude: Optional[int] = None
+    gpsLongitude: Optional[int] = None
+    identifiers: Optional[List[str]] = None
+    name: Optional[str] = None
+    provinceState: Optional[str] = None
+    sublocation: Optional[str] = None
+    worldRegion: Optional[str] = None
 
 @dataclass
 class PersonWDetails(IptcStructure):
-  characteristics: Optional[List[Type[CvTerm]]] = None
-  description: Optional[str] = None
-  identifiers: Optional[List[str]] = None
-  name: Optional[str] = None
+    characteristics: Optional[List[Type[CvTerm]]] = None
+    description: Optional[str] = None
+    identifiers: Optional[List[str]] = None
+    name: Optional[str] = None
 
 @dataclass
 class ProductWGtin(IptcStructure):
-  description: Optional[str] = None
-  gtin: Optional[str] = None
-  name: Optional[str] = None
+    description: Optional[str] = None
+    gtin: Optional[str] = None
+    name: Optional[str] = None
 
 @dataclass
 class RegistryEntry(IptcStructure):
-  assetIdentifier: Optional[str] = None
-  registryIdentifier: Optional[str] = None
-  role: Optional[str] = None
+    assetIdentifier: Optional[str] = None
+    registryIdentifier: Optional[str] = None
+    role: Optional[str] = None
 
 @dataclass
 class CreatorExt(IptcStructure):
@@ -153,7 +173,8 @@ class CreatorExt(IptcStructure):
         for attrname in vars(self):
             attrval = getattr(self, attrname)
             if attrname == 'creatorContactInfo':
-                d[attrname] = self.creatorContactInfo.todict()
+                if self.creatorContactInfo is not None:
+                    d[attrname] = self.creatorContactInfo.todict()
             else:
                 if attrval is not None:
                     d[attrname] = attrval
@@ -175,6 +196,11 @@ class IptcSerializationFormat(Enum):
 class IptcDeprecatedLocationRole(Enum):
     CREATED = 1
     SHOWN = 2
+
+class PropertyOccurrence(Enum):
+    NONE = 1
+    ONE = 2
+    MANY = 3
 
 
 """
@@ -258,7 +284,10 @@ class IptcPhotometadata:
     def __init__(self):
         self._currentdir: str = ''
         self._supported_iptcpmd_tlprops = ()  # Tuple of semantic IPTC metadata property names supported by a (sub)class
+        # Role of the deprecated IPTC location properties: they represent Location CREATED or Location SHOWN
         self._deprlocationrole: IptcDeprecatedLocationRole = IptcDeprecatedLocationRole.SHOWN
+        # Reading seret metadata: should the parsing follow the IPTC Photo Metadata Standard strictly: True or False
+        self._ipmd_parse_strict = True
         # dict holding the semantic IPTC Photo Metadata properties
         self._semiptc_metadata = {}
         # dict holding the serialization in IPTC IIM, XMP and Exif of the semantic IPTC metadata, using ExifTool naming
@@ -310,6 +339,13 @@ class IptcPhotometadata:
     def deprlocationrole(self, role: IptcDeprecatedLocationRole):
         self._deprlocationrole = role
 
+    @property
+    def ipmd_parse_strict(self) -> bool:
+        return self._ipmd_parse_strict
+
+    @ipmd_parse_strict.setter
+    def ipmd_parse_strict(self, bestrict: bool):
+        self._ipmd_parse_strict = bestrict
 
     """
         *******************************************************************
@@ -386,26 +422,56 @@ class IptcPhotometadata:
 
     def semiptc2seret_creatorsExt(self):
         if self._creatorsExt is not None:
-            if len(self._creatorsExt) > 0:
-                creatorname = self._creatorsExt[0].name
-                if creatorname != '':
-                    self._seret_metadata['IFD0:Artist'] = creatorname
-                    self._seret_metadata['IPTC:By-line'] = creatorname
-                    xmpcreator = [creatorname]
-                    self._seret_metadata['XMP-dc:Creator'] = xmpcreator
-                xmpimgcreators = []
-                for creatorExt in self._creatorsExt:
-                    xmpimgcreator = {}
-                    if creatorExt.identifiers is not None:
-                        xmpimgcreator['ImageCreatorID'] = creatorExt.identifiers[0]
-                    if creatorExt.name is not None:
-                        xmpimgcreator['ImageCreatorName'] = creatorExt.name
-                    xmpimgcreators.append(xmpimgcreator)
-                self._seret_metadata['XMP-plus:ImageCreator'] = xmpimgcreators
+            # Collect the properties of a creator in different caches
+            xmpimgcreators = []
+            creator_names = []
+            creator_jobtitles = []
+            creator_contactinfo = None
+            for creatorExt in self._creatorsExt:
+                if creatorExt.name is not None:
+                    creator_names.append(creatorExt.name)
+                if creatorExt.jobtitle is not None:
+                    creator_jobtitles.append(creatorExt.jobtitle)
+                if creator_contactinfo is None:
+                    if creatorExt.creatorContactInfo is not None:
+                        creator_contactinfo = creatorExt.creatorContactInfo
+                xmpimgcreator = {}
+                if creatorExt.identifiers is not None:
+                    xmpimgcreator['ImageCreatorID'] = creatorExt.identifiers[0]
+                if creatorExt.name is not None:
+                    xmpimgcreator['ImageCreatorName'] = creatorExt.name
+                xmpimgcreators.append(xmpimgcreator)
+            # embed the caches as serialized metadata properties
+            self._seret_metadata['XMP-plus:ImageCreator'] = xmpimgcreators
+            if len(creator_names) > 0:
+                self._seret_metadata['IFD0:Artist'] = creator_names[0]
+                self._seret_metadata['IPTC:By-line'] = creator_names
+                self._seret_metadata['XMP-dc:Creator'] = creator_names
+            if len(creator_jobtitles) > 0:
+                self._seret_metadata['IPTC:By-lineTitle'] = creator_jobtitles
+                self._seret_metadata['XMP-photoshop:AuthorsPosition'] = creator_jobtitles[0]
+            if creator_contactinfo is not None:
+                self._seret_metadata['XMP-iptcCore:CreatorContactInfo'] = creator_contactinfo.todict_et()
+
+
 
     def semiptc2seret_creditLine(self):
         if self._creditLine is not None:
             self._semiptc2seret_simple_multi1(self._creditLine, None, 'IPTC:Credit', 'XMP-photoshop:Credit')
+
+    def semiptc2seret_dateCreated(self):
+        if self._dateCreated is not None:
+            # used format: YYYY-MM-DD"T"hh:mm:ss[tz]
+            daypart = self._dateCreated[:10]
+            daypartet = daypart.replace('-', ':')
+            timepart = self._dateCreated[11:19]
+            timezonepart = '+00:00'
+            if (len(self._dateCreated) > 19):
+                timezonepart = self._dateCreated[19:]
+            self._seret_metadata['ExifIFD:DateTimeOriginal'] = daypartet + ' ' + timepart
+            self._seret_metadata['IPTC:DateCreated'] = daypartet
+            self._seret_metadata['IPTC:TimeCreated'] = timepart + timezonepart
+            self._seret_metadata['XMP-photoshop:DateCreated'] = daypartet + ' ' + timepart + timezonepart
 
     def semiptc2seret_captionWriter(self):
         if self._captionWriter is not None:
@@ -426,42 +492,40 @@ class IptcPhotometadata:
             self._semiptc2seret_simple_multi1(self._instructions, None, 'IPTC:SpecialInstructions',
                                               'XMP-photoshop:Instructions')
 
+    def semiptc2seret_intellectualGenre(self):
+        if self._intellectualGenre is not None:
+            self._semiptc2seret_simple_multi1(self._intellectualGenre, None, 'IPTC:ObjectAttributeReference',
+                                              'XMP-iptcCore:IntellectualGenre')
+
+    def semiptc2seret_jobid(self):
+        if self._jobid is not None:
+            self._semiptc2seret_simple_multi1(self._jobid, None, 'IPTC:OriginalTransmissionReference',
+                                              'XMP-photoshop:TransmissionReference')
+
     def semiptc2seret_keywords(self):
         if self._keywords is not None:
             self._semiptc2seret_simple_multi1(self._keywords, None, 'IPTC:Keywords', 'XMP-dc:Subject')
 
+    def semiptc2seret_usageTerms(self):
+        if self._usageTerms is not None:
+            self._semiptc2seret_simple_multi1(self._usageTerms, None, None, 'XMP-xmpRights:UsageTerms')
+
+    def semiptc2seret_sceneCodes(self):
+        if self._sceneCodes is not None:
+            self._semiptc2seret_simple_multi1(self._sceneCodes, None, None, 'XMP-iptcCore:Scene')
+
+    def semiptc2seret_source(self):
+        if self._source is not None:
+            self._semiptc2seret_simple_multi1(self._source, None, 'IPTC:Source', 'XMP-photoshop:Source')
+
+    def semiptc2seret_subjectCodes(self):
+        if self._subjectCodes is not None:
+            self._semiptc2seret_simple_multi1(self._subjectCodes, None, 'IPTC:SubjectReference',
+                                              'XMP-iptcCore:SubjectCode')
+
     def semiptc2seret_title(self):
         if self._title is not None:
             self._semiptc2seret_simple_multi1(self._title, 'IPTC:ObjectName', 'XMP-dc:Title')
-
-    def semiptc2seret_locationsShown(self):
-        if self._locationsShown is not None:
-            if len(self._locationsShown) > 0:
-                itemctr = 0
-                xmplocationsshown = []
-                for locationShown in self._locationsShown:
-                    itemctr += 1
-                    xmplocationshown = {}
-                    xmplocationshown['LocationId'] = locationShown.identifiers
-                    xmplocationshown['City'] = locationShown.city
-                    xmplocationshown['CountryCode'] = locationShown.countryCode
-                    xmplocationshown['CountryName'] = locationShown.countryName
-                    xmplocationshown['ProvinceState'] = locationShown.provinceState
-                    xmplocationshown['Sublocation'] = locationShown.sublocation
-                    xmplocationshown['WorldRegion'] = locationShown.worldRegion
-                    xmplocationsshown.append(xmplocationshown)
-                    if self._deprlocationrole == IptcDeprecatedLocationRole.SHOWN and itemctr == 1:
-                        self._seret_metadata['IPTC:City'] = locationShown.city
-                        self._seret_metadata['XMP-photoshop:City'] = locationShown.city
-                        self._seret_metadata['IPTC:Country-PrimaryLocationCode'] = locationShown.countryCode
-                        self._seret_metadata['XMP-iptcCore:CountryCode'] = locationShown.countryCode
-                        self._seret_metadata['IPTC:Country-PrimaryLocationName'] = locationShown.countryName
-                        self._seret_metadata['XMP-photoshop:Country'] = locationShown.countryName
-                        self._seret_metadata['IPTC:Province-State'] = locationShown.provinceState
-                        self._seret_metadata['XMP-photoshop:State'] = locationShown.provinceState
-                        self._seret_metadata['IPTC:Sub-location'] = locationShown.sublocation
-                        self._seret_metadata['XMP-iptcCore:Location'] = locationShown.sublocation
-                self._seret_metadata['XMP-iptcExt:LocationShown'] = xmplocationsshown
 
     def semiptc2seret_licensors(self):
         if self._licensors is not None:
@@ -481,6 +545,83 @@ class IptcPhotometadata:
                         xmplicensor['LicensorURL'] = licensor.licensorURL
                     xmplicensors.append(xmplicensor)
                 self._seret_metadata['XMP-plus:Licensor'] = xmplicensors
+
+    def semiptc2seret_locationCreated(self):
+        if self._locationCreated is not None:
+            xmplocationcreated = {}
+            if self._locationCreated.identifiers is not None:
+                xmplocationcreated['LocationId'] = self._locationCreated.identifiers
+            if self._locationCreated.city is not None:
+                xmplocationcreated['City'] = self._locationCreated.city
+            if self._locationCreated.countryCode is not None:
+                xmplocationcreated['CountryCode'] = self._locationCreated.countryCode
+            if self._locationCreated.countryName is not None:
+                xmplocationcreated['CountryName'] = self._locationCreated.countryName
+            if self._locationCreated.provinceState is not None:
+                xmplocationcreated['ProvinceState'] = self._locationCreated.provinceState
+            if self._locationCreated.sublocation is not None:
+                xmplocationcreated['Sublocation'] = self._locationCreated.sublocation
+            if self._locationCreated.worldRegion is not None:
+                xmplocationcreated['WorldRegion'] = self._locationCreated.worldRegion
+            if xmplocationcreated != {}:
+                self._seret_metadata['XMP-iptcExt:LocationCreated'] = xmplocationcreated
+            if self._deprlocationrole == IptcDeprecatedLocationRole.CREATED:
+                if self._locationCreated.city is not None:
+                    self._seret_metadata['IPTC:City'] = self._locationCreated.city
+                    self._seret_metadata['XMP-photoshop:City'] = self._locationCreated.city
+                if self._locationCreated.countryCode is not None:
+                    self._seret_metadata['IPTC:Country-PrimaryLocationCode'] = self._locationCreated.countryCode
+                    self._seret_metadata['XMP-iptcCore:CountryCode'] = self._locationCreated.countryCode
+                if self._locationCreated.countryName is not None:
+                    self._seret_metadata['IPTC:Country-PrimaryLocationName'] = self._locationCreated.countryName
+                    self._seret_metadata['XMP-photoshop:Country'] = self._locationCreated.countryName
+                if self._locationCreated.provinceState is not None:
+                    self._seret_metadata['IPTC:Province-State'] = self._locationCreated.provinceState
+                    self._seret_metadata['XMP-photoshop:State'] = self._locationCreated.provinceState
+                if self._locationCreated.sublocation is not None:
+                    self._seret_metadata['IPTC:Sub-location'] = self._locationCreated.sublocation
+                    self._seret_metadata['XMP-iptcCore:Location'] = self._locationCreated.sublocation
+
+    def semiptc2seret_locationsShown(self):
+        if self._locationsShown is not None:
+            if len(self._locationsShown) > 0:
+                itemctr = 0
+                xmplocationsshown = []
+                for locationShown in self._locationsShown:
+                    itemctr += 1
+                    xmplocationshown = {}
+                    if locationShown.identifiers is not None:
+                        xmplocationshown['LocationId'] = locationShown.identifiers
+                    if locationShown.city is not None:
+                        xmplocationshown['City'] = locationShown.city
+                    if locationShown.countryCode is not None:
+                        xmplocationshown['CountryCode'] = locationShown.countryCode
+                    if locationShown.countryName is not None:
+                        xmplocationshown['CountryName'] = locationShown.countryName
+                    if locationShown.provinceState is not None:
+                        xmplocationshown['ProvinceState'] = locationShown.provinceState
+                    if locationShown.sublocation is not None:
+                        xmplocationshown['Sublocation'] = locationShown.sublocation
+                    if locationShown.worldRegion is not None:
+                        xmplocationshown['WorldRegion'] = locationShown.worldRegion
+                    xmplocationsshown.append(xmplocationshown)
+                    if self._deprlocationrole == IptcDeprecatedLocationRole.SHOWN and itemctr == 1:
+                        if locationShown.city is not None:
+                            self._seret_metadata['IPTC:City'] = locationShown.city
+                            self._seret_metadata['XMP-photoshop:City'] = locationShown.city
+                        if locationShown.countryCode is not None:
+                            self._seret_metadata['IPTC:Country-PrimaryLocationCode'] = locationShown.countryCode
+                            self._seret_metadata['XMP-iptcCore:CountryCode'] = locationShown.countryCode
+                        if locationShown.countryName is not None:
+                            self._seret_metadata['IPTC:Country-PrimaryLocationName'] = locationShown.countryName
+                            self._seret_metadata['XMP-photoshop:Country'] = locationShown.countryName
+                        if locationShown.provinceState is not None:
+                            self._seret_metadata['IPTC:Province-State'] = locationShown.provinceState
+                            self._seret_metadata['XMP-photoshop:State'] = locationShown.provinceState
+                        if locationShown.sublocation is not None:
+                            self._seret_metadata['IPTC:Sub-location'] = locationShown.sublocation
+                            self._seret_metadata['XMP-iptcCore:Location'] = locationShown.sublocation
+                self._seret_metadata['XMP-iptcExt:LocationShown'] = xmplocationsshown
 
     def semiptc2seret_webstatementRights(self):
         if self._webstatementRights is not None:
@@ -517,16 +658,74 @@ class IptcPhotometadata:
 
 
     def seret2semiptc_copyrightNotice(self):
-        if 'XMP-dc:Rights' in self._seret_metadata:
-            self._copyrightNotice = self._seret_metadata['XMP-dc:Rights']
+        self._copyrightNotice = self._seret2semiptc_prefXIE1('XMP-dc:Rights', 'IPTC:CopyrightNotice', 'IFD0:Copyright')
 
     def seret2semiptc_creatorsExt(self):
         self._creatorsExt = []
+        # Reading the names of Creator(s), sequence (of appending): XMP, IIM Exif
         _orphanCreatornames = []
         if 'XMP-dc:Creator' in self._seret_metadata:
             if len(self._seret_metadata['XMP-dc:Creator']) > 0:
-                for _creatorname in self._seret_metadata['XMP-dc:Creator']:
-                    _orphanCreatornames.append(_creatorname)
+                for foundname in self._seret_metadata['XMP-dc:Creator']:
+                    if foundname not in _orphanCreatornames:  # avoid appending a name twice
+                        _orphanCreatornames.append(foundname)
+        if 'IPTC:By-line' in self._seret_metadata:
+            if isinstance(self._seret_metadata['IPTC:By-line'], str):
+                foundname = self._seret_metadata['IPTC:By-line']
+                if foundname not in _orphanCreatornames:  # avoid appending a name twice
+                    _orphanCreatornames.append(foundname)
+            elif isinstance(self._seret_metadata['IPTC:By-line'], list):
+                if len(self._seret_metadata['IPTC:By-line']) > 0:
+                    for foundname in self._seret_metadata['IPTC:By-line']:
+                        if foundname not in _orphanCreatornames:  # avoid appending a name twice
+                            _orphanCreatornames.append(foundname)
+        if 'IFD0:Artist' in self._seret_metadata:
+            if self._seret_metadata['IFD0:Artist'] not in _orphanCreatornames:  # avoid appending a name twice
+                _orphanCreatornames.append(self._seret_metadata['IFD0:Artist'])
+        _orphanCreatornames_ref = copy.deepcopy(_orphanCreatornames)  # the _ref will stay unchanged!
+        # Reading job title(s) of Creators, sequence (of appending): XMP, IIM
+        _orphanJobtitles = []
+        if 'XMP-photoshop:AuthorsPosition' in self._seret_metadata:  # Only 1 XMP property may exist
+            _orphanJobtitles.append(self._seret_metadata['XMP-photoshop:AuthorsPosition'])
+        if 'IPTC:By-lineTitle' in self._seret_metadata:  # Multiple IIM properties may exist
+            if isinstance(self._seret_metadata['IPTC:By-lineTitle'], str):  # A single value
+                foundjobtitle = self._seret_metadata['IPTC:By-lineTitle']
+                if foundjobtitle not in _orphanJobtitles:  # A single IIM value may be the same as the XMP value
+                    _orphanJobtitles.append(foundjobtitle)
+            elif isinstance(self._seret_metadata['IPTC:By-lineTitle'], list):  # More than 1 value
+                foundctr = 0
+                for foundjobtitle in self._seret_metadata['IPTC:By-lineTitle']:
+                    foundctr += 1
+                    if foundctr < 2:
+                        if foundjobtitle not in _orphanJobtitles:  # check the first job title for double-occurrence
+                            _orphanJobtitles.append(foundjobtitle)
+                    else:
+                        if not self._ipmd_parse_strict:  # no adding of job titles in IPTC PMD strict mode
+                            _orphanJobtitles.append(foundjobtitle)
+        # Read the creator contact info, a single XMP value only
+        _creatorContactInfo = CreatorContactInfo()
+        if 'XMP-iptcCore:CreatorContactInfo' in self._seret_metadata:
+            xmpCreatorContactinfo = self._seret_metadata['XMP-iptcCore:CreatorContactInfo']
+            if 'CiAdrCity' in xmpCreatorContactinfo:
+                _creatorContactInfo.city = xmpCreatorContactinfo['CiAdrCity']
+            if 'CiAdrCtry' in xmpCreatorContactinfo:
+                _creatorContactInfo.country = xmpCreatorContactinfo['CiAdrCtry']
+            if 'CiAdrExt' in xmpCreatorContactinfo:
+                _creatorContactInfo.address = xmpCreatorContactinfo['CiAdrExt']
+            if 'CiAdrPcode' in xmpCreatorContactinfo:
+                _creatorContactInfo.postalCode = xmpCreatorContactinfo['CiAdrPcode']
+            if 'CiAdrRegion' in xmpCreatorContactinfo:
+                _creatorContactInfo.region = xmpCreatorContactinfo['CiAdrRegion']
+            if 'CiEmailWork' in xmpCreatorContactinfo:
+                _creatorContactInfo.emailwork = xmpCreatorContactinfo['CiEmailWork']
+            if 'CiTelWork' in xmpCreatorContactinfo:
+                _creatorContactInfo.phonework = xmpCreatorContactinfo['CiTelWork']
+            if 'CiUrlWork' in xmpCreatorContactinfo:
+                _creatorContactInfo.weburlwork = xmpCreatorContactinfo['CiUrlWork']
+
+        # Read the Image Creator entities (in XMP): add name and identifier
+        #   if the Image Creator name is the first in _orphanCreatornames_ref: add first job title and contact info
+        #   if the Image Creator name is found in _orphanCreatornames remove it there
         if 'XMP-plus:ImageCreator' in self._seret_metadata:
             for _seret_imageCreator in self._seret_metadata['XMP-plus:ImageCreator']:
                 if _seret_imageCreator != {}:
@@ -536,19 +735,58 @@ class IptcPhotometadata:
                         _sem_creatorExt.identifiers.append(_seret_imageCreator['ImageCreatorID'])
                     if _seret_imageCreator['ImageCreatorName']:
                         _creatorname = _seret_imageCreator['ImageCreatorName']
+                        if len(_orphanCreatornames_ref) > 0:
+                            if _creatorname == _orphanCreatornames_ref[0]:
+                                # if Image Creator's name is the first orphanCreatorname: add job title and contact
+                                if len(_orphanJobtitles) > 0:
+                                    _sem_creatorExt.jobtitle = _orphanJobtitles.pop()
+                                if _creatorContactInfo != {}:
+                                    _sem_creatorExt.creatorContactInfo = _creatorContactInfo
+                                    _creatorContactInfo = None  # disable this variable for further use
                         if _creatorname in _orphanCreatornames:
                             _orphanCreatornames.remove(_creatorname)
                         _sem_creatorExt.name = _creatorname
                     self._creatorsExt.append(_sem_creatorExt)
+        # if any orphan creator names are left: create for each one a Creator Ext
+        #   if while creating the first Creator Ext the job title and/or the contact info is still available: add them
         if (len(_orphanCreatornames)) > 0:
+            setcreatorctr = 1
             for _creatorname in _orphanCreatornames:
                 _sem_creatorExt = CreatorExt()
                 _sem_creatorExt.name = _creatorname
+                if setcreatorctr < 2:
+                    if len(_orphanJobtitles) > 0:
+                        _sem_creatorExt.jobtitle = _orphanJobtitles.pop()
+                    if _creatorContactInfo is not None:
+                        _sem_creatorExt.creatorContactInfo = _creatorContactInfo
                 self._creatorsExt.append(_sem_creatorExt)
+                setcreatorctr += 1
+        # finally: check if any creator was appended, if not set the class attribute to None
+        if len(self._creatorsExt) == 0:
+            self._creatorsExt = None
 
     def seret2semiptc_creditLine(self):
-        if 'XMP-photoshop:Credit' in self._seret_metadata:
-            self._creditLine = self._seret_metadata['XMP-photoshop:Credit']
+        self._creditLine = self._seret2semiptc_prefXI1('XMP-photoshop:Credit', 'IPTC:Credit')
+
+    def seret2semiptc_dateCreated(self):
+        et_datecreated = None
+        if 'ExifIFD:DateTimeOriginal' in self._seret_metadata:
+            et_datecreated = self._seret_metadata['ExifIFD:DateTimeOriginal']
+        if 'XMP-photoshop:DateCreated' in self._seret_metadata:
+            et_datecreated = self._seret_metadata['XMP-photoshop:DateCreated']
+        elif 'IPTC:DateCreated' in self._seret_metadata:
+            et_datecreated = self._seret_metadata['IPTC:DateCreated']
+            if 'IPTC:TimeCreated' in self._seret_metadata:
+                et_datecreated += ' ' + self._seret_metadata['IPTC:TimeCreated']
+        if et_datecreated is not None:
+            # datecreated format: 2019:10:16 19:01:00+00:00
+            daypart = et_datecreated[:10]
+            daypartISO8601 = daypart.replace(':', '-')
+            timepart = et_datecreated[11:]
+            self._dateCreated = daypartISO8601 + 'T' + timepart
+
+    def seret2semiptc_captionWriter(self):
+        self._captionWriter = self._seret2semiptc_prefXI1('XMP-photoshop:CaptionWriter', 'IPTC:Writer-Editor')
 
     def seret2semiptc_description(self):
         self._description = self._seret2semiptc_prefXIE1('XMP-dc:Description', 'IPTC:Caption-Abstract',
@@ -557,8 +795,33 @@ class IptcPhotometadata:
     def seret2semiptc_headline(self):
         self._headline = self._seret2semiptc_prefXI1('XMP-photoshop:Headline', 'IPTC:Headline')
 
+    def seret2semiptc_instructions(self):
+        self._instructions = self._seret2semiptc_prefXI1('XMP-photoshop:Instructions', 'IPTC:SpecialInstructions')
+
+    def seret2semiptc_intellectualGenre(self):
+        self._intellectualGenre = self._seret2semiptc_prefXI1('XMP-iptcCore:IntellectualGenre',
+                                                              'IPTC:ObjectAttributeReference')
+
+    def seret2semiptc_jobid(self):
+        self._jobid = self._seret2semiptc_prefXI1('XMP-photoshop:TransmissionReference',
+                                                  'IPTC:OriginalTransmissionReference')
+
     def seret2semiptc_keywords(self):
         self._keywords = self._seret2semiptc_prefXI1('XMP-dc:Subject', 'IPTC:Keywords')
+
+    def seret2semiptc_usageTerms(self):
+        if 'XMP-xmpRights:UsageTerms' in self._seret_metadata:
+            self._usageTerms = self._seret_metadata['XMP-xmpRights:UsageTerms']
+
+    def seret2semiptc_sceneCodes(self):
+        if 'XMP-iptcCore:Scene' in self._seret_metadata:
+            self._sceneCodes = self._seret_metadata['XMP-iptcCore:Scene']
+
+    def seret2semiptc_source(self):
+        self._source = self._seret2semiptc_prefXI1('XMP-photoshop:Source', 'IPTC:Source')
+
+    def seret2semiptc_subjectCodes(self):
+        self._subjectCodes = self._seret2semiptc_prefXI1('XMP-iptcCore:SubjectCode', 'IPTC:SubjectReference')
 
     def seret2semiptc_title(self):
         self._title = self._seret2semiptc_prefXI1('XMP-dc:Title', 'IPTC:ObjectName')
@@ -584,6 +847,48 @@ class IptcPhotometadata:
                         self._licensors.append(_semlicensor)
             if len(self._licensors) == 0:
                 self._licensors = None
+
+    def seret2semiptc_locationCreated(self):
+        if 'XMP-iptcExt:LocationCreated' in self._seret_metadata:
+            self._locationCreated = Location()
+            xmplocation = self._seret_metadata['XMP-iptcExt:LocationCreated']
+            if 'LocationId' in xmplocation:
+                self._locationCreated.identifiers = xmplocation['LocationId']
+            if 'City' in xmplocation:
+                self._locationCreated.city = xmplocation['City']
+            if 'CountryCode' in xmplocation:
+                self._locationCreated.countryCode = xmplocation['CountryCode']
+            if 'CountryName' in xmplocation:
+                self._locationCreated.countryName = xmplocation['CountryName']
+            if 'ProvinceState' in xmplocation:
+                self._locationCreated.provinceState = xmplocation['ProvinceState']
+            if 'Sublocation' in xmplocation:
+                self._locationCreated.sublocation = xmplocation['Sublocation']
+            if 'WorldRegion' in xmplocation:
+                self._locationCreated.worldRegion = xmplocation['WorldRegion']
+
+    def seret2semiptc_locationsShown(self):
+        if 'XMP-iptcExt:LocationShown' in self._seret_metadata:
+            if len(self._seret_metadata['XMP-iptcExt:LocationShown']) > 0:
+                self._locationsShown = []
+            for xmplocation in self._seret_metadata['XMP-iptcExt:LocationShown']:
+                _location = Location()
+                if 'LocationId' in xmplocation:
+                    _location.identifiers = xmplocation['LocationId']
+                if 'City' in xmplocation:
+                    _location.city = xmplocation['City']
+                if 'CountryCode' in xmplocation:
+                    _location.countryCode = xmplocation['CountryCode']
+                if 'CountryName' in xmplocation:
+                    _location.countryName = xmplocation['CountryName']
+                if 'ProvinceState' in xmplocation:
+                    _location.provinceState = xmplocation['ProvinceState']
+                if 'Sublocation' in xmplocation:
+                    _location.sublocation = xmplocation['Sublocation']
+                if 'WorldRegion' in xmplocation:
+                    _location.worldRegion = xmplocation['WorldRegion']
+                self._locationsShown.append(_location)
+
 
     def seret2semiptc_webstatementRights(self):
         if 'XMP-xmpRights:WebStatement' in self._seret_metadata:
@@ -630,4 +935,49 @@ class IptcPhotometadata:
         elif iimid in self._seret_metadata:
             semiptc_value = self._seret_metadata[iimid]
         return semiptc_value
+
+    def _seret_propoccur_singleser(self, propid) -> PropertyOccurrence:
+        """Tests the occurrence(s) if a single serialized metadata property"""
+        if propid in self._seret_metadata:
+            if isinstance(self._seret_metadata[propid], list):
+                return PropertyOccurrence.MANY
+            else:
+                return PropertyOccurrence.ONE
+        else:
+            return PropertyOccurrence.NONE
+
+    def _seret_propoccur_XI1(self, xmpid: str = None, iimid: str = None) -> PropertyOccurrence:
+        xmpoccurrence = self._seret_propoccur_singleser(xmpid)
+        iimoccurrence = self._seret_propoccur_singleser(iimid)
+        if xmpoccurrence == PropertyOccurrence.NONE and iimoccurrence == PropertyOccurrence.NONE:
+            return PropertyOccurrence.NONE
+        elif xmpoccurrence == PropertyOccurrence.ONE:
+            return PropertyOccurrence.ONE
+        elif iimoccurrence == PropertyOccurrence.ONE:
+            return PropertyOccurrence.ONE
+        elif xmpoccurrence == PropertyOccurrence.MANY:
+            return PropertyOccurrence.MANY
+        elif iimoccurrence == PropertyOccurrence.MANY:
+            return PropertyOccurrence.MANY
+
+    def _seret_propoccur_XIE1(self, xmpid: str = None, iimid: str = None, exifid: str = None) -> PropertyOccurrence:
+        xmpoccurrence = self._seret_propoccur_singleser(xmpid)
+        iimoccurrence = self._seret_propoccur_singleser(iimid)
+        exifoccurrence = self._seret_propoccur_singleser(exifid)
+        if xmpoccurrence == PropertyOccurrence.NONE and iimoccurrence == PropertyOccurrence.NONE \
+                and exifoccurrence == PropertyOccurrence.NONE:
+            return PropertyOccurrence.NONE
+        elif xmpoccurrence == PropertyOccurrence.ONE:
+            return PropertyOccurrence.ONE
+        elif iimoccurrence == PropertyOccurrence.ONE:
+            return PropertyOccurrence.ONE
+        elif exifoccurrence == PropertyOccurrence.ONE:
+            return PropertyOccurrence.ONE
+        elif xmpoccurrence == PropertyOccurrence.MANY:
+            return PropertyOccurrence.MANY
+        elif iimoccurrence == PropertyOccurrence.MANY:
+            return PropertyOccurrence.MANY
+        elif exifoccurrence == PropertyOccurrence.MANY:
+            return PropertyOccurrence.MANY
+
 

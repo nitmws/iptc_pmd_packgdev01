@@ -1,0 +1,97 @@
+{
+  "EXIF:ImageDescription": "The best tasting Quattro Stagione pizza worldwide.",
+  "ExifIFD:DateTimeOriginal": "2020:07:07 12:13:14",
+  "IFD0:Artist": "John Boltenheimer",
+  "IFD0:Copyright": "(c) 2020 Copyright Pizzashots, all rights reserved",
+  "IPTC:By-line": [
+    "John Boltenheimer",
+    "Jane Morano",
+    "Fred Tester3"
+  ],
+  "IPTC:By-lineTitle": [
+    "Staff photographer",
+    "Photographer"
+  ],
+  "IPTC:Caption-Abstract": "The best tasting Quattro Stagione pizza worldwide.",
+  "IPTC:City": "Citynice1",
+  "IPTC:CopyrightNotice": "(c) 2020 Copyright Pizzashots, all rights reserved",
+  "IPTC:Country-PrimaryLocationCode": "CA1",
+  "IPTC:Country-PrimaryLocationName": "Country A1",
+  "IPTC:Credit": "J Boltenheimer/Pizzashots",
+  "IPTC:DateCreated": "2020:07:07",
+  "IPTC:Headline": "The best headline about a pizza",
+  "IPTC:Keywords": [
+    "Keyword 01",
+    "Keyword 02"
+  ],
+  "IPTC:ObjectAttributeReference": "iptcgenre:History",
+  "IPTC:ObjectName": "A Title",
+  "IPTC:Province-State": "Province A1",
+  "IPTC:SpecialInstructions": "Our instruction: country XYZ out",
+  "IPTC:Sub-location": "Sublocation1",
+  "IPTC:TimeCreated": "12:13:14+02:00",
+  "XMP-dc:Creator": [
+    "John Boltenheimer",
+    "Jane Morano"
+  ],
+  "XMP-dc:Description": "The best tasting Quattro Stagione pizza worldwide.",
+  "XMP-dc:Rights": "(c) 2020 Copyright Pizzashots, all rights reserved",
+  "XMP-dc:Subject": [
+    "Keyword 01",
+    "Keyword 02"
+  ],
+  "XMP-dc:Title": "A Title",
+  "XMP-iptcCore:CountryCode": "CA1",
+  "XMP-iptcCore:CreatorContactInfo": {
+    "CiAdrCity": "Ambersville",
+    "CiAdrCtry": "United Kingdom of Phantasia",
+    "CiAdrExt": "Image House",
+    "CiAdrPcode": "ABC234 Q12",
+    "CiAdrRegion": "Humbershire",
+    "CiEmailWork": "johnb@photoatwork.com",
+    "CiTelWork": "+40 123 38388382",
+    "CiUrlWork": "https://photoatwork.example.com"
+  },
+  "XMP-iptcCore:IntellectualGenre": "iptcgenre:History",
+  "XMP-iptcCore:Location": "Sublocation1",
+  "XMP-iptcExt:LocationShown": [
+    {
+      "City": "Citynice1",
+      "CountryCode": "CA1",
+      "CountryName": "Country A1",
+      "LocationId": [
+        "https://locids1.example.com/4311",
+        "https://locids2.example.com/134234"
+      ],
+      "ProvinceState": "Province A1",
+      "Sublocation": "Sublocation1",
+      "WorldRegion": "Worldreagion A1"
+    }
+  ],
+  "XMP-photoshop:AuthorsPosition": "Staff photographer",
+  "XMP-photoshop:City": "Citynice1",
+  "XMP-photoshop:Country": "Country A1",
+  "XMP-photoshop:Credit": "J Boltenheimer/Pizzashots",
+  "XMP-photoshop:DateCreated": "2020:07:07 12:13:14+02:00",
+  "XMP-photoshop:Headline": "The best headline about a pizza",
+  "XMP-photoshop:Instructions": "Our instruction: country XYZ out",
+  "XMP-photoshop:State": "Province A1",
+  "XMP-plus:ImageCreator": [
+    {
+      "ImageCreatorID": "https://linkedin.example.com/user3143123432",
+      "ImageCreatorName": "John Boltenheimer"
+    },
+    {
+      "ImageCreatorID": "https://linkedin.example.com/user830939",
+      "ImageCreatorName": "Jane Morano"
+    }
+  ],
+  "XMP-plus:Licensor": [
+    {
+      "LicensorID": "https://pizzashort.example.com",
+      "LicensorName": "Pizzashots Inc.",
+      "LicensorURL": "https://pizzashort.example.com/shot/1341234"
+    }
+  ],
+  "XMP-xmpRights:WebStatement": "https://pizzashort.example.com/copyright-licensing"
+}
