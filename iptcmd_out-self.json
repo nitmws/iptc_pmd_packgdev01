@@ -1,0 +1,376 @@
+{
+  "py/object": "iptc_photometadata.generic.IptcPhotometadataGeneric",
+  "_currentdir": "F:/SW_Devel/Projekte/NewsITpro/IPTC/PVMDtools/SetIptcPmd_ALL/iptc_pmd_packgdev01",
+  "_supported_iptcpmd_tlprops": {
+    "py/tuple": [
+      "copyrightNotice",
+      "creatorsExt",
+      "creditLine",
+      "dateCreated",
+      "description",
+      "captionWriter",
+      "headline",
+      "instructions",
+      "intellectualGenre",
+      "jobid",
+      "keywords",
+      "usageTerms",
+      "sceneCodes",
+      "source",
+      "subjectCodes",
+      "title",
+      "additionalModelInfo",
+      "artworkOrObjects",
+      "organisationInImageCodes",
+      "copyrightOwners",
+      "aboutCvTerms",
+      "digitalImageGuid",
+      "digitalSourceType",
+      "embdEncRightsExprs",
+      "eventName",
+      "genres",
+      "imageCreators",
+      "imageRating",
+      "imageRegion",
+      "registryEntries",
+      "suppliers",
+      "imageSupplierImageId",
+      "licensors",
+      "linkedEncRightsExprs",
+      "locationCreated",
+      "locationsShown",
+      "maxAvailHeight",
+      "maxAvailWidth",
+      "minorModelAgeDisclosure",
+      "modelAges",
+      "modelReleaseDocuments",
+      "modelReleaseStatus",
+      "organisationInImageNames",
+      "personInImageNames",
+      "personsShown",
+      "productsShown",
+      "propertyReleaseDocuments",
+      "propertyReleaseStatus",
+      "webstatementRights"
+    ]
+  },
+  "_deprlocationrole": {
+    "py/reduce": [
+      {
+        "py/type": "iptc_photometadata.common.IptcDeprecatedLocationRole"
+      },
+      {
+        "py/tuple": [
+          2
+        ]
+      }
+    ]
+  },
+  "_ipmd_parse_strict": true,
+  "_semiptc_metadata": {
+    "_copyrightNotice": "(c) 2020 Copyright Pizzashots, all rights reserved",
+    "_creatorsExt": [
+      {
+        "identifiers": [
+          "https://linkedin.example.com/user3143123432"
+        ],
+        "name": "John Boltenheimer",
+        "jobtitle": "Staff photographer",
+        "creatorContactInfo": {
+          "address": "Image House",
+          "city": "Ambersville",
+          "country": "United Kingdom of Phantasia",
+          "emailwork": "johnb@photoatwork.com",
+          "phonework": "+40 123 38388382",
+          "postalCode": "ABC234 Q12",
+          "region": "Humbershire",
+          "weburlwork": "https://photoatwork.example.com"
+        }
+      },
+      {
+        "identifiers": [
+          "https://linkedin.example.com/user830939"
+        ],
+        "name": "Jane Morano",
+        "jobtitle": "Photographer",
+        "creatorContactInfo": {
+          "weburlwork": "https://janem.example.com"
+        }
+      }
+    ],
+    "_creditLine": "J Boltenheimer/Pizzashots",
+    "_dateCreated": "2020-07-07T12:13:14+02:00",
+    "_description": "The best tasting Quattro Stagione pizza worldwide.",
+    "_captionWriter": "Bobby Captionwriter",
+    "_headline": "The best headline about a pizza",
+    "_instructions": "Our instruction: country XYZ out",
+    "_intellectualGenre": "iptcgenre:History",
+    "_jobid": "Jid134231",
+    "_keywords": [
+      "Keyword 01",
+      "Keyword 02"
+    ],
+    "_usageTerms": "The rightful usage terms",
+    "_sceneCodes": [
+      "SceneCode 01",
+      "SceneCode 02"
+    ],
+    "_source": "The best Source of all",
+    "_subjectCodes": [
+      "SubjectCode 01",
+      "SubjectCode 02"
+    ],
+    "_title": "A Title",
+    "_aboutCvTerms": [
+      {
+        "cvId": "https://example.com/cvid/124123",
+        "cvTermId": "https://example.com/termid/term22",
+        "cvTermName": "Name of Term22"
+      },
+      {
+        "cvId": "https://example.com/cvid/58430",
+        "cvTermId": "https://example.com/termid/term55",
+        "cvTermName": "Name of Term55"
+      }
+    ],
+    "_licensors": [
+      {
+        "licensorID": "https://pizzashort.example.com",
+        "licensorName": "Pizzashots Inc.",
+        "licensorURL": "https://pizzashort.example.com/shot/1341234"
+      }
+    ],
+    "_locationsShown": [
+      {
+        "city": "Citynice1",
+        "countryCode": "CA1",
+        "countryName": "Country A1",
+        "identifiers": [
+          "https://locids1.example.com/4311",
+          "https://locids2.example.com/134234"
+        ],
+        "provinceState": "Province A1",
+        "sublocation": "Sublocation1",
+        "worldRegion": "Worldregion A1"
+      },
+      {
+        "city": "Citynice2",
+        "countryCode": "CA2",
+        "countryName": "Country A2",
+        "identifiers": [
+          "https://locids1.example.com/4312",
+          "https://locids2.example.com/1342342"
+        ],
+        "provinceState": "Province A2",
+        "sublocation": "Sublocation2",
+        "worldRegion": "Worldregion A2"
+      }
+    ],
+    "_personsShown": [
+      {
+        "characteristics": [
+          {
+            "cvId": "https://example.com/cvid/124123",
+            "cvTermId": "https://example.com/termid/term22",
+            "cvTermName": "Name of Term22"
+          },
+          {
+            "cvId": "https://example.com/cvid/58430",
+            "cvTermId": "https://example.com/termid/term55",
+            "cvTermName": "Name of Term55"
+          }
+        ],
+        "description": "Nice photo metadata editor and a secret artist",
+        "identifiers": [
+          "https://persons.example.com/id/2143312",
+          "https://otherpersons.example.com/id/2143312"
+        ],
+        "name": "Laura Hillinger"
+      },
+      {
+        "characteristics": [
+          {
+            "cvId": "https://example.com/cvid/58430",
+            "cvTermId": "https://example.com/termid/term55",
+            "cvTermName": "Name of Term55"
+          },
+          {
+            "cvId": "https://example.com/cvid/124123",
+            "cvTermId": "https://example.com/termid/term22",
+            "cvTermName": "Name of Term22"
+          }
+        ],
+        "description": "Reliable event oraganizer",
+        "identifiers": [
+          "https://persons.example.com/id/4543543",
+          "https://otherpersons.example.com/id/758758"
+        ],
+        "name": "Frank Muller"
+      }
+    ],
+    "_webstatementRights": "https://pizzashort.example.com/copyright-licensing"
+  },
+  "_seret_metadata": {},
+  "_semiptc2seret_registry": {},
+  "_seret2semiptc_registry": {},
+  "_copyrightNotice": "(c) 2020 Copyright Pizzashots, all rights reserved",
+  "_creatorsExt": [
+    {
+      "py/object": "iptc_photometadata.common.CreatorExt",
+      "identifiers": {
+        "py/id": 3
+      },
+      "name": "John Boltenheimer",
+      "jobtitle": "Staff photographer",
+      "creatorContactInfo": {
+        "py/object": "iptc_photometadata.common.CreatorContactInfo",
+        "address": "Image House",
+        "city": "Ambersville",
+        "country": "United Kingdom of Phantasia",
+        "emailwork": "johnb@photoatwork.com",
+        "phonework": "+40 123 38388382",
+        "postalCode": "ABC234 Q12",
+        "region": "Humbershire",
+        "weburlwork": "https://photoatwork.example.com"
+      }
+    },
+    {
+      "py/object": "iptc_photometadata.common.CreatorExt",
+      "identifiers": {
+        "py/id": 4
+      },
+      "name": "Jane Morano",
+      "jobtitle": "Photographer",
+      "creatorContactInfo": {
+        "py/object": "iptc_photometadata.common.CreatorContactInfo",
+        "address": null,
+        "city": null,
+        "country": null,
+        "emailwork": null,
+        "phonework": null,
+        "postalCode": null,
+        "region": null,
+        "weburlwork": "https://janem.example.com"
+      }
+    }
+  ],
+  "_creditLine": "J Boltenheimer/Pizzashots",
+  "_dateCreated": "2020-07-07T12:13:14+02:00",
+  "_captionWriter": "Bobby Captionwriter",
+  "_description": "The best tasting Quattro Stagione pizza worldwide.",
+  "_headline": "The best headline about a pizza",
+  "_intellectualGenre": "iptcgenre:History",
+  "_jobid": "Jid134231",
+  "_instructions": "Our instruction: country XYZ out",
+  "_keywords": [
+    "Keyword 01",
+    "Keyword 02"
+  ],
+  "_usageTerms": "The rightful usage terms",
+  "_sceneCodes": [
+    "SceneCode 01",
+    "SceneCode 02"
+  ],
+  "_source": "The best Source of all",
+  "_subjectCodes": [
+    "SubjectCode 01",
+    "SubjectCode 02"
+  ],
+  "_title": "A Title",
+  "_aboutCvTerms": [
+    {
+      "py/object": "iptc_photometadata.common.CvTerm",
+      "cvId": "https://example.com/cvid/124123",
+      "cvTermId": "https://example.com/termid/term22",
+      "cvTermName": "Name of Term22",
+      "cvTermRefinedAbout": null
+    },
+    {
+      "py/object": "iptc_photometadata.common.CvTerm",
+      "cvId": "https://example.com/cvid/58430",
+      "cvTermId": "https://example.com/termid/term55",
+      "cvTermName": "Name of Term55",
+      "cvTermRefinedAbout": null
+    }
+  ],
+  "_licensors": [
+    {
+      "py/object": "iptc_photometadata.common.Licensor",
+      "licensorID": "https://pizzashort.example.com",
+      "licensorName": "Pizzashots Inc.",
+      "licensorURL": "https://pizzashort.example.com/shot/1341234"
+    }
+  ],
+  "_locationCreated": {
+    "py/object": "iptc_photometadata.common.Location",
+    "city": "Citynice2",
+    "countryCode": "CA2",
+    "countryName": "Country A2",
+    "gpsAltitude": null,
+    "gpsLatitude": null,
+    "gpsLongitude": null,
+    "identifiers": {
+      "py/id": 12
+    },
+    "name": null,
+    "provinceState": "Province A2",
+    "sublocation": "Sublocation2",
+    "worldRegion": "Worldregion A2"
+  },
+  "_locationsShown": [
+    {
+      "py/object": "iptc_photometadata.common.Location",
+      "city": "Citynice1",
+      "countryCode": "CA1",
+      "countryName": "Country A1",
+      "gpsAltitude": null,
+      "gpsLatitude": null,
+      "gpsLongitude": null,
+      "identifiers": {
+        "py/id": 11
+      },
+      "name": null,
+      "provinceState": "Province A1",
+      "sublocation": "Sublocation1",
+      "worldRegion": "Worldregion A1"
+    },
+    {
+      "py/id": 31
+    }
+  ],
+  "_personsShown": [
+    {
+      "py/object": "iptc_photometadata.common.PersonWDetails",
+      "characteristics": [
+        {
+          "py/id": 27
+        },
+        {
+          "py/id": 28
+        }
+      ],
+      "description": "Nice photo metadata editor and a secret artist",
+      "identifiers": {
+        "py/id": 15
+      },
+      "name": "Laura Hillinger"
+    },
+    {
+      "py/object": "iptc_photometadata.common.PersonWDetails",
+      "characteristics": [
+        {
+          "py/id": 28
+        },
+        {
+          "py/id": 27
+        }
+      ],
+      "description": "Reliable event oraganizer",
+      "identifiers": {
+        "py/id": 17
+      },
+      "name": "Frank Muller"
+    }
+  ],
+  "_webstatementRights": "https://pizzashort.example.com/copyright-licensing"
+}

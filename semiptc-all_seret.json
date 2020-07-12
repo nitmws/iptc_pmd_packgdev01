@@ -68,17 +68,29 @@
     "SubjectCode 01",
     "SubjectCode 02"
   ],
+  "XMP-iptcExt:AboutCvTerm": [
+    {
+      "CvId": "https://example.com/cvid/124123",
+      "CvTermId": "https://example.com/termid/term22",
+      "CvTermName": "Name of Term22"
+    },
+    {
+      "CvId": "https://example.com/cvid/58430",
+      "CvTermId": "https://example.com/termid/term55",
+      "CvTermName": "Name of Term55"
+    }
+  ],
   "XMP-iptcExt:LocationCreated": {
-    "City": "Citynice1",
-    "CountryCode": "CA1",
-    "CountryName": "Country A1",
+    "City": "Citynice2",
+    "CountryCode": "CA2",
+    "CountryName": "Country A2",
     "LocationId": [
-      "https://locids1.example.com/4311",
-      "https://locids2.example.com/134234"
+      "https://locids1.example.com/4312",
+      "https://locids2.example.com/1342342"
     ],
-    "ProvinceState": "Province A1",
-    "Sublocation": "Sublocation1",
-    "WorldRegion": "Worldregion A1"
+    "ProvinceState": "Province A2",
+    "Sublocation": "Sublocation2",
+    "WorldRegion": "Worldregion A2"
   },
   "XMP-iptcExt:LocationShown": [
     {
@@ -104,6 +116,48 @@
       "ProvinceState": "Province A2",
       "Sublocation": "Sublocation2",
       "WorldRegion": "Worldregion A2"
+    }
+  ],
+  "XMP-iptcExt:PersonInImageWDetails": [
+    {
+      "PersonCharacteristic": [
+        {
+          "CvId": "https://example.com/cvid/124123",
+          "CvTermId": "https://example.com/termid/term22",
+          "CvTermName": "Name of Term22"
+        },
+        {
+          "CvId": "https://example.com/cvid/58430",
+          "CvTermId": "https://example.com/termid/term55",
+          "CvTermName": "Name of Term55"
+        }
+      ],
+      "PersonDescription": "Nice photo metadata editor and a secret artist",
+      "PersonId": [
+        "https://persons.example.com/id/2143312",
+        "https://otherpersons.example.com/id/2143312"
+      ],
+      "PersonName": "Laura Hillinger"
+    },
+    {
+      "PersonCharacteristic": [
+        {
+          "CvId": "https://example.com/cvid/58430",
+          "CvTermId": "https://example.com/termid/term55",
+          "CvTermName": "Name of Term55"
+        },
+        {
+          "CvId": "https://example.com/cvid/124123",
+          "CvTermId": "https://example.com/termid/term22",
+          "CvTermName": "Name of Term22"
+        }
+      ],
+      "PersonDescription": "Reliable event oraganizer",
+      "PersonId": [
+        "https://persons.example.com/id/4543543",
+        "https://otherpersons.example.com/id/758758"
+      ],
+      "PersonName": "Frank Muller"
     }
   ],
   "XMP-photoshop:AuthorsPosition": "Staff photographer",

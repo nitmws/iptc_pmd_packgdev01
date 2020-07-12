@@ -4,6 +4,7 @@ Note: details of the development work, including the implementation of each IPTC
 
 (History: latest on top)
 
+* 2020-07-12: IPTC Extension properties aboutCvTerms, personsShown implemented, implementation of other properties improved
 * 2020-07-10: all IPTC Core Schema properties: semiptc2seret and seret2semiptc transformations implemented. IPTC Core Schema properties: semiptc2seret and seret2semiptc transformations implemented for LocationCreated and LocationShown 
 * 2020-07-06: IptcPhotometadataGeneric: generic methods for semiptc2seret and seret2semiptc transformations added.
 * 2020-07-04: semiptc2seret & seret2semiptc for properties: description, headline, keywords, title, locationsShown (semiptc2seret) added.

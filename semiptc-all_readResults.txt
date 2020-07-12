@@ -1,8 +1,8 @@
 Results from reading a file with serialized IPTC PMD using ExifTool naming:
 
 ***** IPTC Core Schema
-Copyright Notice: (c) 2020 Copyright Pizzashots, all rights reserved
-Creator Extensive: [
+* Copyright Notice: (c) 2020 Copyright Pizzashots, all rights reserved
+* Creator Extensive: [
   {
     "identifiers": [
       "https://linkedin.example.com/user3143123432"
@@ -27,34 +27,46 @@ Creator Extensive: [
     "name": "Jane Morano"
   }
 ]
-Credit Line: J Boltenheimer/Pizzashots
-Date Created: 2020-07-07T12:13:14+02:00
-Caption Writer: Bobby Captionwriter
-Description: The best tasting Quattro Stagione pizza worldwide.
-Headline: The best headline about a pizza
-Instructions: Our instruction: country XYZ out
-Intellectual Genre: iptcgenre:History
-Job Id: Jid134231
-Keywords (multiple): Keyword 01, Keyword 02
-Rights Usage Terms: The rightful usage terms
-Scene Codes (multiple): SceneCode 01, SceneCode 02
-Source: The best Source of all
-Subject Codes (multiple): SubjectCode 01, SubjectCode 02
-Title: A Title
+* Credit Line: J Boltenheimer/Pizzashots
+* Date Created: 2020-07-07T12:13:14+02:00
+* Caption Writer: Bobby Captionwriter
+* Description: The best tasting Quattro Stagione pizza worldwide.
+* Headline: The best headline about a pizza
+* Instructions: Our instruction: country XYZ out
+* Intellectual Genre: iptcgenre:History
+* Job Id: Jid134231
+* Keywords (multiple): Keyword 01, Keyword 02
+* Rights Usage Terms: The rightful usage terms
+* Scene Codes (multiple): SceneCode 01, SceneCode 02
+* Source: The best Source of all
+* Subject Codes (multiple): SubjectCode 01, SubjectCode 02
+* Title: A Title
 ***** IPTC Extension Schema
-Location Created: {
-  "city": "Citynice1",
-  "countryCode": "CA1",
-  "countryName": "Country A1",
+* About CV-Terms: [
+  {
+    "cvId": "https://example.com/cvid/124123",
+    "cvTermId": "https://example.com/termid/term22",
+    "cvTermName": "Name of Term22"
+  },
+  {
+    "cvId": "https://example.com/cvid/58430",
+    "cvTermId": "https://example.com/termid/term55",
+    "cvTermName": "Name of Term55"
+  }
+]
+* Location Created: {
+  "city": "Citynice2",
+  "countryCode": "CA2",
+  "countryName": "Country A2",
   "identifiers": [
-    "https://locids1.example.com/4311",
-    "https://locids2.example.com/134234"
+    "https://locids1.example.com/4312",
+    "https://locids2.example.com/1342342"
   ],
-  "provinceState": "Province A1",
-  "sublocation": "Sublocation1",
-  "worldRegion": "Worldregion A1"
+  "provinceState": "Province A2",
+  "sublocation": "Sublocation2",
+  "worldRegion": "Worldregion A2"
 }
-Locations Shown: [
+* Locations Shown: [
   {
     "city": "Citynice1",
     "countryCode": "CA1",
@@ -78,5 +90,47 @@ Locations Shown: [
     "provinceState": "Province A2",
     "sublocation": "Sublocation2",
     "worldRegion": "Worldregion A2"
+  }
+]
+* Persons Shown: [
+  {
+    "characteristics": [
+      {
+        "cvId": "https://example.com/cvid/124123",
+        "cvTermId": "https://example.com/termid/term22",
+        "cvTermName": "Name of Term22"
+      },
+      {
+        "cvId": "https://example.com/cvid/58430",
+        "cvTermId": "https://example.com/termid/term55",
+        "cvTermName": "Name of Term55"
+      }
+    ],
+    "description": "Nice photo metadata editor and a secret artist",
+    "identifiers": [
+      "https://persons.example.com/id/2143312",
+      "https://otherpersons.example.com/id/2143312"
+    ],
+    "name": "Laura Hillinger"
+  },
+  {
+    "characteristics": [
+      {
+        "cvId": "https://example.com/cvid/58430",
+        "cvTermId": "https://example.com/termid/term55",
+        "cvTermName": "Name of Term55"
+      },
+      {
+        "cvId": "https://example.com/cvid/124123",
+        "cvTermId": "https://example.com/termid/term22",
+        "cvTermName": "Name of Term22"
+      }
+    ],
+    "description": "Reliable event oraganizer",
+    "identifiers": [
+      "https://persons.example.com/id/4543543",
+      "https://otherpersons.example.com/id/758758"
+    ],
+    "name": "Frank Muller"
   }
 ]

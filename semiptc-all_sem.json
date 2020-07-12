@@ -1,4 +1,16 @@
 {
+  "_aboutCvTerms": [
+    {
+      "cvId": "https://example.com/cvid/124123",
+      "cvTermId": "https://example.com/termid/term22",
+      "cvTermName": "Name of Term22"
+    },
+    {
+      "cvId": "https://example.com/cvid/58430",
+      "cvTermId": "https://example.com/termid/term55",
+      "cvTermName": "Name of Term55"
+    }
+  ],
   "_captionWriter": "Bobby Captionwriter",
   "_copyrightNotice": "(c) 2020 Copyright Pizzashots, all rights reserved",
   "_creatorsExt": [
@@ -72,6 +84,48 @@
       "provinceState": "Province A2",
       "sublocation": "Sublocation2",
       "worldRegion": "Worldregion A2"
+    }
+  ],
+  "_personsShown": [
+    {
+      "characteristics": [
+        {
+          "cvId": "https://example.com/cvid/124123",
+          "cvTermId": "https://example.com/termid/term22",
+          "cvTermName": "Name of Term22"
+        },
+        {
+          "cvId": "https://example.com/cvid/58430",
+          "cvTermId": "https://example.com/termid/term55",
+          "cvTermName": "Name of Term55"
+        }
+      ],
+      "description": "Nice photo metadata editor and a secret artist",
+      "identifiers": [
+        "https://persons.example.com/id/2143312",
+        "https://otherpersons.example.com/id/2143312"
+      ],
+      "name": "Laura Hillinger"
+    },
+    {
+      "characteristics": [
+        {
+          "cvId": "https://example.com/cvid/58430",
+          "cvTermId": "https://example.com/termid/term55",
+          "cvTermName": "Name of Term55"
+        },
+        {
+          "cvId": "https://example.com/cvid/124123",
+          "cvTermId": "https://example.com/termid/term22",
+          "cvTermName": "Name of Term22"
+        }
+      ],
+      "description": "Reliable event oraganizer",
+      "identifiers": [
+        "https://persons.example.com/id/4543543",
+        "https://otherpersons.example.com/id/758758"
+      ],
+      "name": "Frank Muller"
     }
   ],
   "_sceneCodes": [

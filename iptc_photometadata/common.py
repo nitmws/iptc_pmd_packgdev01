@@ -5,6 +5,7 @@ from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Set, Dict, Tuple, Optional, Type
 from enum import Enum
+import jsonpickle
 
 """
     ===========================================================================
@@ -80,6 +81,19 @@ class CvTerm(IptcStructure):
     cvTermName: Optional[str] = None
     cvTermRefinedAbout: Optional[str] = None
 
+    def todict_et(self):
+        det = {}
+        if self.cvId is not None:
+            det['CvId'] = self.cvId
+        if self.cvTermId is not None:
+            det['CvTermId'] = self.cvTermId
+        if self.cvTermName is not None:
+            det['CvTermName'] = self.cvTermName
+        if self.cvTermRefinedAbout is not None:
+            det['CvTermRefinedAbout'] = self.cvTermRefinedAbout
+        return det
+
+
 @dataclass
 class EmbdEncRightsExpr(IptcStructure):
     rightsExprLangId: Optional[str] = None
@@ -128,6 +142,16 @@ class Licensor(IptcStructure):
     licensorName: Optional[str] = None
     licensorURL: Optional[str] = None
 
+    def todict_et(self):
+        det = {}
+        if self.licensorID is not None:
+            det['LicensorID'] = self.licensorID
+        if self.licensorName is not None:
+            det['LicensorName'] = self.licensorName
+        if self.licensorURL is not None:
+            det['LicensorURL'] = self.licensorURL
+        return det
+
 @dataclass
 class Location(IptcStructure):
     city: Optional[str] = None
@@ -142,12 +166,62 @@ class Location(IptcStructure):
     sublocation: Optional[str] = None
     worldRegion: Optional[str] = None
 
+    def todict_et(self):
+        det = {}
+        if self.identifiers is not None:
+            det['LocationId'] = self.identifiers
+        if self.city is not None:
+            det['City'] = self.city
+        if self.countryCode is not None:
+            det['CountryCode'] = self.countryCode
+        if self.countryName is not None:
+            det['CountryName'] = self.countryName
+        if self.provinceState is not None:
+            det['ProvinceState'] = self.provinceState
+        if self.sublocation is not None:
+            det['Sublocation'] = self.sublocation
+        if self.worldRegion is not None:
+            det['WorldRegion'] = self.worldRegion
+        return det
+
 @dataclass
 class PersonWDetails(IptcStructure):
     characteristics: Optional[List[Type[CvTerm]]] = None
     description: Optional[str] = None
     identifiers: Optional[List[str]] = None
     name: Optional[str] = None
+
+    def todict(self):
+        d = {}
+        for attrname in vars(self):
+            attrval = getattr(self, attrname)
+            if attrname == 'characteristics':
+                if self.characteristics is not None:
+                    charlist = []
+                    for characteristic in self.characteristics:
+                        dchar = characteristic.todict()
+                        charlist.append(dchar)
+                    d[attrname] = charlist
+            else:
+                if attrval is not None:
+                    d[attrname] = attrval
+        return d
+
+    def todict_et(self) -> dict:
+        det = {}
+        if self.characteristics is not None:
+            detchars = []
+            for characteristic in self.characteristics:
+                detchar = characteristic.todict_et()
+                detchars.append(detchar)
+            det['PersonCharacteristic'] = detchars
+        if self.description is not None:
+            det['PersonDescription'] = self.description
+        if self.identifiers is not None:
+            det['PersonId'] = self.identifiers
+        if self.name is not None:
+            det['PersonName'] = self.name
+        return det
 
 @dataclass
 class ProductWGtin(IptcStructure):
@@ -354,26 +428,21 @@ class IptcPhotometadata:
 
     def export_semiptc_as_jsonfile(self, json_fp):
         """Exports the semantic IPTC Photo Metadata of this class to a JSON file"""
-        self._semiptc_metadata = {}
-        for semiptc_propname in self.semiptc_propnames:
-            if getattr(self, semiptc_propname) is not None:
-                semiptc_prop = getattr(self, semiptc_propname)
-                if isinstance(semiptc_prop, str) or isinstance(semiptc_prop, int):
-                    self._semiptc_metadata[semiptc_propname] = semiptc_prop
-                elif isinstance(semiptc_prop, list):
-                    list1 = []
-                    for listitem in semiptc_prop:
-                        if isinstance(listitem, str) or isinstance(listitem, int):
-                            list1.append(listitem)
-                        else:
-                            d = listitem.todict()
-                            list1.append(d)
-                    self._semiptc_metadata[semiptc_propname] = list1
+        self._generate_semiptc_metadata()
         filename = Path(json_fp)
         filename = filename.with_suffix('.json')
         with filename.open(mode='w') as _f:
             _f.write(json.dumps(self._semiptc_metadata, indent=2,
                                 ensure_ascii=False, sort_keys=True))
+
+    def export_self_as_jsonfile(self, json_fp):
+        """Exports the current instance this class to a JSON file"""
+        selfstr = jsonpickle.encode(self, indent=2)
+        filename = Path(json_fp)
+        filename = filename.with_suffix('.json')
+        with filename.open(mode='w') as _f:
+            _f.write(selfstr)
+
 
     def import_semiptc_from_jsonfile(self, json_fp):
         """Imports the semantic IPTC Photo Metadata of this class from a JSON file"""
@@ -527,6 +596,17 @@ class IptcPhotometadata:
         if self._title is not None:
             self._semiptc2seret_simple_multi1(self._title, 'IPTC:ObjectName', 'XMP-dc:Title')
 
+    # ************************************************************
+    # IPTC Extension schema properties
+
+    def semiptc2seret_aboutCvTerms(self):
+        if self._aboutCvTerms is not None:
+            if len(self._aboutCvTerms) > 0:
+                xmpcvterms = []
+                for aboutCvTerm in self._aboutCvTerms:
+                    xmpcvterms.append(aboutCvTerm.todict_et())
+                self._seret_metadata['XMP-iptcExt:AboutCvTerm'] = xmpcvterms
+
     def semiptc2seret_licensors(self):
         if self._licensors is not None:
             if len(self._licensors) > 0:
@@ -536,51 +616,16 @@ class IptcPhotometadata:
                     licctr += 1
                     if licctr > 3:  # PLUS spec: max 3 Licensor entities
                         break
-                    xmplicensor = {}
-                    if licensor.licensorID is not None:
-                        xmplicensor['LicensorID'] = licensor.licensorID
-                    if licensor.licensorName is not None:
-                        xmplicensor['LicensorName'] = licensor.licensorName
-                    if licensor.licensorURL is not None:
-                        xmplicensor['LicensorURL'] = licensor.licensorURL
-                    xmplicensors.append(xmplicensor)
+                    xmplicensors.append(licensor.todict_et())
                 self._seret_metadata['XMP-plus:Licensor'] = xmplicensors
 
     def semiptc2seret_locationCreated(self):
         if self._locationCreated is not None:
-            xmplocationcreated = {}
-            if self._locationCreated.identifiers is not None:
-                xmplocationcreated['LocationId'] = self._locationCreated.identifiers
-            if self._locationCreated.city is not None:
-                xmplocationcreated['City'] = self._locationCreated.city
-            if self._locationCreated.countryCode is not None:
-                xmplocationcreated['CountryCode'] = self._locationCreated.countryCode
-            if self._locationCreated.countryName is not None:
-                xmplocationcreated['CountryName'] = self._locationCreated.countryName
-            if self._locationCreated.provinceState is not None:
-                xmplocationcreated['ProvinceState'] = self._locationCreated.provinceState
-            if self._locationCreated.sublocation is not None:
-                xmplocationcreated['Sublocation'] = self._locationCreated.sublocation
-            if self._locationCreated.worldRegion is not None:
-                xmplocationcreated['WorldRegion'] = self._locationCreated.worldRegion
+            xmplocationcreated = self._locationCreated.todict_et()
             if xmplocationcreated != {}:
                 self._seret_metadata['XMP-iptcExt:LocationCreated'] = xmplocationcreated
             if self._deprlocationrole == IptcDeprecatedLocationRole.CREATED:
-                if self._locationCreated.city is not None:
-                    self._seret_metadata['IPTC:City'] = self._locationCreated.city
-                    self._seret_metadata['XMP-photoshop:City'] = self._locationCreated.city
-                if self._locationCreated.countryCode is not None:
-                    self._seret_metadata['IPTC:Country-PrimaryLocationCode'] = self._locationCreated.countryCode
-                    self._seret_metadata['XMP-iptcCore:CountryCode'] = self._locationCreated.countryCode
-                if self._locationCreated.countryName is not None:
-                    self._seret_metadata['IPTC:Country-PrimaryLocationName'] = self._locationCreated.countryName
-                    self._seret_metadata['XMP-photoshop:Country'] = self._locationCreated.countryName
-                if self._locationCreated.provinceState is not None:
-                    self._seret_metadata['IPTC:Province-State'] = self._locationCreated.provinceState
-                    self._seret_metadata['XMP-photoshop:State'] = self._locationCreated.provinceState
-                if self._locationCreated.sublocation is not None:
-                    self._seret_metadata['IPTC:Sub-location'] = self._locationCreated.sublocation
-                    self._seret_metadata['XMP-iptcCore:Location'] = self._locationCreated.sublocation
+                self._semitptc2seret_deprec_location(self._locationCreated)
 
     def semiptc2seret_locationsShown(self):
         if self._locationsShown is not None:
@@ -589,39 +634,22 @@ class IptcPhotometadata:
                 xmplocationsshown = []
                 for locationShown in self._locationsShown:
                     itemctr += 1
-                    xmplocationshown = {}
-                    if locationShown.identifiers is not None:
-                        xmplocationshown['LocationId'] = locationShown.identifiers
-                    if locationShown.city is not None:
-                        xmplocationshown['City'] = locationShown.city
-                    if locationShown.countryCode is not None:
-                        xmplocationshown['CountryCode'] = locationShown.countryCode
-                    if locationShown.countryName is not None:
-                        xmplocationshown['CountryName'] = locationShown.countryName
-                    if locationShown.provinceState is not None:
-                        xmplocationshown['ProvinceState'] = locationShown.provinceState
-                    if locationShown.sublocation is not None:
-                        xmplocationshown['Sublocation'] = locationShown.sublocation
-                    if locationShown.worldRegion is not None:
-                        xmplocationshown['WorldRegion'] = locationShown.worldRegion
-                    xmplocationsshown.append(xmplocationshown)
+                    xmplocationshown = locationShown.todict_et()
+                    if xmplocationsshown != {}:
+                        xmplocationsshown.append(xmplocationshown)
                     if self._deprlocationrole == IptcDeprecatedLocationRole.SHOWN and itemctr == 1:
-                        if locationShown.city is not None:
-                            self._seret_metadata['IPTC:City'] = locationShown.city
-                            self._seret_metadata['XMP-photoshop:City'] = locationShown.city
-                        if locationShown.countryCode is not None:
-                            self._seret_metadata['IPTC:Country-PrimaryLocationCode'] = locationShown.countryCode
-                            self._seret_metadata['XMP-iptcCore:CountryCode'] = locationShown.countryCode
-                        if locationShown.countryName is not None:
-                            self._seret_metadata['IPTC:Country-PrimaryLocationName'] = locationShown.countryName
-                            self._seret_metadata['XMP-photoshop:Country'] = locationShown.countryName
-                        if locationShown.provinceState is not None:
-                            self._seret_metadata['IPTC:Province-State'] = locationShown.provinceState
-                            self._seret_metadata['XMP-photoshop:State'] = locationShown.provinceState
-                        if locationShown.sublocation is not None:
-                            self._seret_metadata['IPTC:Sub-location'] = locationShown.sublocation
-                            self._seret_metadata['XMP-iptcCore:Location'] = locationShown.sublocation
+                        self._semitptc2seret_deprec_location(locationShown)
                 self._seret_metadata['XMP-iptcExt:LocationShown'] = xmplocationsshown
+
+    def semiptc2seret_personsShown(self):
+        if self._personsShown is not None:
+            if len(self._personsShown) > 0:
+                xmppersonsshown = []
+                for personShown in self._personsShown:
+                    personShown = personShown.todict_et()
+                    if personShown != {}:
+                        xmppersonsshown.append(personShown)
+                self._seret_metadata['XMP-iptcExt:PersonInImageWDetails'] = xmppersonsshown
 
     def semiptc2seret_webstatementRights(self):
         if self._webstatementRights is not None:
@@ -640,10 +668,29 @@ class IptcPhotometadata:
         if xmpid is not None:
             self._seret_metadata[xmpid] = semiptcvalue
 
+    def _semitptc2seret_deprec_location(self, location: Location):
+        if location.city is not None:
+            self._seret_metadata['IPTC:City'] = location.city
+            self._seret_metadata['XMP-photoshop:City'] = location.city
+        if location.countryCode is not None:
+            self._seret_metadata['IPTC:Country-PrimaryLocationCode'] = location.countryCode
+            self._seret_metadata['XMP-iptcCore:CountryCode'] = location.countryCode
+        if location.countryName is not None:
+            self._seret_metadata['IPTC:Country-PrimaryLocationName'] = location.countryName
+            self._seret_metadata['XMP-photoshop:Country'] = location.countryName
+        if location.provinceState is not None:
+            self._seret_metadata['IPTC:Province-State'] = location.provinceState
+            self._seret_metadata['XMP-photoshop:State'] = location.provinceState
+        if location.sublocation is not None:
+            self._seret_metadata['IPTC:Sub-location'] = location.sublocation
+            self._seret_metadata['XMP-iptcCore:Location'] = location.sublocation
+
+
     """
         ****************************************************************************************************
         Region of methods for transforming serialized metadata in Exiftool syntax to semantic IPTC metadata
     """
+
     def transform_seret_metadata_to_semiptc(self):
         """Transforms serialized IPTC metadata using ExifTool naming to semantic IPTC Photo Metadata
 
@@ -826,69 +873,84 @@ class IptcPhotometadata:
     def seret2semiptc_title(self):
         self._title = self._seret2semiptc_prefXI1('XMP-dc:Title', 'IPTC:ObjectName')
 
+    # ************************************************************
+    # IPTC Extension schema properties
+
+    def seret2semiptc_aboutCvTerms(self):
+        if 'XMP-iptcExt:AboutCvTerm' in self._seret_metadata:
+            if len(self._seret_metadata['XMP-iptcExt:AboutCvTerm']) > 0:
+                self._aboutCvTerms = []
+                for seretAboutCvTerm in self._seret_metadata['XMP-iptcExt:AboutCvTerm']:
+                    if seretAboutCvTerm != {}:
+                        semAboutCvTerm = self._seret2semiptc_cvterm(seretAboutCvTerm)
+                        if semAboutCvTerm is not None:
+                            self._aboutCvTerms.append(semAboutCvTerm)
+                if len(self._aboutCvTerms) == 0:
+                    self._aboutCvTerms = None
+
+
     def seret2semiptc_licensors(self):
         if 'XMP-plus:Licensor' in self._seret_metadata:
             if len(self._seret_metadata['XMP-plus:Licensor']) > 0:
                 self._licensors = []
-            for _xmplicensor in self._seret_metadata['XMP-plus:Licensor']:
-                if _xmplicensor != {}:
+            for seretLicensor in self._seret_metadata['XMP-plus:Licensor']:
+                if seretLicensor != {}:
                     _propsetcount = 0
-                    _semlicensor = Licensor()
-                    if 'LicensorID' in _xmplicensor:
+                    semLicensor = Licensor()
+                    if 'LicensorID' in seretLicensor:
                         _propsetcount += 1
-                        _semlicensor.licensorID = _xmplicensor['LicensorID']
-                    if 'LicensorName' in _xmplicensor:
+                        semLicensor.licensorID = seretLicensor['LicensorID']
+                    if 'LicensorName' in seretLicensor:
                         _propsetcount += 1
-                        _semlicensor.licensorName = _xmplicensor['LicensorName']
-                    if 'LicensorURL' in _xmplicensor:
+                        semLicensor.licensorName = seretLicensor['LicensorName']
+                    if 'LicensorURL' in seretLicensor:
                         _propsetcount += 1
-                        _semlicensor.licensorURL = _xmplicensor['LicensorURL']
+                        semLicensor.licensorURL = seretLicensor['LicensorURL']
                     if _propsetcount > 0:
-                        self._licensors.append(_semlicensor)
+                        self._licensors.append(semLicensor)
             if len(self._licensors) == 0:
                 self._licensors = None
 
     def seret2semiptc_locationCreated(self):
         if 'XMP-iptcExt:LocationCreated' in self._seret_metadata:
-            self._locationCreated = Location()
-            xmplocation = self._seret_metadata['XMP-iptcExt:LocationCreated']
-            if 'LocationId' in xmplocation:
-                self._locationCreated.identifiers = xmplocation['LocationId']
-            if 'City' in xmplocation:
-                self._locationCreated.city = xmplocation['City']
-            if 'CountryCode' in xmplocation:
-                self._locationCreated.countryCode = xmplocation['CountryCode']
-            if 'CountryName' in xmplocation:
-                self._locationCreated.countryName = xmplocation['CountryName']
-            if 'ProvinceState' in xmplocation:
-                self._locationCreated.provinceState = xmplocation['ProvinceState']
-            if 'Sublocation' in xmplocation:
-                self._locationCreated.sublocation = xmplocation['Sublocation']
-            if 'WorldRegion' in xmplocation:
-                self._locationCreated.worldRegion = xmplocation['WorldRegion']
+            self._locationCreated = self._seret2semiptc_location(self._seret_metadata['XMP-iptcExt:LocationCreated'])
 
     def seret2semiptc_locationsShown(self):
         if 'XMP-iptcExt:LocationShown' in self._seret_metadata:
             if len(self._seret_metadata['XMP-iptcExt:LocationShown']) > 0:
                 self._locationsShown = []
             for xmplocation in self._seret_metadata['XMP-iptcExt:LocationShown']:
-                _location = Location()
-                if 'LocationId' in xmplocation:
-                    _location.identifiers = xmplocation['LocationId']
-                if 'City' in xmplocation:
-                    _location.city = xmplocation['City']
-                if 'CountryCode' in xmplocation:
-                    _location.countryCode = xmplocation['CountryCode']
-                if 'CountryName' in xmplocation:
-                    _location.countryName = xmplocation['CountryName']
-                if 'ProvinceState' in xmplocation:
-                    _location.provinceState = xmplocation['ProvinceState']
-                if 'Sublocation' in xmplocation:
-                    _location.sublocation = xmplocation['Sublocation']
-                if 'WorldRegion' in xmplocation:
-                    _location.worldRegion = xmplocation['WorldRegion']
-                self._locationsShown.append(_location)
+                self._locationsShown.append(self._seret2semiptc_location(xmplocation))
 
+    def seret2semiptc_personsShown(self):
+        if 'XMP-iptcExt:PersonInImageWDetails' in self._seret_metadata:
+            if len(self._seret_metadata['XMP-iptcExt:PersonInImageWDetails']) > 0:
+                self._personsShown = []
+            for seretPerson in self._seret_metadata['XMP-iptcExt:PersonInImageWDetails']:
+                if seretPerson != {}:
+                    _propsetcount = 0
+                    semPerson = PersonWDetails()
+                    if 'PersonId' in seretPerson:
+                        _propsetcount += 1
+                        semPerson.identifiers = seretPerson['PersonId']
+                    if 'PersonName' in seretPerson:
+                        _propsetcount += 1
+                        semPerson.name = seretPerson['PersonName']
+                    if 'PersonDescription' in seretPerson:
+                        _propsetcount += 1
+                        semPerson.description = seretPerson['PersonDescription']
+                    if 'PersonCharacteristic' in seretPerson:
+                        semPerson.characteristics = []
+                        for seretAboutCvTerm in seretPerson['PersonCharacteristic']:
+                            if seretAboutCvTerm != {}:
+                                semAboutCvTerm = self._seret2semiptc_cvterm(seretAboutCvTerm)
+                                if semAboutCvTerm is not None:
+                                    semPerson.characteristics.append(semAboutCvTerm)
+                                    _propsetcount += 1
+                    if _propsetcount > 0:
+                        self._personsShown.append(semPerson)
+            if len(self._personsShown) == 0:
+                self._personsShown = None
 
     def seret2semiptc_webstatementRights(self):
         if 'XMP-xmpRights:WebStatement' in self._seret_metadata:
@@ -946,6 +1008,45 @@ class IptcPhotometadata:
         else:
             return PropertyOccurrence.NONE
 
+    def _seret2semiptc_location(self, seretLocation: dict) -> Location:
+        semlocation = Location()
+        if 'LocationId' in seretLocation:
+            semlocation.identifiers = seretLocation['LocationId']
+        if 'City' in seretLocation:
+            semlocation.city = seretLocation['City']
+        if 'CountryCode' in seretLocation:
+            semlocation.countryCode = seretLocation['CountryCode']
+        if 'CountryName' in seretLocation:
+            semlocation.countryName = seretLocation['CountryName']
+        if 'ProvinceState' in seretLocation:
+            semlocation.provinceState = seretLocation['ProvinceState']
+        if 'Sublocation' in seretLocation:
+            semlocation.sublocation = seretLocation['Sublocation']
+        if 'WorldRegion' in seretLocation:
+            semlocation.worldRegion = seretLocation['WorldRegion']
+        return semlocation
+
+    def _seret2semiptc_cvterm(self, seretAboutCvTerm: dict) -> CvTerm:
+        semAboutCvTerm = CvTerm()
+        _propsetcount = 0
+        if 'CvId' in seretAboutCvTerm:
+            semAboutCvTerm.cvId = seretAboutCvTerm['CvId']
+            _propsetcount += 1
+        if 'CvTermId' in seretAboutCvTerm:
+            semAboutCvTerm.cvTermId = seretAboutCvTerm['CvTermId']
+            _propsetcount += 1
+        if 'CvTermName' in seretAboutCvTerm:
+            semAboutCvTerm.cvTermName = seretAboutCvTerm['CvTermName']
+            _propsetcount += 1
+        if 'CvTermRefinedAbout' in seretAboutCvTerm:
+            semAboutCvTerm.cvTermRefinedAbout = seretAboutCvTerm['CvTermRefinedAbout']
+            _propsetcount += 1
+        if _propsetcount > 0:
+            return semAboutCvTerm
+        else:
+            return None
+
+    """
     def _seret_propoccur_XI1(self, xmpid: str = None, iimid: str = None) -> PropertyOccurrence:
         xmpoccurrence = self._seret_propoccur_singleser(xmpid)
         iimoccurrence = self._seret_propoccur_singleser(iimid)
@@ -979,5 +1080,37 @@ class IptcPhotometadata:
             return PropertyOccurrence.MANY
         elif exifoccurrence == PropertyOccurrence.MANY:
             return PropertyOccurrence.MANY
+    """
 
+    """
+        ****************************************************************************************************
+        Region of other internal methods 
+    """
 
+    def _generate_semiptc_metadata(self):
+        """Generate _semiptc_metadata object from enabled IPTC PMD properties of this class"""
+        self._semiptc_metadata = {}
+        for semiptc_propname in self.semiptc_propnames:
+            if getattr(self, semiptc_propname) is not None:
+                semiptc_prop = getattr(self, semiptc_propname)
+                if isinstance(semiptc_prop, str) or isinstance(semiptc_prop, int):
+                    self._semiptc_metadata[semiptc_propname] = semiptc_prop
+                elif isinstance(semiptc_prop, list):
+                    list1 = []
+                    for list1item in semiptc_prop:
+                        if isinstance(list1item, str) or isinstance(list1item, int):
+                            list1.append(list1item)
+                        elif isinstance(list1item, list):
+                            list2 = []
+                            for list2item in semiptc_prop:
+                                if isinstance(list2item, str) or isinstance(list2item, int):
+                                    list1.append(list2item)
+                                else:
+                                    d = list2item.todict()
+                                    list1.append(d)
+                                list2.append(list2item)
+                            list1.append(list2)
+                        else:
+                            d = list1item.todict()
+                            list1.append(d)
+                    self._semiptc_metadata[semiptc_propname] = list1
