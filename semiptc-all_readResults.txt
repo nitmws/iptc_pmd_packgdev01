@@ -54,6 +54,13 @@ Results from reading a file with serialized IPTC PMD using ExifTool naming:
     "cvTermName": "Name of Term55"
   }
 ]
+* Licensors: [
+  {
+    "licensorID": "https://pizzashort.example.com",
+    "licensorName": "Pizzashots Inc.",
+    "licensorURL": "https://pizzashort.example.com/shot/1341234"
+  }
+]
 * Location Created: {
   "city": "Citynice2",
   "countryCode": "CA2",

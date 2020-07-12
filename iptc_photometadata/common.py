@@ -93,6 +93,22 @@ class CvTerm(IptcStructure):
             det['CvTermRefinedAbout'] = self.cvTermRefinedAbout
         return det
 
+    def loadfrom_seret(self, seretAboutCvTerm: dict):
+        _propsetcount = 0
+        if 'CvId' in seretAboutCvTerm:
+            self.cvId = seretAboutCvTerm['CvId']
+            _propsetcount += 1
+        if 'CvTermId' in seretAboutCvTerm:
+            self.cvTermId = seretAboutCvTerm['CvTermId']
+            _propsetcount += 1
+        if 'CvTermName' in seretAboutCvTerm:
+            self.cvTermName = seretAboutCvTerm['CvTermName']
+            _propsetcount += 1
+        if 'CvTermRefinedAbout' in seretAboutCvTerm:
+            self.cvTermRefinedAbout = seretAboutCvTerm['CvTermRefinedAbout']
+            _propsetcount += 1
+        if _propsetcount == 0:
+            self = None
 
 @dataclass
 class EmbdEncRightsExpr(IptcStructure):
@@ -152,6 +168,21 @@ class Licensor(IptcStructure):
             det['LicensorURL'] = self.licensorURL
         return det
 
+    def loadfrom_seret(self, seretLicensor: dict):
+        _propsetcount = 0
+        if 'LicensorID' in seretLicensor:
+            _propsetcount += 1
+            self.licensorID = seretLicensor['LicensorID']
+        if 'LicensorName' in seretLicensor:
+            _propsetcount += 1
+            self.licensorName = seretLicensor['LicensorName']
+        if 'LicensorURL' in seretLicensor:
+            _propsetcount += 1
+            self.licensorURL = seretLicensor['LicensorURL']
+        if _propsetcount == 0:
+            self = None
+
+
 @dataclass
 class Location(IptcStructure):
     city: Optional[str] = None
@@ -183,6 +214,33 @@ class Location(IptcStructure):
         if self.worldRegion is not None:
             det['WorldRegion'] = self.worldRegion
         return det
+
+    def loadfrom_seret(self, seretLocation: dict):
+        _propsetcount = 0
+        if 'LocationId' in seretLocation:
+            self.identifiers = seretLocation['LocationId']
+            _propsetcount += 1
+        if 'City' in seretLocation:
+            self.city = seretLocation['City']
+            _propsetcount += 1
+        if 'CountryCode' in seretLocation:
+            self.countryCode = seretLocation['CountryCode']
+            _propsetcount += 1
+        if 'CountryName' in seretLocation:
+            self.countryName = seretLocation['CountryName']
+            _propsetcount += 1
+        if 'ProvinceState' in seretLocation:
+            self.provinceState = seretLocation['ProvinceState']
+            _propsetcount += 1
+        if 'Sublocation' in seretLocation:
+            self.sublocation = seretLocation['Sublocation']
+            _propsetcount += 1
+        if 'WorldRegion' in seretLocation:
+            self.worldRegion = seretLocation['WorldRegion']
+            _propsetcount += 1
+        if _propsetcount == 0:
+            self = None
+
 
 @dataclass
 class PersonWDetails(IptcStructure):
@@ -882,12 +940,12 @@ class IptcPhotometadata:
                 self._aboutCvTerms = []
                 for seretAboutCvTerm in self._seret_metadata['XMP-iptcExt:AboutCvTerm']:
                     if seretAboutCvTerm != {}:
-                        semAboutCvTerm = self._seret2semiptc_cvterm(seretAboutCvTerm)
+                        semAboutCvTerm = CvTerm()
+                        semAboutCvTerm.loadfrom_seret(seretAboutCvTerm)
                         if semAboutCvTerm is not None:
                             self._aboutCvTerms.append(semAboutCvTerm)
                 if len(self._aboutCvTerms) == 0:
                     self._aboutCvTerms = None
-
 
     def seret2semiptc_licensors(self):
         if 'XMP-plus:Licensor' in self._seret_metadata:
@@ -895,32 +953,28 @@ class IptcPhotometadata:
                 self._licensors = []
             for seretLicensor in self._seret_metadata['XMP-plus:Licensor']:
                 if seretLicensor != {}:
-                    _propsetcount = 0
                     semLicensor = Licensor()
-                    if 'LicensorID' in seretLicensor:
-                        _propsetcount += 1
-                        semLicensor.licensorID = seretLicensor['LicensorID']
-                    if 'LicensorName' in seretLicensor:
-                        _propsetcount += 1
-                        semLicensor.licensorName = seretLicensor['LicensorName']
-                    if 'LicensorURL' in seretLicensor:
-                        _propsetcount += 1
-                        semLicensor.licensorURL = seretLicensor['LicensorURL']
-                    if _propsetcount > 0:
+                    semLicensor.loadfrom_seret(seretLicensor)
+                    if semLicensor is not None:
                         self._licensors.append(semLicensor)
             if len(self._licensors) == 0:
                 self._licensors = None
 
     def seret2semiptc_locationCreated(self):
         if 'XMP-iptcExt:LocationCreated' in self._seret_metadata:
-            self._locationCreated = self._seret2semiptc_location(self._seret_metadata['XMP-iptcExt:LocationCreated'])
+            locationCreated = Location()
+            locationCreated.loadfrom_seret(self._seret_metadata['XMP-iptcExt:LocationCreated'])
+            self._locationCreated = locationCreated
+                # self._seret2semiptc_location(self._seret_metadata['XMP-iptcExt:LocationCreated'])
 
     def seret2semiptc_locationsShown(self):
         if 'XMP-iptcExt:LocationShown' in self._seret_metadata:
             if len(self._seret_metadata['XMP-iptcExt:LocationShown']) > 0:
                 self._locationsShown = []
             for xmplocation in self._seret_metadata['XMP-iptcExt:LocationShown']:
-                self._locationsShown.append(self._seret2semiptc_location(xmplocation))
+                locationShown = Location()
+                locationShown.loadfrom_seret(xmplocation)
+                self._locationsShown.append(locationShown)
 
     def seret2semiptc_personsShown(self):
         if 'XMP-iptcExt:PersonInImageWDetails' in self._seret_metadata:
@@ -943,7 +997,8 @@ class IptcPhotometadata:
                         semPerson.characteristics = []
                         for seretAboutCvTerm in seretPerson['PersonCharacteristic']:
                             if seretAboutCvTerm != {}:
-                                semAboutCvTerm = self._seret2semiptc_cvterm(seretAboutCvTerm)
+                                semAboutCvTerm = CvTerm()
+                                semAboutCvTerm.loadfrom_seret(seretAboutCvTerm)
                                 if semAboutCvTerm is not None:
                                     semPerson.characteristics.append(semAboutCvTerm)
                                     _propsetcount += 1
@@ -1007,44 +1062,6 @@ class IptcPhotometadata:
                 return PropertyOccurrence.ONE
         else:
             return PropertyOccurrence.NONE
-
-    def _seret2semiptc_location(self, seretLocation: dict) -> Location:
-        semlocation = Location()
-        if 'LocationId' in seretLocation:
-            semlocation.identifiers = seretLocation['LocationId']
-        if 'City' in seretLocation:
-            semlocation.city = seretLocation['City']
-        if 'CountryCode' in seretLocation:
-            semlocation.countryCode = seretLocation['CountryCode']
-        if 'CountryName' in seretLocation:
-            semlocation.countryName = seretLocation['CountryName']
-        if 'ProvinceState' in seretLocation:
-            semlocation.provinceState = seretLocation['ProvinceState']
-        if 'Sublocation' in seretLocation:
-            semlocation.sublocation = seretLocation['Sublocation']
-        if 'WorldRegion' in seretLocation:
-            semlocation.worldRegion = seretLocation['WorldRegion']
-        return semlocation
-
-    def _seret2semiptc_cvterm(self, seretAboutCvTerm: dict) -> CvTerm:
-        semAboutCvTerm = CvTerm()
-        _propsetcount = 0
-        if 'CvId' in seretAboutCvTerm:
-            semAboutCvTerm.cvId = seretAboutCvTerm['CvId']
-            _propsetcount += 1
-        if 'CvTermId' in seretAboutCvTerm:
-            semAboutCvTerm.cvTermId = seretAboutCvTerm['CvTermId']
-            _propsetcount += 1
-        if 'CvTermName' in seretAboutCvTerm:
-            semAboutCvTerm.cvTermName = seretAboutCvTerm['CvTermName']
-            _propsetcount += 1
-        if 'CvTermRefinedAbout' in seretAboutCvTerm:
-            semAboutCvTerm.cvTermRefinedAbout = seretAboutCvTerm['CvTermRefinedAbout']
-            _propsetcount += 1
-        if _propsetcount > 0:
-            return semAboutCvTerm
-        else:
-            return None
 
     """
     def _seret_propoccur_XI1(self, xmpid: str = None, iimid: str = None) -> PropertyOccurrence:

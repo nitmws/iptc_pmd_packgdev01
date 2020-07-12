@@ -153,6 +153,11 @@ def seret2semiptc():
             aboutCvTerm_dict = aboutCvTerm.todict()
             aboutCvTerm_list.append(aboutCvTerm_dict)
         res_log.write('\n* About CV-Terms: ' + json.dumps(aboutCvTerm_list, indent=2))
+        licensors_list = []
+        for licensor in iptcmd_in.licensors:
+            licensor_dict = licensor.todict()
+            licensors_list.append(licensor_dict)
+        res_log.write('\n* Licensors: ' + json.dumps(licensors_list, indent=2))
         res_log.write('\n* Location Created: ' + json.dumps(iptcmd_in.locationCreated.todict(), indent=2))
         locationsShown_list = []
         for locationShown in iptcmd_in.locationsShown:
