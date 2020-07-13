@@ -80,6 +80,20 @@
       "CvTermName": "Name of Term55"
     }
   ],
+  "XMP-iptcExt:AdditionalModelInformation": "Models are elegant",
+  "XMP-iptcExt:Event": "The Great Event",
+  "XMP-iptcExt:Genre": [
+    {
+      "CvId": "https://example.com/cvid/124123",
+      "CvTermId": "https://example.com/termid/term22",
+      "CvTermName": "Name of Term22"
+    },
+    {
+      "CvId": "https://example.com/cvid/58430",
+      "CvTermId": "https://example.com/termid/term55",
+      "CvTermName": "Name of Term55"
+    }
+  ],
   "XMP-iptcExt:LocationCreated": {
     "City": "Citynice2",
     "CountryCode": "CA2",
@@ -117,6 +131,14 @@
       "Sublocation": "Sublocation2",
       "WorldRegion": "Worldregion A2"
     }
+  ],
+  "XMP-iptcExt:OrganisationInImageCode": [
+    "ADBE",
+    "IPTC"
+  ],
+  "XMP-iptcExt:OrganisationInImageName": [
+    "Adobe",
+    "International Press Telecommunication Council"
   ],
   "XMP-iptcExt:PersonInImageWDetails": [
     {
@@ -171,6 +193,22 @@
   "XMP-photoshop:Source": "The best Source of all",
   "XMP-photoshop:State": "Province A1",
   "XMP-photoshop:TransmissionReference": "Jid134231",
+  "XMP-plus:CopyrightOwner": [
+    {
+      "CopyrightOwnerID": [
+        "https://organisations.example.com/id/2143312",
+        "https://otherorgs.example.com/id/2143312"
+      ],
+      "CopyrightOwnerName": "The Entity No 1"
+    },
+    {
+      "CopyrightOwnerID": [
+        "https://organisations.example.com/id/94543892",
+        "https://otherorgs.example.com/id/98457243"
+      ],
+      "CopyrightOwnerName": "The Entity No 2"
+    }
+  ],
   "XMP-plus:ImageCreator": [
     {
       "ImageCreatorID": "https://linkedin.example.com/user3143123432",
@@ -188,6 +226,7 @@
       "LicensorURL": "https://pizzashort.example.com/shot/1341234"
     }
   ],
+  "XMP-xmp:Rating": "2.0",
   "XMP-xmpRights:UsageTerms": "The rightful usage terms",
   "XMP-xmpRights:WebStatement": "https://pizzashort.example.com/copyright-licensing"
 }

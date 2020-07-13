@@ -18,9 +18,9 @@ class IptcPhotometadataGeneric(IptcPhotometadata):
                       'subjectCodes', 'title',
                       'additionalModelInfo', 'artworkOrObjects', 'organisationInImageCodes', 'copyrightOwners',
                       'aboutCvTerms', 'digitalImageGuid', 'digitalSourceType', 'embdEncRightsExprs',
-                      'eventName', 'genres', 'imageCreators', 'imageRating', 'imageRegion', 'registryEntries',
+                      'eventName', 'genres', 'imageRating', 'imageRegion', 'registryEntries',
                       'suppliers', 'imageSupplierImageId', 'licensors', 'linkedEncRightsExprs',
-                      'locationCreated', 'locationsShown', 'maxAvailHeight', 'maxAvailWidth',
+                      'locationCreated', 'locationsShown',
                       'minorModelAgeDisclosure', 'modelAges', 'modelReleaseDocuments', 'modelReleaseStatus',
                       'organisationInImageNames', 'personInImageNames', 'personsShown', 'productsShown',
                       'propertyReleaseDocuments', 'propertyReleaseStatus', 'webstatementRights')
@@ -238,14 +238,6 @@ class IptcPhotometadataGeneric(IptcPhotometadata):
         self._genres = value
 
     @property
-    def imageCreators(self):
-        return self._imageCreators
-
-    @imageCreators.setter
-    def imageCreators(self, value):
-        self._imageCreators = value
-
-    @property
     def imageRating(self):
         return self._imageRating
 
@@ -316,22 +308,6 @@ class IptcPhotometadataGeneric(IptcPhotometadata):
     @locationsShown.setter
     def locationsShown(self, value):
         self._locationsShown = value
-
-    @property
-    def maxAvailHeight(self):
-        return self._maxAvailHeight
-
-    @maxAvailHeight.setter
-    def maxAvailHeight(self, value):
-        self._maxAvailHeight = value
-
-    @property
-    def maxAvailWidth(self):
-        return self._maxAvailWidth
-
-    @maxAvailWidth.setter
-    def maxAvailWidth(self, value):
-        self._maxAvailWidth = value
 
     @property
     def minorModelAgeDisclosure(self):

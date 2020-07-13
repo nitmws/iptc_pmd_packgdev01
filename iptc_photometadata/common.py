@@ -93,19 +93,19 @@ class CvTerm(IptcStructure):
             det['CvTermRefinedAbout'] = self.cvTermRefinedAbout
         return det
 
-    def loadfrom_seret(self, seretAboutCvTerm: dict):
+    def loadfrom_seret(self, seretCvTerm: dict):
         _propsetcount = 0
-        if 'CvId' in seretAboutCvTerm:
-            self.cvId = seretAboutCvTerm['CvId']
+        if 'CvId' in seretCvTerm:
+            self.cvId = seretCvTerm['CvId']
             _propsetcount += 1
-        if 'CvTermId' in seretAboutCvTerm:
-            self.cvTermId = seretAboutCvTerm['CvTermId']
+        if 'CvTermId' in seretCvTerm:
+            self.cvTermId = seretCvTerm['CvTermId']
             _propsetcount += 1
-        if 'CvTermName' in seretAboutCvTerm:
-            self.cvTermName = seretAboutCvTerm['CvTermName']
+        if 'CvTermName' in seretCvTerm:
+            self.cvTermName = seretCvTerm['CvTermName']
             _propsetcount += 1
-        if 'CvTermRefinedAbout' in seretAboutCvTerm:
-            self.cvTermRefinedAbout = seretAboutCvTerm['CvTermRefinedAbout']
+        if 'CvTermRefinedAbout' in seretCvTerm:
+            self.cvTermRefinedAbout = seretCvTerm['CvTermRefinedAbout']
             _propsetcount += 1
         if _propsetcount == 0:
             self = None
@@ -120,6 +120,25 @@ class EmbdEncRightsExpr(IptcStructure):
 class Entity(IptcStructure):
     identifiers: Optional[List[str]] = None
     name: Optional[str] = None
+
+    def todict_plus_et(self, pluspropname: str) -> dict:
+        det = {}
+        if self.identifiers is not None:
+            det[pluspropname + 'ID'] = self.identifiers
+        if self.name is not None:
+            det[pluspropname + 'Name'] = self.name
+        return det
+
+    def loadfrom_plus_seret(self, seretEntity: dict, pluspropname: str):
+        _propsetcount = 0
+        if pluspropname + 'ID' in seretEntity:
+            _propsetcount += 1
+            self.identifiers = [seretEntity[pluspropname + 'ID']]
+        if pluspropname + 'Name' in seretEntity:
+            _propsetcount += 1
+            self.name = seretEntity[pluspropname + 'Name']
+        if _propsetcount == 0:
+            self = None
 
 @dataclass
 class RegionBoundaryPoint(IptcStructure):
@@ -376,7 +395,6 @@ class IptcPhotometadata:
     _embdEncRightsExprs: Optional[List[Type[EmbdEncRightsExpr]]] = None
     _eventName: Optional[str] = None
     _genres: Optional[List[Type[CvTerm]]] = None
-    _imageCreators: Optional[List[Type[Entity]]] = None
     _imageRating: Optional[int] = None
     _imageRegion: Optional[List[Type[ImageRegion]]] = None
     _registryEntries: Optional[List[Type[RegistryEntry]]] = None
@@ -386,8 +404,6 @@ class IptcPhotometadata:
     _linkedEncRightsExprs: Optional[List[Type[LinkedEncRightsExpr]]] = None
     _locationCreated: Optional[Type[Location]] = None
     _locationsShown: Optional[List[Type[Location]]] = None
-    _maxAvailHeight: Optional[int] = None
-    _maxAvailWidth: Optional[int] = None
     _minorModelAgeDisclosure: Optional[str] = None
     _modelAges: Optional[List[int]] = None
     _modelReleaseDocuments: Optional[List[str]] = None
@@ -406,9 +422,9 @@ class IptcPhotometadata:
                          '_subjectCodes', '_title',
                          '_additionalModelInfo', '_artworkOrObjects', '_organisationInImageCodes', '_copyrightOwners',
                          '_aboutCvTerms', '_digitalImageGuid', '_digitalSourceType', '_embdEncRightsExprs',
-                         '_eventName', '_genres', '_imageCreators', '_imageRating', '_imageRegion', '_registryEntries',
+                         '_eventName', '_genres', '_imageRating', '_imageRegion', '_registryEntries',
                          '_suppliers', '_imageSupplierImageId', '_licensors', '_linkedEncRightsExprs',
-                         '_locationCreated', '_locationsShown', '_maxAvailHeight', '_maxAvailWidth',
+                         '_locationCreated', '_locationsShown',
                          '_minorModelAgeDisclosure', '_modelAges', '_modelReleaseDocuments', '_modelReleaseStatus',
                          '_organisationInImageNames', '_personInImageNames', '_personsShown', '_productsShown',
                          '_propertyReleaseDocuments', '_propertyReleaseStatus', '_webstatementRights')
@@ -665,6 +681,51 @@ class IptcPhotometadata:
                     xmpcvterms.append(aboutCvTerm.todict_et())
                 self._seret_metadata['XMP-iptcExt:AboutCvTerm'] = xmpcvterms
 
+    def semiptc2seret_additionalModelInfo(self):
+        if self._additionalModelInfo is not None:
+            self._seret_metadata['XMP-iptcExt:AdditionalModelInformation'] = self._additionalModelInfo
+
+    def semiptc2seret_artworkOrObjects(self):
+        if self._artworkOrObjects is not None:
+            pass
+
+    def semiptc2seret_organisationInImageCodes(self):
+        if self._organisationInImageCodes is not None:
+            self._seret_metadata['XMP-iptcExt:OrganisationInImageCode'] = self._organisationInImageCodes
+
+    def semiptc2seret_organisationInImageNames(self):
+        if self._organisationInImageNames is not None:
+            self._seret_metadata['XMP-iptcExt:OrganisationInImageName'] = self._organisationInImageNames
+
+    def semiptc2seret_copyrightOwners(self):
+        if self._copyrightOwners is not None:
+            self._semiptc2seret_entities_xmp(self._copyrightOwners, 'CopyrightOwner', 'XMP-plus:CopyrightOwner')
+
+    def semiptc2seret_digitalImageGuid(self):
+        if self._digitalImageGuid is not None:
+            pass
+
+    def semiptc2seret_digitalSourceType(self):
+        if self._digitalSourceType is not None:
+            pass
+
+    def semiptc2seret_eventName(self):
+        if self._eventName is not None:
+            self._seret_metadata['XMP-iptcExt:Event'] = self._eventName
+
+    def semiptc2seret_genres(self):
+        if self._genres is not None:
+            if len(self._genres) > 0:
+                xmpgenres = []
+                for genre in self._genres:
+                    xmpgenres.append(genre.todict_et())
+                self._seret_metadata['XMP-iptcExt:Genre'] = xmpgenres
+
+    def semiptc2seret_imageRating(self):
+        if self._imageRating is not None:
+            rating_str = str(self._imageRating) + '.0'
+            self._seret_metadata['XMP-xmp:Rating'] = rating_str
+
     def semiptc2seret_licensors(self):
         if self._licensors is not None:
             if len(self._licensors) > 0:
@@ -725,6 +786,19 @@ class IptcPhotometadata:
             self._seret_metadata[iimid] = semiptcvalue
         if xmpid is not None:
             self._seret_metadata[xmpid] = semiptcvalue
+
+    def _semiptc2seret_entities_xmp(self, semiptcentities, pluspropname: str = None, xmpid: str = None):
+        if semiptcentities is not None:
+            seretlist = []
+            for entity in semiptcentities:
+                if pluspropname is not None:
+                    seretlist.append(entity.todict_plus_et(pluspropname))
+                else:
+                    seretlist.append(entity.todict())
+            if len(seretlist) > 0:
+                self._seret_metadata[xmpid] = seretlist
+
+
 
     def _semitptc2seret_deprec_location(self, location: Location):
         if location.city is not None:
@@ -947,6 +1021,57 @@ class IptcPhotometadata:
                 if len(self._aboutCvTerms) == 0:
                     self._aboutCvTerms = None
 
+    def seret2semiptc_additionalModelInfo(self):
+        if 'XMP-iptcExt:AdditionalModelInformation' in self._seret_metadata:
+            self._additionalModelInfo = self._seret_metadata['XMP-iptcExt:AdditionalModelInformation']
+
+    def seret2semiptc_organisationInImageCodes(self):
+        if 'XMP-iptcExt:OrganisationInImageCode' in self._seret_metadata:
+            self._organisationInImageCodes = self._seret_metadata['XMP-iptcExt:OrganisationInImageCode']
+
+    def seret2semiptc_organisationInImageNames(self):
+        if 'XMP-iptcExt:OrganisationInImageName' in self._seret_metadata:
+            self._organisationInImageNames = self._seret_metadata['XMP-iptcExt:OrganisationInImageName']
+
+    def seret2semiptc_copyrightOwners(self):
+        if 'XMP-plus:CopyrightOwner' in self._seret_metadata:
+            if len(self._seret_metadata['XMP-plus:CopyrightOwner']) > 0:
+                self._copyrightOwners = []
+            for seretCopyrightOwner in self._seret_metadata['XMP-plus:CopyrightOwner']:
+                if seretCopyrightOwner != {}:
+                    semEntity = Entity()
+                    semEntity.loadfrom_plus_seret(seretCopyrightOwner, 'CopyrightOwner')
+                    if semEntity is not None:
+                        self._copyrightOwners.append(semEntity)
+            if len(self._copyrightOwners) == 0:
+                self._copyrightOwners = None
+
+    def seret2semiptc_eventName(self):
+        if 'XMP-iptcExt:Event' in self._seret_metadata:
+            self._eventName = self._seret_metadata['XMP-iptcExt:Event']
+
+    def seret2semiptc_genres(self):
+        if 'XMP-iptcExt:Genre' in self._seret_metadata:
+            if len(self._seret_metadata['XMP-iptcExt:Genre']) > 0:
+                self._genres = []
+                for seretGenre in self._seret_metadata['XMP-iptcExt:Genre']:
+                    if seretGenre != {}:
+                        semGenre = CvTerm()
+                        semGenre.loadfrom_seret(seretGenre)
+                        if semGenre is not None:
+                            self._genres.append(semGenre)
+                if len(self._genres) == 0:
+                    self._genres = None
+
+    def seret2semiptc_imageRating(self):
+        if 'XMP-xmp:Rating' in self._seret_metadata:
+            rating_str: str = self._seret_metadata['XMP-xmp:Rating']
+            ratingparts = rating_str.split('.')
+            if len(ratingparts) > 0:
+                self._imageRating = int(ratingparts[0])
+            else:
+                self._imageRating = 0
+
     def seret2semiptc_licensors(self):
         if 'XMP-plus:Licensor' in self._seret_metadata:
             if len(self._seret_metadata['XMP-plus:Licensor']) > 0:
@@ -965,7 +1090,6 @@ class IptcPhotometadata:
             locationCreated = Location()
             locationCreated.loadfrom_seret(self._seret_metadata['XMP-iptcExt:LocationCreated'])
             self._locationCreated = locationCreated
-                # self._seret2semiptc_location(self._seret_metadata['XMP-iptcExt:LocationCreated'])
 
     def seret2semiptc_locationsShown(self):
         if 'XMP-iptcExt:LocationShown' in self._seret_metadata:

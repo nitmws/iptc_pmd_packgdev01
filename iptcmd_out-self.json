@@ -29,7 +29,6 @@
       "embdEncRightsExprs",
       "eventName",
       "genres",
-      "imageCreators",
       "imageRating",
       "imageRegion",
       "registryEntries",
@@ -39,8 +38,6 @@
       "linkedEncRightsExprs",
       "locationCreated",
       "locationsShown",
-      "maxAvailHeight",
-      "maxAvailWidth",
       "minorModelAgeDisclosure",
       "modelAges",
       "modelReleaseDocuments",
@@ -121,6 +118,27 @@
       "SubjectCode 02"
     ],
     "_title": "A Title",
+    "_additionalModelInfo": "Models are elegant",
+    "_organisationInImageCodes": [
+      "ADBE",
+      "IPTC"
+    ],
+    "_copyrightOwners": [
+      {
+        "identifiers": [
+          "https://organisations.example.com/id/2143312",
+          "https://otherorgs.example.com/id/2143312"
+        ],
+        "name": "The Entity No 1"
+      },
+      {
+        "identifiers": [
+          "https://organisations.example.com/id/94543892",
+          "https://otherorgs.example.com/id/98457243"
+        ],
+        "name": "The Entity No 2"
+      }
+    ],
     "_aboutCvTerms": [
       {
         "cvId": "https://example.com/cvid/124123",
@@ -133,6 +151,20 @@
         "cvTermName": "Name of Term55"
       }
     ],
+    "_eventName": "The Great Event",
+    "_genres": [
+      {
+        "cvId": "https://example.com/cvid/124123",
+        "cvTermId": "https://example.com/termid/term22",
+        "cvTermName": "Name of Term22"
+      },
+      {
+        "cvId": "https://example.com/cvid/58430",
+        "cvTermId": "https://example.com/termid/term55",
+        "cvTermName": "Name of Term55"
+      }
+    ],
+    "_imageRating": 2,
     "_licensors": [
       {
         "licensorID": "https://pizzashort.example.com",
@@ -165,6 +197,10 @@
         "sublocation": "Sublocation2",
         "worldRegion": "Worldregion A2"
       }
+    ],
+    "_organisationInImageNames": [
+      "Adobe",
+      "International Press Telecommunication Council"
     ],
     "_personsShown": [
       {
@@ -293,6 +329,41 @@
       "cvTermRefinedAbout": null
     }
   ],
+  "_additionalModelInfo": "Models are elegant",
+  "_organisationInImageCodes": [
+    "ADBE",
+    "IPTC"
+  ],
+  "_organisationInImageNames": [
+    "Adobe",
+    "International Press Telecommunication Council"
+  ],
+  "_copyrightOwners": [
+    {
+      "py/object": "iptc_photometadata.common.Entity",
+      "identifiers": {
+        "py/id": 10
+      },
+      "name": "The Entity No 1"
+    },
+    {
+      "py/object": "iptc_photometadata.common.Entity",
+      "identifiers": {
+        "py/id": 11
+      },
+      "name": "The Entity No 2"
+    }
+  ],
+  "_eventName": "The Great Event",
+  "_genres": [
+    {
+      "py/id": 33
+    },
+    {
+      "py/id": 34
+    }
+  ],
+  "_imageRating": 2,
   "_licensors": [
     {
       "py/object": "iptc_photometadata.common.Licensor",
@@ -310,7 +381,7 @@
     "gpsLatitude": null,
     "gpsLongitude": null,
     "identifiers": {
-      "py/id": 12
+      "py/id": 17
     },
     "name": null,
     "provinceState": "Province A2",
@@ -327,7 +398,7 @@
       "gpsLatitude": null,
       "gpsLongitude": null,
       "identifiers": {
-        "py/id": 11
+        "py/id": 16
       },
       "name": null,
       "provinceState": "Province A1",
@@ -335,7 +406,7 @@
       "worldRegion": "Worldregion A1"
     },
     {
-      "py/id": 31
+      "py/id": 43
     }
   ],
   "_personsShown": [
@@ -343,15 +414,15 @@
       "py/object": "iptc_photometadata.common.PersonWDetails",
       "characteristics": [
         {
-          "py/id": 27
+          "py/id": 33
         },
         {
-          "py/id": 28
+          "py/id": 34
         }
       ],
       "description": "Nice photo metadata editor and a secret artist",
       "identifiers": {
-        "py/id": 15
+        "py/id": 21
       },
       "name": "Laura Hillinger"
     },
@@ -359,15 +430,15 @@
       "py/object": "iptc_photometadata.common.PersonWDetails",
       "characteristics": [
         {
-          "py/id": 28
+          "py/id": 34
         },
         {
-          "py/id": 27
+          "py/id": 33
         }
       ],
       "description": "Reliable event oraganizer",
       "identifiers": {
-        "py/id": 17
+        "py/id": 23
       },
       "name": "Frank Muller"
     }

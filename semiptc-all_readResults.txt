@@ -54,6 +54,43 @@ Results from reading a file with serialized IPTC PMD using ExifTool naming:
     "cvTermName": "Name of Term55"
   }
 ]
+* Addl Model Information: Models are elegant
+* Organisation in Image/Codes: ADBE, IPTC
+* Organisation in Image/Names: Adobe, International Press Telecommunication Council
+* Copyright Owners: [
+  {
+    "identifiers": [
+      [
+        "https://organisations.example.com/id/2143312",
+        "https://otherorgs.example.com/id/2143312"
+      ]
+    ],
+    "name": "The Entity No 1"
+  },
+  {
+    "identifiers": [
+      [
+        "https://organisations.example.com/id/94543892",
+        "https://otherorgs.example.com/id/98457243"
+      ]
+    ],
+    "name": "The Entity No 2"
+  }
+]
+* Event Name: The Great Event
+* Genres: [
+  {
+    "cvId": "https://example.com/cvid/124123",
+    "cvTermId": "https://example.com/termid/term22",
+    "cvTermName": "Name of Term22"
+  },
+  {
+    "cvId": "https://example.com/cvid/58430",
+    "cvTermId": "https://example.com/termid/term55",
+    "cvTermName": "Name of Term55"
+  }
+]
+* Image Rating: 2
 * Licensors: [
   {
     "licensorID": "https://pizzashort.example.com",
@@ -141,3 +178,4 @@ Results from reading a file with serialized IPTC PMD using ExifTool naming:
     "name": "Frank Muller"
   }
 ]
+* Web Statement of Rights/Copyright URL: https://pizzashort.example.com/copyright-licensing

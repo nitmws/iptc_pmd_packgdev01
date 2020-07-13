@@ -70,6 +70,23 @@ def semiptc2seret():
     t_cvterm2.cvTermId = 'https://example.com/termid/term55'
     t_cvterm2.cvTermName = 'Name of Term55'
     iptcmd_out.aboutCvTerms = [t_cvterm1, t_cvterm2]
+    iptcmd_out.additionalModelInfo = 'Models are elegant'
+    iptcmd_out.organisationInImageCodes = ['ADBE', 'IPTC']
+    iptcmd_out.organisationInImageNames = ['Adobe', 'International Press Telecommunication Council']
+    t_entity1 = Entity()
+    t_entity1.identifiers = ['https://organisations.example.com/id/2143312',
+                                  'https://otherorgs.example.com/id/2143312']
+    t_entity1.name = 'The Entity No 1'
+    t_entity2 = Entity()
+    t_entity2.identifiers = ['https://organisations.example.com/id/94543892',
+                             'https://otherorgs.example.com/id/98457243']
+    t_entity2.name = 'The Entity No 2'
+    iptcmd_out.copyrightOwners = [t_entity1, t_entity2]
+    iptcmd_out.eventName = 'The Great Event'
+    iptcmd_out.genres = [t_cvterm1, t_cvterm2]
+    iptcmd_out.imageRating = 2
+
+
     t_licensor = Licensor()
     t_licensor.licensorID = 'https://pizzashort.example.com'
     t_licensor.licensorName = 'Pizzashots Inc.'
@@ -153,6 +170,23 @@ def seret2semiptc():
             aboutCvTerm_dict = aboutCvTerm.todict()
             aboutCvTerm_list.append(aboutCvTerm_dict)
         res_log.write('\n* About CV-Terms: ' + json.dumps(aboutCvTerm_list, indent=2))
+        res_log.write('\n* Addl Model Information: ' + iptcmd_in.additionalModelInfo)
+        res_log.write('\n* Organisation in Image/Codes: ' + ', '.join(iptcmd_in.organisationInImageCodes))
+        res_log.write('\n* Organisation in Image/Names: ' + ', '.join(iptcmd_in.organisationInImageNames))
+        entities_list = []
+        for entity in iptcmd_in.copyrightOwners:
+            entity_dict = entity.todict()
+            entities_list.append(entity_dict)
+        res_log.write('\n* Copyright Owners: ' + json.dumps(entities_list, indent=2))
+        res_log.write('\n* Event Name: ' + iptcmd_in.eventName)
+        genre_list = []
+        for genre in iptcmd_in.genres:
+            genre_dict = genre.todict()
+            genre_list.append(genre_dict)
+        res_log.write('\n* Genres: ' + json.dumps(genre_list, indent=2))
+        res_log.write('\n* Image Rating: ' + str(iptcmd_in.imageRating))
+
+
         licensors_list = []
         for licensor in iptcmd_in.licensors:
             licensor_dict = licensor.todict()
@@ -169,6 +203,7 @@ def seret2semiptc():
             personShown_dict = personShown.todict()
             personsShown_list.append(personShown_dict)
         res_log.write('\n* Persons Shown: ' + json.dumps(personsShown_list, indent=2))
+        res_log.write('\n* Web Statement of Rights/Copyright URL: ' + iptcmd_in.webstatementRights)
 
 # ************** MAIN
 
