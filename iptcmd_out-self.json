@@ -151,6 +151,8 @@
         "cvTermName": "Name of Term55"
       }
     ],
+    "_digitalImageGuid": "https://reg.example.org/imageguid/1k4h34hk134kj34l3k2",
+    "_digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture",
     "_eventName": "The Great Event",
     "_genres": [
       {
@@ -165,6 +167,33 @@
       }
     ],
     "_imageRating": 2,
+    "_registryEntries": [
+      {
+        "assetIdentifier": "https://4535345.registries.example.org/asset/897987",
+        "registryIdentifier": "https://example.org/registry/4535345",
+        "role": "https://cv.example.org/registryrole/supplier"
+      },
+      {
+        "assetIdentifier": "https://8914343.registries.example.org/asset/12314123432",
+        "registryIdentifier": "https://example.org/registry/8914343",
+        "role": "https://cv.example.org/registryrole/distributor"
+      }
+    ],
+    "_suppliers": [
+      {
+        "identifiers": {
+          "py/id": 10
+        },
+        "name": "The Entity No 1"
+      },
+      {
+        "identifiers": {
+          "py/id": 11
+        },
+        "name": "The Entity No 2"
+      }
+    ],
+    "_imageSupplierImageId": "LifePhotos13423423",
     "_licensors": [
       {
         "licensorID": "https://pizzashort.example.com",
@@ -201,6 +230,10 @@
     "_organisationInImageNames": [
       "Adobe",
       "International Press Telecommunication Council"
+    ],
+    "_personInImageNames": [
+      "Henriette Fillinger",
+      "Carl Subunder"
     ],
     "_personsShown": [
       {
@@ -242,6 +275,18 @@
           "https://otherpersons.example.com/id/758758"
         ],
         "name": "Frank Muller"
+      }
+    ],
+    "_productsShown": [
+      {
+        "description": "Preiswertes computergesteuertes Universal-Schnellladegeraet",
+        "gtin": "4013389438797",
+        "name": "GRAUPNER ULTRAMAT 18 12/230V LADER"
+      },
+      {
+        "description": "The Traxxas Slash set the standard for short-course fun and versatility",
+        "gtin": "020334700612",
+        "name": "TRAXXAS SLASH 4X4 #25 MARK JENKINS RTR 1/16"
       }
     ],
     "_webstatementRights": "https://pizzashort.example.com/copyright-licensing"
@@ -354,16 +399,41 @@
       "name": "The Entity No 2"
     }
   ],
+  "_digitalImageGuid": "https://reg.example.org/imageguid/1k4h34hk134kj34l3k2",
+  "_digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture",
   "_eventName": "The Great Event",
   "_genres": [
     {
-      "py/id": 33
+      "py/id": 37
     },
     {
-      "py/id": 34
+      "py/id": 38
     }
   ],
   "_imageRating": 2,
+  "_registryEntries": [
+    {
+      "py/object": "iptc_photometadata.common.RegistryEntry",
+      "assetIdentifier": "https://4535345.registries.example.org/asset/897987",
+      "registryIdentifier": "https://example.org/registry/4535345",
+      "role": "https://cv.example.org/registryrole/supplier"
+    },
+    {
+      "py/object": "iptc_photometadata.common.RegistryEntry",
+      "assetIdentifier": "https://8914343.registries.example.org/asset/12314123432",
+      "registryIdentifier": "https://example.org/registry/8914343",
+      "role": "https://cv.example.org/registryrole/distributor"
+    }
+  ],
+  "_suppliers": [
+    {
+      "py/id": 42
+    },
+    {
+      "py/id": 43
+    }
+  ],
+  "_imageSupplierImageId": "LifePhotos13423423",
   "_licensors": [
     {
       "py/object": "iptc_photometadata.common.Licensor",
@@ -381,7 +451,7 @@
     "gpsLatitude": null,
     "gpsLongitude": null,
     "identifiers": {
-      "py/id": 17
+      "py/id": 19
     },
     "name": null,
     "provinceState": "Province A2",
@@ -398,7 +468,7 @@
       "gpsLatitude": null,
       "gpsLongitude": null,
       "identifiers": {
-        "py/id": 16
+        "py/id": 18
       },
       "name": null,
       "provinceState": "Province A1",
@@ -406,23 +476,27 @@
       "worldRegion": "Worldregion A1"
     },
     {
-      "py/id": 43
+      "py/id": 51
     }
+  ],
+  "_personInImageNames": [
+    "Henriette Fillinger",
+    "Carl Subunder"
   ],
   "_personsShown": [
     {
       "py/object": "iptc_photometadata.common.PersonWDetails",
       "characteristics": [
         {
-          "py/id": 33
+          "py/id": 37
         },
         {
-          "py/id": 34
+          "py/id": 38
         }
       ],
       "description": "Nice photo metadata editor and a secret artist",
       "identifiers": {
-        "py/id": 21
+        "py/id": 24
       },
       "name": "Laura Hillinger"
     },
@@ -430,17 +504,31 @@
       "py/object": "iptc_photometadata.common.PersonWDetails",
       "characteristics": [
         {
-          "py/id": 34
+          "py/id": 38
         },
         {
-          "py/id": 33
+          "py/id": 37
         }
       ],
       "description": "Reliable event oraganizer",
       "identifiers": {
-        "py/id": 23
+        "py/id": 26
       },
       "name": "Frank Muller"
+    }
+  ],
+  "_productsShown": [
+    {
+      "py/object": "iptc_photometadata.common.ProductWGtin",
+      "description": "Preiswertes computergesteuertes Universal-Schnellladegeraet",
+      "gtin": "4013389438797",
+      "name": "GRAUPNER ULTRAMAT 18 12/230V LADER"
+    },
+    {
+      "py/object": "iptc_photometadata.common.ProductWGtin",
+      "description": "The Traxxas Slash set the standard for short-course fun and versatility",
+      "gtin": "020334700612",
+      "name": "TRAXXAS SLASH 4X4 #25 MARK JENKINS RTR 1/16"
     }
   ],
   "_webstatementRights": "https://pizzashort.example.com/copyright-licensing"

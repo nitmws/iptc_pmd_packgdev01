@@ -62,6 +62,8 @@
   "_creditLine": "J Boltenheimer/Pizzashots",
   "_dateCreated": "2020-07-07T12:13:14+02:00",
   "_description": "The best tasting Quattro Stagione pizza worldwide.",
+  "_digitalImageGuid": "https://reg.example.org/imageguid/1k4h34hk134kj34l3k2",
+  "_digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture",
   "_eventName": "The Great Event",
   "_genres": [
     {
@@ -77,6 +79,7 @@
   ],
   "_headline": "The best headline about a pizza",
   "_imageRating": 2,
+  "_imageSupplierImageId": "LifePhotos13423423",
   "_instructions": "Our instruction: country XYZ out",
   "_intellectualGenre": "iptcgenre:History",
   "_jobid": "Jid134231",
@@ -125,6 +128,10 @@
     "Adobe",
     "International Press Telecommunication Council"
   ],
+  "_personInImageNames": [
+    "Henriette Fillinger",
+    "Carl Subunder"
+  ],
   "_personsShown": [
     {
       "characteristics": [
@@ -167,6 +174,30 @@
       "name": "Frank Muller"
     }
   ],
+  "_productsShown": [
+    {
+      "description": "Preiswertes computergesteuertes Universal-Schnellladegeraet",
+      "gtin": "4013389438797",
+      "name": "GRAUPNER ULTRAMAT 18 12/230V LADER"
+    },
+    {
+      "description": "The Traxxas Slash set the standard for short-course fun and versatility",
+      "gtin": "020334700612",
+      "name": "TRAXXAS SLASH 4X4 #25 MARK JENKINS RTR 1/16"
+    }
+  ],
+  "_registryEntries": [
+    {
+      "assetIdentifier": "https://4535345.registries.example.org/asset/897987",
+      "registryIdentifier": "https://example.org/registry/4535345",
+      "role": "https://cv.example.org/registryrole/supplier"
+    },
+    {
+      "assetIdentifier": "https://8914343.registries.example.org/asset/12314123432",
+      "registryIdentifier": "https://example.org/registry/8914343",
+      "role": "https://cv.example.org/registryrole/distributor"
+    }
+  ],
   "_sceneCodes": [
     "SceneCode 01",
     "SceneCode 02"
@@ -175,6 +206,22 @@
   "_subjectCodes": [
     "SubjectCode 01",
     "SubjectCode 02"
+  ],
+  "_suppliers": [
+    {
+      "identifiers": [
+        "https://organisations.example.com/id/2143312",
+        "https://otherorgs.example.com/id/2143312"
+      ],
+      "name": "The Entity No 1"
+    },
+    {
+      "identifiers": [
+        "https://organisations.example.com/id/94543892",
+        "https://otherorgs.example.com/id/98457243"
+      ],
+      "name": "The Entity No 2"
+    }
   ],
   "_title": "A Title",
   "_usageTerms": "The rightful usage terms",

@@ -81,6 +81,8 @@
     }
   ],
   "XMP-iptcExt:AdditionalModelInformation": "Models are elegant",
+  "XMP-iptcExt:DigitalImageGUID": "https://reg.example.org/imageguid/1k4h34hk134kj34l3k2",
+  "XMP-iptcExt:DigitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture",
   "XMP-iptcExt:Event": "The Great Event",
   "XMP-iptcExt:Genre": [
     {
@@ -140,6 +142,10 @@
     "Adobe",
     "International Press Telecommunication Council"
   ],
+  "XMP-iptcExt:PersonInImage": [
+    "Henriette Fillinger",
+    "Carl Subunder"
+  ],
   "XMP-iptcExt:PersonInImageWDetails": [
     {
       "PersonCharacteristic": [
@@ -182,6 +188,30 @@
       "PersonName": "Frank Muller"
     }
   ],
+  "XMP-iptcExt:ProductInImage": [
+    {
+      "ProductDescription": "Preiswertes computergesteuertes Universal-Schnellladegeraet",
+      "ProductGTIN": "4013389438797",
+      "ProductName": "GRAUPNER ULTRAMAT 18 12/230V LADER"
+    },
+    {
+      "ProductDescription": "The Traxxas Slash set the standard for short-course fun and versatility",
+      "ProductGTIN": "020334700612",
+      "ProductName": "TRAXXAS SLASH 4X4 #25 MARK JENKINS RTR 1/16"
+    }
+  ],
+  "XMP-iptcExt:RegistryID": [
+    {
+      "RegEntryRole": "https://cv.example.org/registryrole/supplier",
+      "RegItemId": "https://4535345.registries.example.org/asset/897987",
+      "RegOrgId": "https://example.org/registry/4535345"
+    },
+    {
+      "RegEntryRole": "https://cv.example.org/registryrole/distributor",
+      "RegItemId": "https://8914343.registries.example.org/asset/12314123432",
+      "RegOrgId": "https://example.org/registry/8914343"
+    }
+  ],
   "XMP-photoshop:AuthorsPosition": "Staff photographer",
   "XMP-photoshop:CaptionWriter": "Bobby Captionwriter",
   "XMP-photoshop:City": "Citynice1",
@@ -219,6 +249,23 @@
       "ImageCreatorName": "Jane Morano"
     }
   ],
+  "XMP-plus:ImageSupplier": [
+    {
+      "ImageSupplierID": [
+        "https://organisations.example.com/id/2143312",
+        "https://otherorgs.example.com/id/2143312"
+      ],
+      "ImageSupplierName": "The Entity No 1"
+    },
+    {
+      "ImageSupplierID": [
+        "https://organisations.example.com/id/94543892",
+        "https://otherorgs.example.com/id/98457243"
+      ],
+      "ImageSupplierName": "The Entity No 2"
+    }
+  ],
+  "XMP-plus:ImageSupplierImageID": "LifePhotos13423423",
   "XMP-plus:Licensor": [
     {
       "LicensorID": "https://pizzashort.example.com",

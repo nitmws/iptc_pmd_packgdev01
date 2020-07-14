@@ -82,9 +82,23 @@ def semiptc2seret():
                              'https://otherorgs.example.com/id/98457243']
     t_entity2.name = 'The Entity No 2'
     iptcmd_out.copyrightOwners = [t_entity1, t_entity2]
+    iptcmd_out.digitalImageGuid = 'https://reg.example.org/imageguid/1k4h34hk134kj34l3k2'
+    iptcmd_out.digitalSourceType = 'http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture'
     iptcmd_out.eventName = 'The Great Event'
     iptcmd_out.genres = [t_cvterm1, t_cvterm2]
     iptcmd_out.imageRating = 2
+
+    t_regentry1 = RegistryEntry()
+    t_regentry1.registryIdentifier = 'https://example.org/registry/4535345'
+    t_regentry1.assetIdentifier = 'https://4535345.registries.example.org/asset/897987'
+    t_regentry1.role = 'https://cv.example.org/registryrole/supplier'
+    t_regentry2 = RegistryEntry()
+    t_regentry2.registryIdentifier = 'https://example.org/registry/8914343'
+    t_regentry2.assetIdentifier = 'https://8914343.registries.example.org/asset/12314123432'
+    t_regentry2.role = 'https://cv.example.org/registryrole/distributor'
+    iptcmd_out.registryEntries = [t_regentry1, t_regentry2]
+    iptcmd_out.suppliers = [t_entity1, t_entity2]
+    iptcmd_out.imageSupplierImageId = 'LifePhotos13423423'
 
 
     t_licensor = Licensor()
@@ -110,6 +124,7 @@ def semiptc2seret():
     t_location2.worldRegion = 'Worldregion A2'
     iptcmd_out.locationCreated = t_location2
     iptcmd_out.locationsShown = [t_location1, t_location2]
+    iptcmd_out.personInImageNames = ['Henriette Fillinger', 'Carl Subunder']
     t_personShown1 = PersonWDetails()
     t_personShown1.identifiers = ['https://persons.example.com/id/2143312',
                                   'https://otherpersons.example.com/id/2143312']
@@ -123,6 +138,15 @@ def semiptc2seret():
     t_personShown2.description = 'Reliable event oraganizer'
     t_personShown2.characteristics = [t_cvterm2, t_cvterm1]
     iptcmd_out.personsShown = [t_personShown1, t_personShown2]
+    t_productShown1 = ProductWGtin()
+    t_productShown1.gtin = '4013389438797'
+    t_productShown1.name = 'GRAUPNER ULTRAMAT 18 12/230V LADER'
+    t_productShown1.description = 'Preiswertes computergesteuertes Universal-Schnellladegeraet'
+    t_productShown2 = ProductWGtin()
+    t_productShown2.gtin = '020334700612'
+    t_productShown2.name = 'TRAXXAS SLASH 4X4 #25 MARK JENKINS RTR 1/16'
+    t_productShown2.description = 'The Traxxas Slash set the standard for short-course fun and versatility'
+    iptcmd_out.productsShown = [t_productShown1, t_productShown2]
     iptcmd_out.webstatementRights = 'https://pizzashort.example.com/copyright-licensing'
     # now finalize and embed
     iptcmd_out.export_semiptc_as_jsonfile('./semiptc-all_sem.json')
@@ -132,6 +156,14 @@ def semiptc2seret():
     # et.etdata = iptcmd_out.seret_metadata
     # embedresult = et.embeddata_using_json('./images/test-image-1.jpg')  # a single image
     # print(embedresult)
+
+
+def create_thinglist(in_thing):
+    thing_list = []
+    for thing in in_thing:
+        thing_dict = thing.todict()
+        thing_list.append(thing_dict)
+    return thing_list
 
 
 def seret2semiptc():
@@ -145,11 +177,7 @@ def seret2semiptc():
         # get properties
         res_log.write('\n***** IPTC Core Schema')
         res_log.write('\n* Copyright Notice: ' + iptcmd_in.copyrightNotice)
-        creatorsExt_list = []
-        for creatorExt in iptcmd_in.creatorsExt:
-            creatorExt_dict = creatorExt.todict()
-            creatorsExt_list.append(creatorExt_dict)
-        res_log.write('\n* Creator Extensive: ' + json.dumps(creatorsExt_list, indent=2))
+        res_log.write('\n* Creator Extensive: ' + json.dumps(create_thinglist(iptcmd_in.creatorsExt), indent=2))
         res_log.write('\n* Credit Line: ' + iptcmd_in.creditLine)
         res_log.write('\n* Date Created: ' + iptcmd_in.dateCreated)
         res_log.write('\n* Caption Writer: ' + iptcmd_in.captionWriter)
@@ -165,45 +193,31 @@ def seret2semiptc():
         res_log.write('\n* Subject Codes (multiple): ' + ', '.join(iptcmd_in.subjectCodes))
         res_log.write('\n* Title: ' + iptcmd_in.title)
         res_log.write('\n***** IPTC Extension Schema')
-        aboutCvTerm_list = []
-        for aboutCvTerm in iptcmd_in.aboutCvTerms:
-            aboutCvTerm_dict = aboutCvTerm.todict()
-            aboutCvTerm_list.append(aboutCvTerm_dict)
-        res_log.write('\n* About CV-Terms: ' + json.dumps(aboutCvTerm_list, indent=2))
+        res_log.write('\n* About CV-Terms: ' + json.dumps(create_thinglist(iptcmd_in.aboutCvTerms), indent=2))
         res_log.write('\n* Addl Model Information: ' + iptcmd_in.additionalModelInfo)
         res_log.write('\n* Organisation in Image/Codes: ' + ', '.join(iptcmd_in.organisationInImageCodes))
         res_log.write('\n* Organisation in Image/Names: ' + ', '.join(iptcmd_in.organisationInImageNames))
-        entities_list = []
-        for entity in iptcmd_in.copyrightOwners:
-            entity_dict = entity.todict()
-            entities_list.append(entity_dict)
-        res_log.write('\n* Copyright Owners: ' + json.dumps(entities_list, indent=2))
+        res_log.write('\n* Copyright Owners: ' + json.dumps(create_thinglist(iptcmd_in._copyrightOwners), indent=2))
+        res_log.write('\n* Digital Image GUID: ' + iptcmd_in.digitalImageGuid)
+        res_log.write('\n* Digital Source Type: ' + iptcmd_in.digitalSourceType)
         res_log.write('\n* Event Name: ' + iptcmd_in.eventName)
-        genre_list = []
-        for genre in iptcmd_in.genres:
-            genre_dict = genre.todict()
-            genre_list.append(genre_dict)
-        res_log.write('\n* Genres: ' + json.dumps(genre_list, indent=2))
+        res_log.write('\n* Genres: ' + json.dumps(create_thinglist(iptcmd_in.genres), indent=2))
         res_log.write('\n* Image Rating: ' + str(iptcmd_in.imageRating))
+        res_log.write('\n* Image Registry Entry: ' + json.dumps(create_thinglist(iptcmd_in.registryEntries), indent=2))
+        res_log.write('\n* Image Supplier: ' + json.dumps(create_thinglist(iptcmd_in.suppliers), indent=2))
+        res_log.write('\n* Image Supplier Image Id: ' + iptcmd_in.imageSupplierImageId)
 
 
-        licensors_list = []
-        for licensor in iptcmd_in.licensors:
-            licensor_dict = licensor.todict()
-            licensors_list.append(licensor_dict)
-        res_log.write('\n* Licensors: ' + json.dumps(licensors_list, indent=2))
+        res_log.write('\n* Licensors: ' + json.dumps(create_thinglist(iptcmd_in.licensors), indent=2))
         res_log.write('\n* Location Created: ' + json.dumps(iptcmd_in.locationCreated.todict(), indent=2))
-        locationsShown_list = []
-        for locationShown in iptcmd_in.locationsShown:
-            locationShown_dict = locationShown.todict()
-            locationsShown_list.append(locationShown_dict)
-        res_log.write('\n* Locations Shown: ' + json.dumps(locationsShown_list, indent=2))
-        personsShown_list = []
-        for personShown in iptcmd_in.personsShown:
-            personShown_dict = personShown.todict()
-            personsShown_list.append(personShown_dict)
-        res_log.write('\n* Persons Shown: ' + json.dumps(personsShown_list, indent=2))
+        res_log.write('\n* Locations Shown: ' + json.dumps(create_thinglist(iptcmd_in.locationsShown), indent=2))
+        res_log.write('\n* Persons Shown: ' + ', '.join(iptcmd_in.personInImageNames))
+        res_log.write('\n* Persons Shown with Details: ' + json.dumps(create_thinglist(iptcmd_in.personsShown),
+                                                                      indent=2))
+        res_log.write('\n* Products Shown: ' + json.dumps(create_thinglist(iptcmd_in.productsShown), indent=2))
         res_log.write('\n* Web Statement of Rights/Copyright URL: ' + iptcmd_in.webstatementRights)
+
+
 
 # ************** MAIN
 

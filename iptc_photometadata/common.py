@@ -306,11 +306,40 @@ class ProductWGtin(IptcStructure):
     gtin: Optional[str] = None
     name: Optional[str] = None
 
+    def loadfrom_seret(self, seretProduct: dict):
+        _propsetcount = 0
+        if 'ProductGTIN' in seretProduct:
+            _propsetcount += 1
+            self.gtin = seretProduct['ProductGTIN']
+        if 'ProductName' in seretProduct:
+            _propsetcount += 1
+            self.name = seretProduct['ProductName']
+        if 'ProductDescription' in seretProduct:
+            _propsetcount += 1
+            self.description = seretProduct['ProductDescription']
+        if _propsetcount == 0:
+            self = None
+
+
 @dataclass
 class RegistryEntry(IptcStructure):
     assetIdentifier: Optional[str] = None
     registryIdentifier: Optional[str] = None
     role: Optional[str] = None
+
+    def loadfrom_seret(self, seretRegistryEntry: dict):
+        _propsetcount = 0
+        if 'RegOrgId' in seretRegistryEntry:
+            _propsetcount += 1
+            self.registryIdentifier = seretRegistryEntry['RegOrgId']
+        if 'RegItemId' in seretRegistryEntry:
+            _propsetcount += 1
+            self.assetIdentifier = seretRegistryEntry['RegItemId']
+        if 'RegEntryRole' in seretRegistryEntry:
+            _propsetcount += 1
+            self.role = seretRegistryEntry['RegEntryRole']
+        if _propsetcount == 0:
+            self = None
 
 @dataclass
 class CreatorExt(IptcStructure):
@@ -559,11 +588,15 @@ class IptcPhotometadata:
                 self._semiptc2seret_registry[iptcpmd_tlprop]()
 
     def semiptc2seret_copyrightNotice(self):
+        """Transforms the semantic IPTC property Copyright Notice to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._copyrightNotice is not None:
             self._semiptc2seret_simple_multi1(self._copyrightNotice, 'IFD0:Copyright', 'IPTC:CopyrightNotice',
                                             'XMP-dc:Rights')
 
     def semiptc2seret_creatorsExt(self):
+        """Transforms the semantic IPTC property Creators Extensive to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._creatorsExt is not None:
             # Collect the properties of a creator in different caches
             xmpimgcreators = []
@@ -599,10 +632,14 @@ class IptcPhotometadata:
 
 
     def semiptc2seret_creditLine(self):
+        """Transforms the semantic IPTC property Credit Line to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._creditLine is not None:
             self._semiptc2seret_simple_multi1(self._creditLine, None, 'IPTC:Credit', 'XMP-photoshop:Credit')
 
     def semiptc2seret_dateCreated(self):
+        """Transforms the semantic IPTC property Date Created to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._dateCreated is not None:
             # used format: YYYY-MM-DD"T"hh:mm:ss[tz]
             daypart = self._dateCreated[:10]
@@ -617,56 +654,80 @@ class IptcPhotometadata:
             self._seret_metadata['XMP-photoshop:DateCreated'] = daypartet + ' ' + timepart + timezonepart
 
     def semiptc2seret_captionWriter(self):
+        """Transforms the semantic IPTC property Caption Writer to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._captionWriter is not None:
             self._semiptc2seret_simple_multi1(self._captionWriter, None, 'IPTC:Writer-Editor',
                                               'XMP-photoshop:CaptionWriter')
 
     def semiptc2seret_description(self):
+        """Transforms the semantic IPTC property Description/Caption to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._description is not None:
             self._semiptc2seret_simple_multi1(self._description, 'EXIF:ImageDescription', 'IPTC:Caption-Abstract',
                                             'XMP-dc:Description')
 
     def semiptc2seret_headline(self):
+        """Transforms the semantic IPTC property Headline to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._headline is not None:
             self._semiptc2seret_simple_multi1(self._headline, None, 'IPTC:Headline', 'XMP-photoshop:Headline')
 
     def semiptc2seret_instructions(self):
+        """Transforms the semantic IPTC property Instructions to metadata serialized as Exif/IIM/XMP
+                            using ExifTool naming"""
         if self._instructions is not None:
             self._semiptc2seret_simple_multi1(self._instructions, None, 'IPTC:SpecialInstructions',
                                               'XMP-photoshop:Instructions')
 
     def semiptc2seret_intellectualGenre(self):
+        """Transforms the semantic IPTC property Intellectual Genre to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._intellectualGenre is not None:
             self._semiptc2seret_simple_multi1(self._intellectualGenre, None, 'IPTC:ObjectAttributeReference',
                                               'XMP-iptcCore:IntellectualGenre')
 
     def semiptc2seret_jobid(self):
+        """Transforms the semantic IPTC property Job Id to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._jobid is not None:
             self._semiptc2seret_simple_multi1(self._jobid, None, 'IPTC:OriginalTransmissionReference',
                                               'XMP-photoshop:TransmissionReference')
 
     def semiptc2seret_keywords(self):
+        """Transforms the semantic IPTC property Keywords to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._keywords is not None:
             self._semiptc2seret_simple_multi1(self._keywords, None, 'IPTC:Keywords', 'XMP-dc:Subject')
 
     def semiptc2seret_usageTerms(self):
+        """Transforms the semantic IPTC property Rights Usage Terms to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._usageTerms is not None:
             self._semiptc2seret_simple_multi1(self._usageTerms, None, None, 'XMP-xmpRights:UsageTerms')
 
     def semiptc2seret_sceneCodes(self):
+        """Transforms the semantic IPTC property Scene Codes to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._sceneCodes is not None:
             self._semiptc2seret_simple_multi1(self._sceneCodes, None, None, 'XMP-iptcCore:Scene')
 
     def semiptc2seret_source(self):
+        """Transforms the semantic IPTC property Source to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._source is not None:
             self._semiptc2seret_simple_multi1(self._source, None, 'IPTC:Source', 'XMP-photoshop:Source')
 
     def semiptc2seret_subjectCodes(self):
+        """Transforms the semantic IPTC property Subject Code to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._subjectCodes is not None:
             self._semiptc2seret_simple_multi1(self._subjectCodes, None, 'IPTC:SubjectReference',
                                               'XMP-iptcCore:SubjectCode')
 
     def semiptc2seret_title(self):
+        """Transforms the semantic IPTC property Title to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._title is not None:
             self._semiptc2seret_simple_multi1(self._title, 'IPTC:ObjectName', 'XMP-dc:Title')
 
@@ -674,6 +735,8 @@ class IptcPhotometadata:
     # IPTC Extension schema properties
 
     def semiptc2seret_aboutCvTerms(self):
+        """Transforms the semantic IPTC property CV-Term About Image to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._aboutCvTerms is not None:
             if len(self._aboutCvTerms) > 0:
                 xmpcvterms = []
@@ -682,38 +745,56 @@ class IptcPhotometadata:
                 self._seret_metadata['XMP-iptcExt:AboutCvTerm'] = xmpcvterms
 
     def semiptc2seret_additionalModelInfo(self):
+        """Transforms the semantic IPTC property Additional Model Information to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._additionalModelInfo is not None:
             self._seret_metadata['XMP-iptcExt:AdditionalModelInformation'] = self._additionalModelInfo
 
     def semiptc2seret_artworkOrObjects(self):
+        """Transforms the semantic IPTC property Artwork or Objects in the Image to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._artworkOrObjects is not None:
             pass
 
     def semiptc2seret_organisationInImageCodes(self):
+        """Transforms the semantic IPTC property Code of Organisation Feature in the Image to metadata serialized
+            as Exif/IIM/XMP using ExifTool naming"""
         if self._organisationInImageCodes is not None:
             self._seret_metadata['XMP-iptcExt:OrganisationInImageCode'] = self._organisationInImageCodes
 
     def semiptc2seret_organisationInImageNames(self):
+        """Transforms the semantic IPTC property Name of Organisation Feature in the Image to metadata serialized
+            as Exif/IIM/XMP using ExifTool naming"""
         if self._organisationInImageNames is not None:
             self._seret_metadata['XMP-iptcExt:OrganisationInImageName'] = self._organisationInImageNames
 
     def semiptc2seret_copyrightOwners(self):
+        """Transforms the semantic IPTC property Copyright Owner to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
         if self._copyrightOwners is not None:
             self._semiptc2seret_entities_xmp(self._copyrightOwners, 'CopyrightOwner', 'XMP-plus:CopyrightOwner')
 
     def semiptc2seret_digitalImageGuid(self):
+        """Transforms the semantic IPTC property Digital Image GUID to metadata serialized as Exif/IIM/XMP
+                    using ExifTool naming"""
         if self._digitalImageGuid is not None:
-            pass
+            self._seret_metadata['XMP-iptcExt:DigitalImageGUID'] = self._digitalImageGuid
 
     def semiptc2seret_digitalSourceType(self):
+        """Transforms the semantic IPTC property Digital Source Type to metadata serialized as Exif/IIM/XMP
+                    using ExifTool naming"""
         if self._digitalSourceType is not None:
-            pass
+            self._seret_metadata['XMP-iptcExt:DigitalSourceType'] = self._digitalSourceType
 
     def semiptc2seret_eventName(self):
+        """Transforms the semantic IPTC property Event to metadata serialized as Exif/IIM/XMP
+                    using ExifTool naming"""
         if self._eventName is not None:
             self._seret_metadata['XMP-iptcExt:Event'] = self._eventName
 
     def semiptc2seret_genres(self):
+        """Transforms the semantic IPTC property Genre to metadata serialized as Exif/IIM/XMP
+                    using ExifTool naming"""
         if self._genres is not None:
             if len(self._genres) > 0:
                 xmpgenres = []
@@ -722,11 +803,46 @@ class IptcPhotometadata:
                 self._seret_metadata['XMP-iptcExt:Genre'] = xmpgenres
 
     def semiptc2seret_imageRating(self):
+        """Transforms the semantic IPTC property Image Rating to metadata serialized as Exif/IIM/XMP
+                    using ExifTool naming"""
         if self._imageRating is not None:
             rating_str = str(self._imageRating) + '.0'
             self._seret_metadata['XMP-xmp:Rating'] = rating_str
 
+    def semiptc2seret_registryEntries(self):
+        """Transforms the semantic IPTC property Image Registry Entry to metadata serialized as Exif/IIM/XMP
+                    using ExifTool naming"""
+        if self._registryEntries is not None:
+            if len(self._registryEntries) > 0:
+                xmpregentries = []
+                for regentry in self._registryEntries:
+                    xmpregentry = {}
+                    if regentry.registryIdentifier is not None:
+                        xmpregentry['RegOrgId'] = regentry.registryIdentifier
+                    if regentry.assetIdentifier is not None:
+                        xmpregentry['RegItemId'] = regentry.assetIdentifier
+                    if regentry.role is not None:
+                        xmpregentry['RegEntryRole'] = regentry.role
+                    if xmpregentry != {}:
+                        xmpregentries.append(xmpregentry)
+                if len(xmpregentries) > 0:
+                    self._seret_metadata['XMP-iptcExt:RegistryID'] = xmpregentries
+
+    def semiptc2seret_suppliers(self):
+        """Transforms the semantic IPTC property Image Supplier to metadata serialized as Exif/IIM/XMP
+            using ExifTool naming"""
+        if self._suppliers is not None:
+            self._semiptc2seret_entities_xmp(self._suppliers, 'ImageSupplier', 'XMP-plus:ImageSupplier')
+
+    def semiptc2seret_imageSupplierImageId(self):
+        """Transforms the semantic IPTC property Image Supplier Image Id to metadata serialized as Exif/IIM/XMP
+                    using ExifTool naming"""
+        if self._imageSupplierImageId is not None:
+            self._seret_metadata['XMP-plus:ImageSupplierImageID'] = self._imageSupplierImageId
+
     def semiptc2seret_licensors(self):
+        """Transforms the semantic IPTC property Licensor to metadata serialized as Exif/IIM/XMP
+                    using ExifTool naming"""
         if self._licensors is not None:
             if len(self._licensors) > 0:
                 xmplicensors = []
@@ -739,6 +855,8 @@ class IptcPhotometadata:
                 self._seret_metadata['XMP-plus:Licensor'] = xmplicensors
 
     def semiptc2seret_locationCreated(self):
+        """Transforms the semantic IPTC property Location Created to metadata serialized as Exif/IIM/XMP
+                    using ExifTool naming"""
         if self._locationCreated is not None:
             xmplocationcreated = self._locationCreated.todict_et()
             if xmplocationcreated != {}:
@@ -747,6 +865,8 @@ class IptcPhotometadata:
                 self._semitptc2seret_deprec_location(self._locationCreated)
 
     def semiptc2seret_locationsShown(self):
+        """Transforms the semantic IPTC property Location Shown in the Image to metadata serialized as Exif/IIM/XMP
+                    using ExifTool naming"""
         if self._locationsShown is not None:
             if len(self._locationsShown) > 0:
                 itemctr = 0
@@ -760,7 +880,15 @@ class IptcPhotometadata:
                         self._semitptc2seret_deprec_location(locationShown)
                 self._seret_metadata['XMP-iptcExt:LocationShown'] = xmplocationsshown
 
+    def semiptc2seret_personInImageNames(self):
+        """Transforms the semantic IPTC property Persons Shown in Image in the Image to metadata serialized
+            as Exif/IIM/XMP using ExifTool naming"""
+        if self._personInImageNames is not None:
+            self._seret_metadata['XMP-iptcExt:PersonInImage'] = self._personInImageNames
+
     def semiptc2seret_personsShown(self):
+        """Transforms the semantic IPTC property Persons Shown in the Image with Details to metadata serialized
+                    as Exif/IIM/XMP using ExifTool naming"""
         if self._personsShown is not None:
             if len(self._personsShown) > 0:
                 xmppersonsshown = []
@@ -770,7 +898,28 @@ class IptcPhotometadata:
                         xmppersonsshown.append(personShown)
                 self._seret_metadata['XMP-iptcExt:PersonInImageWDetails'] = xmppersonsshown
 
+    def semiptc2seret_productsShown(self):
+        """Transforms the semantic IPTC property Products Shown in Image to metadata serialized as Exif/IIM/XMP
+                    using ExifTool naming"""
+        if self._productsShown is not None:
+            if len(self._productsShown) > 0:
+                xmpproducts = []
+                for product in self._productsShown:
+                    xmpproduct = {}
+                    if product.gtin is not None:
+                        xmpproduct['ProductGTIN'] = product.gtin
+                    if product.name is not None:
+                        xmpproduct['ProductName'] = product.name
+                    if product.description is not None:
+                        xmpproduct['ProductDescription'] = product.description
+                    if xmpproduct != {}:
+                        xmpproducts.append(xmpproduct)
+                if len(xmpproducts) > 0:
+                    self._seret_metadata['XMP-iptcExt:ProductInImage'] = xmpproducts
+
     def semiptc2seret_webstatementRights(self):
+        """Transforms the semantic IPTC property Web Statement of Rights to metadata serialized as Exif/IIM/XMP
+                    using ExifTool naming"""
         if self._webstatementRights is not None:
             self._seret_metadata['XMP-xmpRights:WebStatement'] = self._webstatementRights
 
@@ -1046,6 +1195,14 @@ class IptcPhotometadata:
             if len(self._copyrightOwners) == 0:
                 self._copyrightOwners = None
 
+    def seret2semiptc_digitalImageGuid(self):
+        if 'XMP-iptcExt:DigitalImageGUID' in self._seret_metadata:
+            self._digitalImageGuid = self._seret_metadata['XMP-iptcExt:DigitalImageGUID']
+
+    def seret2semiptc_digitalSourceType(self):
+        if 'XMP-iptcExt:DigitalSourceType' in self._seret_metadata:
+            self._digitalSourceType = self._seret_metadata['XMP-iptcExt:DigitalSourceType']
+
     def seret2semiptc_eventName(self):
         if 'XMP-iptcExt:Event' in self._seret_metadata:
             self._eventName = self._seret_metadata['XMP-iptcExt:Event']
@@ -1071,6 +1228,36 @@ class IptcPhotometadata:
                 self._imageRating = int(ratingparts[0])
             else:
                 self._imageRating = 0
+
+    def seret2semiptc_registryEntries(self):
+        if 'XMP-iptcExt:RegistryID' in self._seret_metadata:
+            if len(self._seret_metadata['XMP-iptcExt:RegistryID']) > 0:
+                self._registryEntries = []
+            for seretRegentry in self._seret_metadata['XMP-iptcExt:RegistryID']:
+                if seretRegentry != {}:
+                    semRegentry = RegistryEntry()
+                    semRegentry.loadfrom_seret(seretRegentry)
+                    if semRegentry is not None:
+                        self._registryEntries.append(semRegentry)
+            if len(self._registryEntries) == 0:
+                self._registryEntries = None
+
+    def seret2semiptc_suppliers(self):
+        if 'XMP-plus:ImageSupplier' in self._seret_metadata:
+            if len(self._seret_metadata['XMP-plus:ImageSupplier']) > 0:
+                self._suppliers = []
+            for seretSupplier in self._seret_metadata['XMP-plus:ImageSupplier']:
+                if seretSupplier != {}:
+                    semEntity = Entity()
+                    semEntity.loadfrom_plus_seret(seretSupplier, 'ImageSupplier')
+                    if semEntity is not None:
+                        self._suppliers.append(semEntity)
+            if len(self._suppliers) == 0:
+                self._suppliers = None
+
+    def seret2semiptc_imageSupplierImageId(self):
+        if 'XMP-plus:ImageSupplierImageID' in self._seret_metadata:
+            self._imageSupplierImageId = self._seret_metadata['XMP-plus:ImageSupplierImageID']
 
     def seret2semiptc_licensors(self):
         if 'XMP-plus:Licensor' in self._seret_metadata:
@@ -1099,6 +1286,10 @@ class IptcPhotometadata:
                 locationShown = Location()
                 locationShown.loadfrom_seret(xmplocation)
                 self._locationsShown.append(locationShown)
+
+    def seret2semiptc_personInImageNames(self):
+        if 'XMP-iptcExt:PersonInImage' in self._seret_metadata:
+            self._personInImageNames = self._seret_metadata['XMP-iptcExt:PersonInImage']
 
     def seret2semiptc_personsShown(self):
         if 'XMP-iptcExt:PersonInImageWDetails' in self._seret_metadata:
@@ -1130,6 +1321,19 @@ class IptcPhotometadata:
                         self._personsShown.append(semPerson)
             if len(self._personsShown) == 0:
                 self._personsShown = None
+
+    def seret2semiptc_productsShown(self):
+        if 'XMP-iptcExt:ProductInImage' in self._seret_metadata:
+            if len(self._seret_metadata['XMP-iptcExt:ProductInImage']) > 0:
+                self._productsShown = []
+            for seretProduct in self._seret_metadata['XMP-iptcExt:ProductInImage']:
+                if seretProduct != {}:
+                    semProduct = ProductWGtin()
+                    semProduct.loadfrom_seret(seretProduct)
+                    if semProduct is not None:
+                        self._productsShown.append(semProduct)
+            if len(self._productsShown) == 0:
+                self._productsShown = None
 
     def seret2semiptc_webstatementRights(self):
         if 'XMP-xmpRights:WebStatement' in self._seret_metadata:
