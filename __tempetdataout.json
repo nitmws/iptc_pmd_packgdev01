@@ -1,23 +1,271 @@
 {
   "EXIF:ImageDescription": "The best tasting Quattro Stagione pizza worldwide.",
+  "ExifIFD:DateTimeOriginal": "2020:07:07 12:13:14",
   "IFD0:Artist": "John Boltenheimer",
   "IFD0:Copyright": "(c) 2020 Copyright Pizzashots, all rights reserved",
-  "IPTC:By-line": "John Boltenheimer",
+  "IPTC:By-line": [
+    "John Boltenheimer",
+    "Jane Morano"
+  ],
+  "IPTC:By-lineTitle": [
+    "Staff photographer",
+    "Photographer"
+  ],
   "IPTC:Caption-Abstract": "The best tasting Quattro Stagione pizza worldwide.",
+  "IPTC:City": "Citynice1",
   "IPTC:CopyrightNotice": "(c) 2020 Copyright Pizzashots, all rights reserved",
+  "IPTC:Country-PrimaryLocationCode": "CA1",
+  "IPTC:Country-PrimaryLocationName": "Country A1",
+  "IPTC:Credit": "J Boltenheimer/Pizzashots",
+  "IPTC:DateCreated": "2020:07:07",
   "IPTC:Headline": "The best headline about a pizza",
+  "IPTC:Keywords": [
+    "Keyword 01",
+    "Keyword 02"
+  ],
+  "IPTC:ObjectAttributeReference": "iptcgenre:History",
+  "IPTC:ObjectName": "A Title",
+  "IPTC:OriginalTransmissionReference": "Jid134231",
+  "IPTC:Province-State": "Province A1",
+  "IPTC:Source": "The best Source of all",
+  "IPTC:SpecialInstructions": "Our instruction: country XYZ out",
+  "IPTC:Sub-location": "Sublocation1",
+  "IPTC:SubjectReference": [
+    "SubjectCode 01",
+    "SubjectCode 02"
+  ],
+  "IPTC:TimeCreated": "12:13:14+02:00",
+  "IPTC:Writer-Editor": "Bobby Captionwriter",
   "XMP-dc:Creator": [
-    "John Boltenheimer"
+    "John Boltenheimer",
+    "Jane Morano"
   ],
   "XMP-dc:Description": "The best tasting Quattro Stagione pizza worldwide.",
   "XMP-dc:Rights": "(c) 2020 Copyright Pizzashots, all rights reserved",
+  "XMP-dc:Subject": [
+    "Keyword 01",
+    "Keyword 02"
+  ],
+  "XMP-dc:Title": "A Title",
+  "XMP-iptcCore:CountryCode": "CA1",
+  "XMP-iptcCore:CreatorContactInfo": {
+    "CiAdrCity": "Ambersville",
+    "CiAdrCtry": "United Kingdom of Phantasia",
+    "CiAdrExt": "Image House",
+    "CiAdrPcode": "ABC234 Q12",
+    "CiAdrRegion": "Humbershire",
+    "CiEmailWork": "johnb@photoatwork.com",
+    "CiTelWork": "+40 123 38388382",
+    "CiUrlWork": "https://photoatwork.example.com"
+  },
+  "XMP-iptcCore:IntellectualGenre": "iptcgenre:History",
+  "XMP-iptcCore:Location": "Sublocation1",
+  "XMP-iptcCore:Scene": [
+    "SceneCode 01",
+    "SceneCode 02"
+  ],
+  "XMP-iptcCore:SubjectCode": [
+    "SubjectCode 01",
+    "SubjectCode 02"
+  ],
+  "XMP-iptcExt:AboutCvTerm": [
+    {
+      "CvId": "https://example.com/cvid/124123",
+      "CvTermId": "https://example.com/termid/term22",
+      "CvTermName": "Name of Term22"
+    },
+    {
+      "CvId": "https://example.com/cvid/58430",
+      "CvTermId": "https://example.com/termid/term55",
+      "CvTermName": "Name of Term55"
+    }
+  ],
+  "XMP-iptcExt:AdditionalModelInformation": "Models are elegant",
+  "XMP-iptcExt:DigitalImageGUID": "https://reg.example.org/imageguid/1k4h34hk134kj34l3k2",
+  "XMP-iptcExt:DigitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture",
+  "XMP-iptcExt:Event": "The Great Event",
+  "XMP-iptcExt:Genre": [
+    {
+      "CvId": "https://example.com/cvid/124123",
+      "CvTermId": "https://example.com/termid/term22",
+      "CvTermName": "Name of Term22"
+    },
+    {
+      "CvId": "https://example.com/cvid/58430",
+      "CvTermId": "https://example.com/termid/term55",
+      "CvTermName": "Name of Term55"
+    }
+  ],
+  "XMP-iptcExt:LocationCreated": {
+    "City": "Citynice2",
+    "CountryCode": "CA2",
+    "CountryName": "Country A2",
+    "LocationId": [
+      "https://locids1.example.com/4312",
+      "https://locids2.example.com/1342342"
+    ],
+    "ProvinceState": "Province A2",
+    "Sublocation": "Sublocation2",
+    "WorldRegion": "Worldregion A2"
+  },
+  "XMP-iptcExt:LocationShown": [
+    {
+      "City": "Citynice1",
+      "CountryCode": "CA1",
+      "CountryName": "Country A1",
+      "LocationId": [
+        "https://locids1.example.com/4311",
+        "https://locids2.example.com/134234"
+      ],
+      "ProvinceState": "Province A1",
+      "Sublocation": "Sublocation1",
+      "WorldRegion": "Worldregion A1"
+    },
+    {
+      "City": "Citynice2",
+      "CountryCode": "CA2",
+      "CountryName": "Country A2",
+      "LocationId": [
+        "https://locids1.example.com/4312",
+        "https://locids2.example.com/1342342"
+      ],
+      "ProvinceState": "Province A2",
+      "Sublocation": "Sublocation2",
+      "WorldRegion": "Worldregion A2"
+    }
+  ],
+  "XMP-iptcExt:OrganisationInImageCode": [
+    "ADBE",
+    "IPTC"
+  ],
+  "XMP-iptcExt:OrganisationInImageName": [
+    "Adobe",
+    "International Press Telecommunication Council"
+  ],
+  "XMP-iptcExt:PersonInImage": [
+    "Henriette Fillinger",
+    "Carl Subunder"
+  ],
+  "XMP-iptcExt:PersonInImageWDetails": [
+    {
+      "PersonCharacteristic": [
+        {
+          "CvId": "https://example.com/cvid/124123",
+          "CvTermId": "https://example.com/termid/term22",
+          "CvTermName": "Name of Term22"
+        },
+        {
+          "CvId": "https://example.com/cvid/58430",
+          "CvTermId": "https://example.com/termid/term55",
+          "CvTermName": "Name of Term55"
+        }
+      ],
+      "PersonDescription": "Nice photo metadata editor and a secret artist",
+      "PersonId": [
+        "https://persons.example.com/id/2143312",
+        "https://otherpersons.example.com/id/2143312"
+      ],
+      "PersonName": "Laura Hillinger"
+    },
+    {
+      "PersonCharacteristic": [
+        {
+          "CvId": "https://example.com/cvid/58430",
+          "CvTermId": "https://example.com/termid/term55",
+          "CvTermName": "Name of Term55"
+        },
+        {
+          "CvId": "https://example.com/cvid/124123",
+          "CvTermId": "https://example.com/termid/term22",
+          "CvTermName": "Name of Term22"
+        }
+      ],
+      "PersonDescription": "Reliable event oraganizer",
+      "PersonId": [
+        "https://persons.example.com/id/4543543",
+        "https://otherpersons.example.com/id/758758"
+      ],
+      "PersonName": "Frank Muller"
+    }
+  ],
+  "XMP-iptcExt:ProductInImage": [
+    {
+      "ProductDescription": "Preiswertes computergesteuertes Universal-Schnellladegeraet",
+      "ProductGTIN": "4013389438797",
+      "ProductName": "GRAUPNER ULTRAMAT 18 12/230V LADER"
+    },
+    {
+      "ProductDescription": "The Traxxas Slash set the standard for short-course fun and versatility",
+      "ProductGTIN": "020334700612",
+      "ProductName": "TRAXXAS SLASH 4X4 #25 MARK JENKINS RTR 1/16"
+    }
+  ],
+  "XMP-iptcExt:RegistryID": [
+    {
+      "RegEntryRole": "https://cv.example.org/registryrole/supplier",
+      "RegItemId": "https://4535345.registries.example.org/asset/897987",
+      "RegOrgId": "https://example.org/registry/4535345"
+    },
+    {
+      "RegEntryRole": "https://cv.example.org/registryrole/distributor",
+      "RegItemId": "https://8914343.registries.example.org/asset/12314123432",
+      "RegOrgId": "https://example.org/registry/8914343"
+    }
+  ],
+  "XMP-photoshop:AuthorsPosition": "Staff photographer",
+  "XMP-photoshop:CaptionWriter": "Bobby Captionwriter",
+  "XMP-photoshop:City": "Citynice1",
+  "XMP-photoshop:Country": "Country A1",
+  "XMP-photoshop:Credit": "J Boltenheimer/Pizzashots",
+  "XMP-photoshop:DateCreated": "2020:07:07 12:13:14+02:00",
   "XMP-photoshop:Headline": "The best headline about a pizza",
+  "XMP-photoshop:Instructions": "Our instruction: country XYZ out",
+  "XMP-photoshop:Source": "The best Source of all",
+  "XMP-photoshop:State": "Province A1",
+  "XMP-photoshop:TransmissionReference": "Jid134231",
+  "XMP-plus:CopyrightOwner": [
+    {
+      "CopyrightOwnerID": [
+        "https://organisations.example.com/id/2143312",
+        "https://otherorgs.example.com/id/2143312"
+      ],
+      "CopyrightOwnerName": "The Entity No 1"
+    },
+    {
+      "CopyrightOwnerID": [
+        "https://organisations.example.com/id/94543892",
+        "https://otherorgs.example.com/id/98457243"
+      ],
+      "CopyrightOwnerName": "The Entity No 2"
+    }
+  ],
   "XMP-plus:ImageCreator": [
     {
       "ImageCreatorID": "https://linkedin.example.com/user3143123432",
       "ImageCreatorName": "John Boltenheimer"
+    },
+    {
+      "ImageCreatorID": "https://linkedin.example.com/user830939",
+      "ImageCreatorName": "Jane Morano"
     }
   ],
+  "XMP-plus:ImageSupplier": [
+    {
+      "ImageSupplierID": [
+        "https://organisations.example.com/id/2143312",
+        "https://otherorgs.example.com/id/2143312"
+      ],
+      "ImageSupplierName": "The Entity No 1"
+    },
+    {
+      "ImageSupplierID": [
+        "https://organisations.example.com/id/94543892",
+        "https://otherorgs.example.com/id/98457243"
+      ],
+      "ImageSupplierName": "The Entity No 2"
+    }
+  ],
+  "XMP-plus:ImageSupplierImageID": "LifePhotos13423423",
   "XMP-plus:Licensor": [
     {
       "LicensorID": "https://pizzashort.example.com",
@@ -25,5 +273,7 @@
       "LicensorURL": "https://pizzashort.example.com/shot/1341234"
     }
   ],
+  "XMP-xmp:Rating": "2.0",
+  "XMP-xmpRights:UsageTerms": "The rightful usage terms",
   "XMP-xmpRights:WebStatement": "https://pizzashort.example.com/copyright-licensing"
 }

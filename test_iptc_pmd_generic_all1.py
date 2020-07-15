@@ -153,9 +153,9 @@ def semiptc2seret():
     iptcmd_out.export_self_as_jsonfile('./iptcmd_out-self.json')
     iptcmd_out.transform_semiptc_metadata_to_seret()
     iptcmd_out.export_seret_as_jsonfile('./semiptc-all_seret.json')
-    # et.etdata = iptcmd_out.seret_metadata
-    # embedresult = et.embeddata_using_json('./images/test-image-1.jpg')  # a single image
-    # print(embedresult)
+    et.etdata = iptcmd_out.seret_metadata
+    embedresult = et.embeddata_using_json('./images/test-image-1.jpg')  # a single image
+    print(embedresult)
 
 
 def create_thinglist(in_thing):
