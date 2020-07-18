@@ -124,6 +124,12 @@ def semiptc2seret():
     t_location2.worldRegion = 'Worldregion A2'
     iptcmd_out.locationCreated = t_location2
     iptcmd_out.locationsShown = [t_location1, t_location2]
+    iptcmd_out.minorModelAgeDisclosure = 'http://ns.useplus.org/ldf/vocab/AG-A17'
+    iptcmd_out.modelAges = ['17', '28', '29']
+    iptcmd_out.modelReleaseDocuments = ['modagencyABCid1341324', 'modagencyKLM65446346', 'modagencyXYZ85968565']
+    iptcmd_out.modelReleaseStatus = 'http://ns.useplus.org/ldf/vocab/MR-UMR'
+
+
     iptcmd_out.personInImageNames = ['Henriette Fillinger', 'Carl Subunder']
     t_personShown1 = PersonWDetails()
     t_personShown1.identifiers = ['https://persons.example.com/id/2143312',
@@ -147,15 +153,19 @@ def semiptc2seret():
     t_productShown2.name = 'TRAXXAS SLASH 4X4 #25 MARK JENKINS RTR 1/16'
     t_productShown2.description = 'The Traxxas Slash set the standard for short-course fun and versatility'
     iptcmd_out.productsShown = [t_productShown1, t_productShown2]
+    iptcmd_out.propertyReleaseDocuments = ['propsABCid1341324', 'propsKLM65446346', 'propsXYZ85968565']
+    iptcmd_out.propertyReleaseStatus = 'http://ns.useplus.org/ldf/vocab/PR-LPR'
+
     iptcmd_out.webstatementRights = 'https://pizzashort.example.com/copyright-licensing'
     # now finalize and embed
     iptcmd_out.export_semiptc_as_jsonfile('./semiptc-all_sem.json')
     iptcmd_out.export_self_as_jsonfile('./iptcmd_out-self.json')
     iptcmd_out.transform_semiptc_metadata_to_seret()
     iptcmd_out.export_seret_as_jsonfile('./semiptc-all_seret.json')
-    et.etdata = iptcmd_out.seret_metadata
-    embedresult = et.embeddata_using_json('./images/test-image-1.jpg')  # a single image
-    print(embedresult)
+    # re below: may be commented out to speed up testing
+    # et.etdata = iptcmd_out.seret_metadata
+    # embedresult = et.embeddata_using_json('./images/test-image-1.jpg')  # a single image
+    # print(embedresult)
 
 
 def create_thinglist(in_thing):
@@ -206,15 +216,19 @@ def seret2semiptc():
         res_log.write('\n* Image Registry Entry: ' + json.dumps(create_thinglist(iptcmd_in.registryEntries), indent=2))
         res_log.write('\n* Image Supplier: ' + json.dumps(create_thinglist(iptcmd_in.suppliers), indent=2))
         res_log.write('\n* Image Supplier Image Id: ' + iptcmd_in.imageSupplierImageId)
-
-
         res_log.write('\n* Licensors: ' + json.dumps(create_thinglist(iptcmd_in.licensors), indent=2))
         res_log.write('\n* Location Created: ' + json.dumps(iptcmd_in.locationCreated.todict(), indent=2))
         res_log.write('\n* Locations Shown: ' + json.dumps(create_thinglist(iptcmd_in.locationsShown), indent=2))
+        res_log.write('\n* Minor Model Age Disclosure: ' + iptcmd_in.minorModelAgeDisclosure)
+        res_log.write('\n* Model Age: ' + ', '.join(str(a) for a in iptcmd_in.modelAges))
+        res_log.write('\n* Model Release Documents: ' + ', '.join(iptcmd_in.modelReleaseDocuments))
+        res_log.write('\n* Model Release Status: ' + iptcmd_in.modelReleaseStatus)
         res_log.write('\n* Persons Shown: ' + ', '.join(iptcmd_in.personInImageNames))
         res_log.write('\n* Persons Shown with Details: ' + json.dumps(create_thinglist(iptcmd_in.personsShown),
                                                                       indent=2))
         res_log.write('\n* Products Shown: ' + json.dumps(create_thinglist(iptcmd_in.productsShown), indent=2))
+        res_log.write('\n* Property Release Documents: ' + ', '.join(iptcmd_in.propertyReleaseDocuments))
+        res_log.write('\n* Property Release Status: ' + iptcmd_in.propertyReleaseStatus)
         res_log.write('\n* Web Statement of Rights/Copyright URL: ' + iptcmd_in.webstatementRights)
 
 

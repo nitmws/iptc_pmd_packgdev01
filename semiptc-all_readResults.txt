@@ -171,6 +171,10 @@ Results from reading a file with serialized IPTC PMD using ExifTool naming:
     "worldRegion": "Worldregion A2"
   }
 ]
+* Minor Model Age Disclosure: http://ns.useplus.org/ldf/vocab/AG-A17
+* Model Age: 17, 28, 29
+* Model Release Documents: modagencyABCid1341324, modagencyKLM65446346, modagencyXYZ85968565
+* Model Release Status: http://ns.useplus.org/ldf/vocab/MR-UMR
 * Persons Shown: Henriette Fillinger, Carl Subunder
 * Persons Shown with Details: [
   {
@@ -226,4 +230,6 @@ Results from reading a file with serialized IPTC PMD using ExifTool naming:
     "name": "TRAXXAS SLASH 4X4 #25 MARK JENKINS RTR 1/16"
   }
 ]
+* Property Release Documents: propsABCid1341324, propsKLM65446346, propsXYZ85968565
+* Property Release Status: http://ns.useplus.org/ldf/vocab/PR-LPR
 * Web Statement of Rights/Copyright URL: https://pizzashort.example.com/copyright-licensing

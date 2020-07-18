@@ -4,7 +4,8 @@ Note: details of the development work, including the implementation of each IPTC
 
 (History: latest on top)
 
-+ 2020-07-14: class IptcPhotometadataGeneric: all getters and setters with typing. Class IptcPhotometadata: some IPTC Extension properties implemented, see 2020-07-14 data in development work web page.
+* 2020-07-18: class IptcPhotometadata: model and property releated IPTC properties implemented. See 2020-07-18 data in development work web page.
+* 2020-07-14: class IptcPhotometadataGeneric: all getters and setters with typing. Class IptcPhotometadata: some IPTC Extension properties implemented, see 2020-07-14 data in development work web page.
 * 2020-07-13: IPTC Extension properties implemented (see 2020-07-13 data in development work web page). Three properties removed: ImageCreator, Max Available Width/Heigth.
 * 2020-07-12: IPTC Extension properties aboutCvTerms, personsShown implemented, implementation of other properties improved
 * 2020-07-10: all IPTC Core Schema properties: semiptc2seret and seret2semiptc transformations implemented. IPTC Core Schema properties: semiptc2seret and seret2semiptc transformations implemented for LocationCreated and LocationShown 

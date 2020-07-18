@@ -120,6 +120,18 @@
       "worldRegion": "Worldregion A2"
     }
   ],
+  "_minorModelAgeDisclosure": "http://ns.useplus.org/ldf/vocab/AG-A17",
+  "_modelAges": [
+    "17",
+    "28",
+    "29"
+  ],
+  "_modelReleaseDocuments": [
+    "modagencyABCid1341324",
+    "modagencyKLM65446346",
+    "modagencyXYZ85968565"
+  ],
+  "_modelReleaseStatus": "http://ns.useplus.org/ldf/vocab/MR-UMR",
   "_organisationInImageCodes": [
     "ADBE",
     "IPTC"
@@ -186,6 +198,12 @@
       "name": "TRAXXAS SLASH 4X4 #25 MARK JENKINS RTR 1/16"
     }
   ],
+  "_propertyReleaseDocuments": [
+    "propsABCid1341324",
+    "propsKLM65446346",
+    "propsXYZ85968565"
+  ],
+  "_propertyReleaseStatus": "http://ns.useplus.org/ldf/vocab/PR-LPR",
   "_registryEntries": [
     {
       "assetIdentifier": "https://4535345.registries.example.org/asset/897987",

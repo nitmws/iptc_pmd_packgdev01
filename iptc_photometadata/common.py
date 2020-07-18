@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import List, Set, Dict, Tuple, Optional, Type
 from enum import Enum
 import jsonpickle
+from .exiftool_util import *
 
 """
     ===========================================================================
@@ -772,7 +773,7 @@ class IptcPhotometadata:
         """Transforms the semantic IPTC property Copyright Owner to metadata serialized as Exif/IIM/XMP
             using ExifTool naming"""
         if self._copyrightOwners is not None:
-            self._semiptc2seret_entities_xmp(self._copyrightOwners, 'CopyrightOwner', 'XMP-plus:CopyrightOwner')
+            self._semiptc2seret_plusentities_xmp(self._copyrightOwners, 'CopyrightOwner', 'XMP-plus:CopyrightOwner')
 
     def semiptc2seret_digitalImageGuid(self):
         """Transforms the semantic IPTC property Digital Image GUID to metadata serialized as Exif/IIM/XMP
@@ -832,7 +833,7 @@ class IptcPhotometadata:
         """Transforms the semantic IPTC property Image Supplier to metadata serialized as Exif/IIM/XMP
             using ExifTool naming"""
         if self._suppliers is not None:
-            self._semiptc2seret_entities_xmp(self._suppliers, 'ImageSupplier', 'XMP-plus:ImageSupplier')
+            self._semiptc2seret_plusentities_xmp(self._suppliers, 'ImageSupplier', 'XMP-plus:ImageSupplier')
 
     def semiptc2seret_imageSupplierImageId(self):
         """Transforms the semantic IPTC property Image Supplier Image Id to metadata serialized as Exif/IIM/XMP
@@ -880,6 +881,34 @@ class IptcPhotometadata:
                         self._semitptc2seret_deprec_location(locationShown)
                 self._seret_metadata['XMP-iptcExt:LocationShown'] = xmplocationsshown
 
+    def semiptc2seret_minorModelAgeDisclosure(self):
+        """Transforms the semantic IPTC property Minor Model Age Disclosure to metadata serialized
+            as Exif/IIM/XMP using ExifTool naming"""
+        if self._minorModelAgeDisclosure is not None:
+            etcode:str = minorModelAgeDisclosure_plus2et(self._minorModelAgeDisclosure)
+            if etcode != '':
+                self._seret_metadata['XMP-plus:MinorModelAgeDisclosure'] = etcode
+
+    def semiptc2seret_modelAges(self):
+        """Transforms the semantic IPTC property Model Age to metadata serialized
+            as Exif/IIM/XMP using ExifTool naming"""
+        if self._modelAges is not None:
+            self._seret_metadata['XMP-iptcExt:ModelAge'] = self._modelAges
+
+    def semiptc2seret_modelReleaseDocuments(self):
+        """Transforms the semantic IPTC property Model Release Document to metadata serialized
+            as Exif/IIM/XMP using ExifTool naming"""
+        if self._modelReleaseDocuments is not None:
+            self._seret_metadata['XMP-plus:ModelReleaseID'] = self._modelReleaseDocuments
+
+    def semiptc2seret_modelReleaseStatus(self):
+        """Transforms the semantic IPTC property Model Release Status to metadata serialized
+            as Exif/IIM/XMP using ExifTool naming"""
+        if self._modelReleaseStatus is not None:
+            etcode:str = modelReleaseStatus_plus2et(self._modelReleaseStatus)
+            if etcode != '':
+                self._seret_metadata['XMP-plus:ModelReleaseStatus'] = etcode
+
     def semiptc2seret_personInImageNames(self):
         """Transforms the semantic IPTC property Persons Shown in Image in the Image to metadata serialized
             as Exif/IIM/XMP using ExifTool naming"""
@@ -917,6 +946,20 @@ class IptcPhotometadata:
                 if len(xmpproducts) > 0:
                     self._seret_metadata['XMP-iptcExt:ProductInImage'] = xmpproducts
 
+    def semiptc2seret_propertyReleaseDocuments(self):
+        """Transforms the semantic IPTC property Property Release Document to metadata serialized
+            as Exif/IIM/XMP using ExifTool naming"""
+        if self._propertyReleaseDocuments is not None:
+            self._seret_metadata['XMP-plus:PropertyReleaseID'] = self._propertyReleaseDocuments
+
+    def semiptc2seret_propertyReleaseStatus(self):
+        """Transforms the semantic IPTC property Property Release Status to metadata serialized
+            as Exif/IIM/XMP using ExifTool naming"""
+        if self._propertyReleaseStatus is not None:
+            etcode:str = propertyReleaseStatus_plus2et(self._propertyReleaseStatus)
+            if etcode != '':
+                self._seret_metadata['XMP-plus:PropertyReleaseStatus'] = etcode
+
     def semiptc2seret_webstatementRights(self):
         """Transforms the semantic IPTC property Web Statement of Rights to metadata serialized as Exif/IIM/XMP
                     using ExifTool naming"""
@@ -936,7 +979,8 @@ class IptcPhotometadata:
         if xmpid is not None:
             self._seret_metadata[xmpid] = semiptcvalue
 
-    def _semiptc2seret_entities_xmp(self, semiptcentities, pluspropname: str = None, xmpid: str = None):
+    def _semiptc2seret_plusentities_xmp(self, semiptcentities, pluspropname: str = None, xmpid: str = None):
+        """Transforms (PLUS) Entities to XMP"""
         if semiptcentities is not None:
             seretlist = []
             for entity in semiptcentities:
@@ -947,9 +991,8 @@ class IptcPhotometadata:
             if len(seretlist) > 0:
                 self._seret_metadata[xmpid] = seretlist
 
-
-
     def _semitptc2seret_deprec_location(self, location: Location):
+        """Transforms an IPTC Location structure to the set of deprecated IPTC location properties"""
         if location.city is not None:
             self._seret_metadata['IPTC:City'] = location.city
             self._seret_metadata['XMP-photoshop:City'] = location.city
@@ -1287,6 +1330,28 @@ class IptcPhotometadata:
                 locationShown.loadfrom_seret(xmplocation)
                 self._locationsShown.append(locationShown)
 
+    def seret2semiptc_minorModelAgeDisclosure(self):
+        if 'XMP-plus:MinorModelAgeDisclosure' in self._seret_metadata:
+            etcode: str = self._seret_metadata['XMP-plus:MinorModelAgeDisclosure']
+            plusuri:str = minorModelAgeDisclosure_et2plus(etcode)
+            if plusuri != '':
+                self._minorModelAgeDisclosure = plusuri
+
+    def seret2semiptc_modelAges(self):
+        if 'XMP-iptcExt:ModelAge' in self._seret_metadata:
+            self._modelAges = self._seret_metadata['XMP-iptcExt:ModelAge']
+
+    def seret2semiptc_modelReleaseDocuments(self):
+        if 'XMP-plus:ModelReleaseID' in self._seret_metadata:
+            self._modelReleaseDocuments = self._seret_metadata['XMP-plus:ModelReleaseID']
+
+    def seret2semiptc_modelReleaseStatus(self):
+        if 'XMP-plus:ModelReleaseStatus' in self._seret_metadata:
+            etcode: str = self._seret_metadata['XMP-plus:ModelReleaseStatus']
+            plusuri: str = modelReleaseStatus_et2plus(etcode)
+            if plusuri != '':
+                self._modelReleaseStatus = plusuri
+
     def seret2semiptc_personInImageNames(self):
         if 'XMP-iptcExt:PersonInImage' in self._seret_metadata:
             self._personInImageNames = self._seret_metadata['XMP-iptcExt:PersonInImage']
@@ -1334,6 +1399,17 @@ class IptcPhotometadata:
                         self._productsShown.append(semProduct)
             if len(self._productsShown) == 0:
                 self._productsShown = None
+
+    def seret2semiptc_propertyReleaseDocuments(self):
+        if 'XMP-plus:PropertyReleaseID' in self._seret_metadata:
+            self._propertyReleaseDocuments = self._seret_metadata['XMP-plus:PropertyReleaseID']
+
+    def seret2semiptc_propertyReleaseStatus(self):
+        if 'XMP-plus:PropertyReleaseStatus' in self._seret_metadata:
+            etcode: str = self._seret_metadata['XMP-plus:PropertyReleaseStatus']
+            plusuri: str = propertyReleaseStatus_et2plus(etcode)
+            if plusuri != '':
+                self._propertyReleaseStatus = plusuri
 
     def seret2semiptc_webstatementRights(self):
         if 'XMP-xmpRights:WebStatement' in self._seret_metadata:

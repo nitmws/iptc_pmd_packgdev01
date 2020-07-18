@@ -134,6 +134,11 @@
       "WorldRegion": "Worldregion A2"
     }
   ],
+  "XMP-iptcExt:ModelAge": [
+    "17",
+    "28",
+    "29"
+  ],
   "XMP-iptcExt:OrganisationInImageCode": [
     "ADBE",
     "IPTC"
@@ -273,6 +278,19 @@
       "LicensorURL": "https://pizzashort.example.com/shot/1341234"
     }
   ],
+  "XMP-plus:MinorModelAgeDisclosure": "AG-A17",
+  "XMP-plus:ModelReleaseID": [
+    "modagencyABCid1341324",
+    "modagencyKLM65446346",
+    "modagencyXYZ85968565"
+  ],
+  "XMP-plus:ModelReleaseStatus": "MR-UMR",
+  "XMP-plus:PropertyReleaseID": [
+    "propsABCid1341324",
+    "propsKLM65446346",
+    "propsXYZ85968565"
+  ],
+  "XMP-plus:PropertyReleaseStatus": "PR-LPR",
   "XMP-xmp:Rating": "2.0",
   "XMP-xmpRights:UsageTerms": "The rightful usage terms",
   "XMP-xmpRights:WebStatement": "https://pizzashort.example.com/copyright-licensing"
