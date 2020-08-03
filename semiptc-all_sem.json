@@ -64,6 +64,13 @@
   "_description": "The best tasting Quattro Stagione pizza worldwide.",
   "_digitalImageGuid": "https://reg.example.org/imageguid/1k4h34hk134kj34l3k2",
   "_digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture",
+  "_embdEncRightsExprs": [
+    {
+      "encRightsExpr": "{\"rightsExpression\": \"Permission to Print\"}",
+      "rightsExprEncType": "application/json",
+      "rightsExprLangId": "http://example.org/RELids/id4712/ref2019.1"
+    }
+  ],
   "_eventName": "The Great Event",
   "_genres": [
     {
@@ -92,6 +99,13 @@
       "licensorID": "https://pizzashort.example.com",
       "licensorName": "Pizzashots Inc.",
       "licensorURL": "https://pizzashort.example.com/shot/1341234"
+    }
+  ],
+  "_linkedEncRightsExprs": [
+    {
+      "linkedRightsExpr": "http://example.org/linkedrightsexpression/id986",
+      "rightsExprEncType": "application/json",
+      "rightsExprLangId": "http://example.org/RELids/id4712/ref2019.1"
     }
   ],
   "_locationsShown": [

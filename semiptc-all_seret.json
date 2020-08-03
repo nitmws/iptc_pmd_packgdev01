@@ -83,6 +83,13 @@
   "XMP-iptcExt:AdditionalModelInformation": "Models are elegant",
   "XMP-iptcExt:DigitalImageGUID": "https://reg.example.org/imageguid/1k4h34hk134kj34l3k2",
   "XMP-iptcExt:DigitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture",
+  "XMP-iptcExt:EmbdEncRightsExpr": [
+    {
+      "EncRightsExpr": "{\"rightsExpression\": \"Permission to Print\"}",
+      "RightsExprEncType": "application/json",
+      "RightsExprLangId": "http://example.org/RELids/id4712/ref2019.1"
+    }
+  ],
   "XMP-iptcExt:Event": "The Great Event",
   "XMP-iptcExt:Genre": [
     {
@@ -94,6 +101,13 @@
       "CvId": "https://example.com/cvid/58430",
       "CvTermId": "https://example.com/termid/term55",
       "CvTermName": "Name of Term55"
+    }
+  ],
+  "XMP-iptcExt:LinkedEncRightsExpr": [
+    {
+      "LinkedRightsExpr": "http://example.org/linkedrightsexpression/id986",
+      "RightsExprEncType": "application/json",
+      "RightsExprLangId": "http://example.org/RELids/id4712/ref2019.1"
     }
   ],
   "XMP-iptcExt:LocationCreated": {

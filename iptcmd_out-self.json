@@ -153,6 +153,13 @@
     ],
     "_digitalImageGuid": "https://reg.example.org/imageguid/1k4h34hk134kj34l3k2",
     "_digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture",
+    "_embdEncRightsExprs": [
+      {
+        "rightsExprLangId": "http://example.org/RELids/id4712/ref2019.1",
+        "rightsExprEncType": "application/json",
+        "encRightsExpr": "{\"rightsExpression\": \"Permission to Print\"}"
+      }
+    ],
     "_eventName": "The Great Event",
     "_genres": [
       {
@@ -199,6 +206,13 @@
         "licensorID": "https://pizzashort.example.com",
         "licensorName": "Pizzashots Inc.",
         "licensorURL": "https://pizzashort.example.com/shot/1341234"
+      }
+    ],
+    "_linkedEncRightsExprs": [
+      {
+        "rightsExprLangId": "http://example.org/RELids/id4712/ref2019.1",
+        "rightsExprEncType": "application/json",
+        "linkedRightsExpr": "http://example.org/linkedrightsexpression/id986"
       }
     ],
     "_locationsShown": [
@@ -419,13 +433,21 @@
   ],
   "_digitalImageGuid": "https://reg.example.org/imageguid/1k4h34hk134kj34l3k2",
   "_digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture",
+  "_embdEncRightsExprs": [
+    {
+      "py/object": "iptc_photometadata.common.EmbdEncRightsExpr",
+      "rightsExprLangId": "http://example.org/RELids/id4712/ref2019.1",
+      "rightsExprEncType": "application/json",
+      "encRightsExpr": "{\"rightsExpression\": \"Permission to Print\"}"
+    }
+  ],
   "_eventName": "The Great Event",
   "_genres": [
     {
-      "py/id": 40
+      "py/id": 42
     },
     {
-      "py/id": 41
+      "py/id": 43
     }
   ],
   "_imageRating": 2,
@@ -445,13 +467,21 @@
   ],
   "_suppliers": [
     {
-      "py/id": 45
+      "py/id": 47
     },
     {
-      "py/id": 46
+      "py/id": 48
     }
   ],
   "_imageSupplierImageId": "LifePhotos13423423",
+  "_linkedEncRightsExprs": [
+    {
+      "py/object": "iptc_photometadata.common.LinkedEncRightsExpr",
+      "rightsExprLangId": "http://example.org/RELids/id4712/ref2019.1",
+      "rightsExprEncType": "application/json",
+      "linkedRightsExpr": "http://example.org/linkedrightsexpression/id986"
+    }
+  ],
   "_licensors": [
     {
       "py/object": "iptc_photometadata.common.Licensor",
@@ -469,7 +499,7 @@
     "gpsLatitude": null,
     "gpsLongitude": null,
     "identifiers": {
-      "py/id": 19
+      "py/id": 21
     },
     "name": null,
     "provinceState": "Province A2",
@@ -486,7 +516,7 @@
       "gpsLatitude": null,
       "gpsLongitude": null,
       "identifiers": {
-        "py/id": 18
+        "py/id": 20
       },
       "name": null,
       "provinceState": "Province A1",
@@ -494,7 +524,7 @@
       "worldRegion": "Worldregion A1"
     },
     {
-      "py/id": 54
+      "py/id": 60
     }
   ],
   "_minorModelAgeDisclosure": "http://ns.useplus.org/ldf/vocab/AG-A17",
@@ -518,15 +548,15 @@
       "py/object": "iptc_photometadata.common.PersonWDetails",
       "characteristics": [
         {
-          "py/id": 40
+          "py/id": 42
         },
         {
-          "py/id": 41
+          "py/id": 43
         }
       ],
       "description": "Nice photo metadata editor and a secret artist",
       "identifiers": {
-        "py/id": 26
+        "py/id": 28
       },
       "name": "Laura Hillinger"
     },
@@ -534,15 +564,15 @@
       "py/object": "iptc_photometadata.common.PersonWDetails",
       "characteristics": [
         {
-          "py/id": 41
+          "py/id": 43
         },
         {
-          "py/id": 40
+          "py/id": 42
         }
       ],
       "description": "Reliable event oraganizer",
       "identifiers": {
-        "py/id": 28
+        "py/id": 30
       },
       "name": "Frank Muller"
     }

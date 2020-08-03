@@ -79,6 +79,13 @@ Results from reading a file with serialized IPTC PMD using ExifTool naming:
 ]
 * Digital Image GUID: https://reg.example.org/imageguid/1k4h34hk134kj34l3k2
 * Digital Source Type: http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture
+* Embedded Encoded Rights Expr: [
+  {
+    "rightsExprLangId": "http://example.org/RELids/id4712/ref2019.1",
+    "rightsExprEncType": "application/json",
+    "encRightsExpr": "{\"rightsExpression\": \"Permission to Print\"}"
+  }
+]
 * Event Name: The Great Event
 * Genres: [
   {
@@ -126,6 +133,13 @@ Results from reading a file with serialized IPTC PMD using ExifTool naming:
   }
 ]
 * Image Supplier Image Id: LifePhotos13423423
+* Linked Encoded Rights Expr: [
+  {
+    "rightsExprLangId": "http://example.org/RELids/id4712/ref2019.1",
+    "rightsExprEncType": "application/json",
+    "linkedRightsExpr": "http://example.org/linkedrightsexpression/id986"
+  }
+]
 * Licensors: [
   {
     "licensorID": "https://pizzashort.example.com",

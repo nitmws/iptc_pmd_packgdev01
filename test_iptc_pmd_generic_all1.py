@@ -84,6 +84,11 @@ def semiptc2seret():
     iptcmd_out.copyrightOwners = [t_entity1, t_entity2]
     iptcmd_out.digitalImageGuid = 'https://reg.example.org/imageguid/1k4h34hk134kj34l3k2'
     iptcmd_out.digitalSourceType = 'http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture'
+    t_embdEncRExpr = EmbdEncRightsExpr()
+    t_embdEncRExpr.rightsExprLangId = 'http://example.org/RELids/id4712/ref2019.1'
+    t_embdEncRExpr.rightsExprEncType = 'application/json'
+    t_embdEncRExpr.encRightsExpr = '{"rightsExpression": "Permission to Print"}'
+    iptcmd_out.embdEncRightsExprs = [t_embdEncRExpr]
     iptcmd_out.eventName = 'The Great Event'
     iptcmd_out.genres = [t_cvterm1, t_cvterm2]
     iptcmd_out.imageRating = 2
@@ -100,7 +105,11 @@ def semiptc2seret():
     iptcmd_out.suppliers = [t_entity1, t_entity2]
     iptcmd_out.imageSupplierImageId = 'LifePhotos13423423'
 
-
+    t_embdEncRExpr = LinkedEncRightsExpr()
+    t_embdEncRExpr.rightsExprLangId = 'http://example.org/RELids/id4712/ref2019.1'
+    t_embdEncRExpr.rightsExprEncType = 'application/json'
+    t_embdEncRExpr.linkedRightsExpr = 'http://example.org/linkedrightsexpression/id986'
+    iptcmd_out.linkedEncRightsExprs = [t_embdEncRExpr]
     t_licensor = Licensor()
     t_licensor.licensorID = 'https://pizzashort.example.com'
     t_licensor.licensorName = 'Pizzashots Inc.'
@@ -210,12 +219,14 @@ def seret2semiptc():
         res_log.write('\n* Copyright Owners: ' + json.dumps(create_thinglist(iptcmd_in._copyrightOwners), indent=2))
         res_log.write('\n* Digital Image GUID: ' + iptcmd_in.digitalImageGuid)
         res_log.write('\n* Digital Source Type: ' + iptcmd_in.digitalSourceType)
+        res_log.write('\n* Embedded Encoded Rights Expr: ' + json.dumps(create_thinglist(iptcmd_in.embdEncRightsExprs), indent=2))
         res_log.write('\n* Event Name: ' + iptcmd_in.eventName)
         res_log.write('\n* Genres: ' + json.dumps(create_thinglist(iptcmd_in.genres), indent=2))
         res_log.write('\n* Image Rating: ' + str(iptcmd_in.imageRating))
         res_log.write('\n* Image Registry Entry: ' + json.dumps(create_thinglist(iptcmd_in.registryEntries), indent=2))
         res_log.write('\n* Image Supplier: ' + json.dumps(create_thinglist(iptcmd_in.suppliers), indent=2))
         res_log.write('\n* Image Supplier Image Id: ' + iptcmd_in.imageSupplierImageId)
+        res_log.write('\n* Linked Encoded Rights Expr: ' + json.dumps(create_thinglist(iptcmd_in.linkedEncRightsExprs), indent=2))
         res_log.write('\n* Licensors: ' + json.dumps(create_thinglist(iptcmd_in.licensors), indent=2))
         res_log.write('\n* Location Created: ' + json.dumps(iptcmd_in.locationCreated.todict(), indent=2))
         res_log.write('\n* Locations Shown: ' + json.dumps(create_thinglist(iptcmd_in.locationsShown), indent=2))

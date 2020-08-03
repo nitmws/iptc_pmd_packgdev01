@@ -117,6 +117,30 @@ class EmbdEncRightsExpr(IptcStructure):
     rightsExprEncType: Optional[str] = None
     encRightsExpr: Optional[str] = None
 
+    def todict_et(self):
+        det = {}
+        if self.rightsExprLangId is not None:
+            det['RightsExprLangId'] = self.rightsExprLangId
+        if self.rightsExprEncType is not None:
+            det['RightsExprEncType'] = self.rightsExprEncType
+        if self.encRightsExpr is not None:
+            det['EncRightsExpr'] = self.encRightsExpr
+        return det
+
+    def loadfrom_seret(self, seretEncEncRightsExpr: dict):
+        _propsetcount = 0
+        if 'RightsExprLangId' in seretEncEncRightsExpr:
+            _propsetcount += 1
+            self.rightsExprLangId = seretEncEncRightsExpr['RightsExprLangId']
+        if 'RightsExprEncType' in seretEncEncRightsExpr:
+            _propsetcount += 1
+            self.rightsExprEncType = seretEncEncRightsExpr['RightsExprEncType']
+        if 'EncRightsExpr' in seretEncEncRightsExpr:
+            _propsetcount += 1
+            self.encRightsExpr = seretEncEncRightsExpr['EncRightsExpr']
+        if _propsetcount == 0:
+            self = None
+
 @dataclass
 class Entity(IptcStructure):
     identifiers: Optional[List[str]] = None
@@ -171,6 +195,30 @@ class LinkedEncRightsExpr(IptcStructure):
     rightsExprLangId: Optional[str] = None
     rightsExprEncType: Optional[str] = None
     linkedRightsExpr: Optional[str] = None
+
+    def todict_et(self):
+        det = {}
+        if self.rightsExprLangId is not None:
+            det['RightsExprLangId'] = self.rightsExprLangId
+        if self.rightsExprEncType is not None:
+            det['RightsExprEncType'] = self.rightsExprEncType
+        if self.linkedRightsExpr is not None:
+            det['LinkedRightsExpr'] = self.linkedRightsExpr
+        return det
+
+    def loadfrom_seret(self, seretLnkEncRightsExpr: dict):
+        _propsetcount = 0
+        if 'RightsExprLangId' in seretLnkEncRightsExpr:
+            _propsetcount += 1
+            self.rightsExprLangId = seretLnkEncRightsExpr['RightsExprLangId']
+        if 'RightsExprEncType' in seretLnkEncRightsExpr:
+            _propsetcount += 1
+            self.rightsExprEncType = seretLnkEncRightsExpr['RightsExprEncType']
+        if 'LinkedRightsExpr' in seretLnkEncRightsExpr:
+            _propsetcount += 1
+            self.linkedRightsExpr = seretLnkEncRightsExpr['LinkedRightsExpr']
+        if _propsetcount == 0:
+            self = None
 
 @dataclass
 class Licensor(IptcStructure):
@@ -787,6 +835,16 @@ class IptcPhotometadata:
         if self._digitalSourceType is not None:
             self._seret_metadata['XMP-iptcExt:DigitalSourceType'] = self._digitalSourceType
 
+    def semiptc2seret_embdEncRightsExprs(self):
+        """Transforms the semantic IPTC property Embedded Encoded Rights Expression to metadata serialized
+                    as Exif/IIM/XMP using ExifTool naming"""
+        if self._embdEncRightsExprs is not None:
+            if len(self._embdEncRightsExprs) > 0:
+                xmpembdEncRightsExprs = []
+                for embdEncRightsExpr in self._embdEncRightsExprs:
+                    xmpembdEncRightsExprs.append(embdEncRightsExpr.todict_et())
+                self._seret_metadata['XMP-iptcExt:EmbdEncRightsExpr'] = xmpembdEncRightsExprs
+
     def semiptc2seret_eventName(self):
         """Transforms the semantic IPTC property Event to metadata serialized as Exif/IIM/XMP
                     using ExifTool naming"""
@@ -840,6 +898,16 @@ class IptcPhotometadata:
                     using ExifTool naming"""
         if self._imageSupplierImageId is not None:
             self._seret_metadata['XMP-plus:ImageSupplierImageID'] = self._imageSupplierImageId
+
+    def semiptc2seret_linkedEncRightsExprs(self):
+        """Transforms the semantic IPTC property Linked Encoded Rights Expression to metadata serialized as Exif/IIM/XMP
+                    using ExifTool naming"""
+        if self._linkedEncRightsExprs is not None:
+            if len(self._linkedEncRightsExprs) > 0:
+                xmplinkedEncRightsExprs = []
+                for linkedEncRightsExpr in self._linkedEncRightsExprs:
+                    xmplinkedEncRightsExprs.append(linkedEncRightsExpr.todict_et())
+                self._seret_metadata['XMP-iptcExt:LinkedEncRightsExpr'] = xmplinkedEncRightsExprs
 
     def semiptc2seret_licensors(self):
         """Transforms the semantic IPTC property Licensor to metadata serialized as Exif/IIM/XMP
@@ -1246,6 +1314,19 @@ class IptcPhotometadata:
         if 'XMP-iptcExt:DigitalSourceType' in self._seret_metadata:
             self._digitalSourceType = self._seret_metadata['XMP-iptcExt:DigitalSourceType']
 
+    def seret2semiptc_embdEncRightsExprs(self):
+        if 'XMP-iptcExt:EmbdEncRightsExpr' in self._seret_metadata:
+            if len(self._seret_metadata['XMP-iptcExt:EmbdEncRightsExpr']) > 0:
+                self._embdEncRightsExprs = []
+            for seretEmbdEncRightsExpr in self._seret_metadata['XMP-iptcExt:EmbdEncRightsExpr']:
+                if seretEmbdEncRightsExpr != {}:
+                    semEmbdEncRightsExpr = EmbdEncRightsExpr()
+                    semEmbdEncRightsExpr.loadfrom_seret(seretEmbdEncRightsExpr)
+                    if semEmbdEncRightsExpr is not None:
+                        self._embdEncRightsExprs.append(semEmbdEncRightsExpr)
+            if len(self._embdEncRightsExprs) == 0:
+                self._embdEncRightsExprs = None
+
     def seret2semiptc_eventName(self):
         if 'XMP-iptcExt:Event' in self._seret_metadata:
             self._eventName = self._seret_metadata['XMP-iptcExt:Event']
@@ -1301,6 +1382,19 @@ class IptcPhotometadata:
     def seret2semiptc_imageSupplierImageId(self):
         if 'XMP-plus:ImageSupplierImageID' in self._seret_metadata:
             self._imageSupplierImageId = self._seret_metadata['XMP-plus:ImageSupplierImageID']
+
+    def seret2semiptc_linkedEncRightsExprs(self):
+        if 'XMP-iptcExt:LinkedEncRightsExpr' in self._seret_metadata:
+            if len(self._seret_metadata['XMP-iptcExt:LinkedEncRightsExpr']) > 0:
+                self._linkedEncRightsExprs = []
+            for seretLinkedEncRightsExpr in self._seret_metadata['XMP-iptcExt:LinkedEncRightsExpr']:
+                if seretLinkedEncRightsExpr != {}:
+                    semLinkedEncRightsExpr = LinkedEncRightsExpr()
+                    semLinkedEncRightsExpr.loadfrom_seret(seretLinkedEncRightsExpr)
+                    if semLinkedEncRightsExpr is not None:
+                        self._linkedEncRightsExprs.append(semLinkedEncRightsExpr)
+            if len(self._linkedEncRightsExprs) == 0:
+                self._linkedEncRightsExprs = None
 
     def seret2semiptc_licensors(self):
         if 'XMP-plus:Licensor' in self._seret_metadata:

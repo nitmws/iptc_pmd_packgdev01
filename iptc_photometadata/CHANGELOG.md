@@ -4,6 +4,7 @@ Note: details of the development work, including the implementation of each IPTC
 
 (History: latest on top)
 
+* 2020-08-03: class IptcPhotometadata: encoded rights expressions IPTC properties implemented. See 2020-08-03 data in development work web page.
 * 2020-07-18: class IptcPhotometadata: model and property releated IPTC properties implemented. See 2020-07-18 data in development work web page.
 * 2020-07-14: class IptcPhotometadataGeneric: all getters and setters with typing. Class IptcPhotometadata: some IPTC Extension properties implemented, see 2020-07-14 data in development work web page.
 * 2020-07-13: IPTC Extension properties implemented (see 2020-07-13 data in development work web page). Three properties removed: ImageCreator, Max Available Width/Heigth.
